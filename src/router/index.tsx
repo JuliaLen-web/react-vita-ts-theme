@@ -3,9 +3,6 @@ import SideMenu from "../layouts/SideMenu";
 import SimpleMenu from "../layouts/SimpleMenu";
 import TopMenu from "../layouts/TopMenu";
 import DashboardOverview1 from "../pages/DashboardOverview1";
-import DashboardOverview2 from "../pages/DashboardOverview2";
-import DashboardOverview3 from "../pages/DashboardOverview3";
-import DashboardOverview4 from "../pages/DashboardOverview4";
 import Categories from "../pages/Categories";
 import AddProduct from "../pages/AddProduct";
 import ProductList from "../pages/ProductList";
@@ -23,22 +20,14 @@ import Post from "../pages/Post";
 import Calendar from "../pages/Calendar";
 import CrudDataList from "../pages/CrudDataList";
 import CrudForm from "../pages/CrudForm";
-import UsersLayout1 from "../pages/UsersLayout1";
 import UsersLayout2 from "../pages/UsersLayout2";
-import UsersLayout3 from "../pages/UsersLayout3";
 import ProfileOverview1 from "../pages/ProfileOverview1";
-import ProfileOverview2 from "../pages/ProfileOverview2";
-import ProfileOverview3 from "../pages/ProfileOverview3";
 import WizardLayout1 from "../pages/WizardLayout1";
 import WizardLayout2 from "../pages/WizardLayout2";
 import WizardLayout3 from "../pages/WizardLayout3";
 import BlogLayout1 from "../pages/BlogLayout1";
 import BlogLayout2 from "../pages/BlogLayout2";
 import BlogLayout3 from "../pages/BlogLayout3";
-import PricingLayout1 from "../pages/PricingLayout1";
-import PricingLayout2 from "../pages/PricingLayout2";
-import InvoiceLayout1 from "../pages/InvoiceLayout1";
-import InvoiceLayout2 from "../pages/InvoiceLayout2";
 import FaqLayout1 from "../pages/FaqLayout1";
 import FaqLayout2 from "../pages/FaqLayout2";
 import FaqLayout3 from "../pages/FaqLayout3";
@@ -81,18 +70,6 @@ function Router() {
         {
           path: "/",
           element: <DashboardOverview1 />,
-        },
-        {
-          path: "dashboard-overview-2",
-          element: <DashboardOverview2 />,
-        },
-        {
-          path: "dashboard-overview-3",
-          element: <DashboardOverview3 />,
-        },
-        {
-          path: "dashboard-overview-4",
-          element: <DashboardOverview4 />,
         },
         {
           path: "categories",
@@ -163,28 +140,12 @@ function Router() {
           element: <CrudForm />,
         },
         {
-          path: "users-layout-1",
-          element: <UsersLayout1 />,
-        },
-        {
           path: "users-layout-2",
           element: <UsersLayout2 />,
         },
         {
-          path: "users-layout-3",
-          element: <UsersLayout3 />,
-        },
-        {
           path: "profile-overview-1",
           element: <ProfileOverview1 />,
-        },
-        {
-          path: "profile-overview-2",
-          element: <ProfileOverview2 />,
-        },
-        {
-          path: "profile-overview-3",
-          element: <ProfileOverview3 />,
         },
         {
           path: "wizard-layout-1",
@@ -209,22 +170,6 @@ function Router() {
         {
           path: "blog-layout-3",
           element: <BlogLayout3 />,
-        },
-        {
-          path: "pricing-layout-1",
-          element: <PricingLayout1 />,
-        },
-        {
-          path: "pricing-layout-2",
-          element: <PricingLayout2 />,
-        },
-        {
-          path: "invoice-layout-1",
-          element: <InvoiceLayout1 />,
-        },
-        {
-          path: "invoice-layout-2",
-          element: <InvoiceLayout2 />,
         },
         {
           path: "faq-layout-1",
@@ -353,18 +298,6 @@ function Router() {
           element: <DashboardOverview1 />,
         },
         {
-          path: "dashboard-overview-2",
-          element: <DashboardOverview2 />,
-        },
-        {
-          path: "dashboard-overview-3",
-          element: <DashboardOverview3 />,
-        },
-        {
-          path: "dashboard-overview-4",
-          element: <DashboardOverview4 />,
-        },
-        {
           path: "categories",
           element: <Categories />,
         },
@@ -433,28 +366,12 @@ function Router() {
           element: <CrudForm />,
         },
         {
-          path: "users-layout-1",
-          element: <UsersLayout1 />,
-        },
-        {
           path: "users-layout-2",
           element: <UsersLayout2 />,
         },
         {
-          path: "users-layout-3",
-          element: <UsersLayout3 />,
-        },
-        {
           path: "profile-overview-1",
           element: <ProfileOverview1 />,
-        },
-        {
-          path: "profile-overview-2",
-          element: <ProfileOverview2 />,
-        },
-        {
-          path: "profile-overview-3",
-          element: <ProfileOverview3 />,
         },
         {
           path: "wizard-layout-1",
@@ -479,22 +396,6 @@ function Router() {
         {
           path: "blog-layout-3",
           element: <BlogLayout3 />,
-        },
-        {
-          path: "pricing-layout-1",
-          element: <PricingLayout1 />,
-        },
-        {
-          path: "pricing-layout-2",
-          element: <PricingLayout2 />,
-        },
-        {
-          path: "invoice-layout-1",
-          element: <InvoiceLayout1 />,
-        },
-        {
-          path: "invoice-layout-2",
-          element: <InvoiceLayout2 />,
         },
         {
           path: "faq-layout-1",
@@ -623,18 +524,6 @@ function Router() {
           element: <DashboardOverview1 />,
         },
         {
-          path: "dashboard-overview-2",
-          element: <DashboardOverview2 />,
-        },
-        {
-          path: "dashboard-overview-3",
-          element: <DashboardOverview3 />,
-        },
-        {
-          path: "dashboard-overview-4",
-          element: <DashboardOverview4 />,
-        },
-        {
           path: "categories",
           element: <Categories />,
         },
@@ -703,28 +592,12 @@ function Router() {
           element: <CrudForm />,
         },
         {
-          path: "users-layout-1",
-          element: <UsersLayout1 />,
-        },
-        {
           path: "users-layout-2",
           element: <UsersLayout2 />,
         },
         {
-          path: "users-layout-3",
-          element: <UsersLayout3 />,
-        },
-        {
           path: "profile-overview-1",
           element: <ProfileOverview1 />,
-        },
-        {
-          path: "profile-overview-2",
-          element: <ProfileOverview2 />,
-        },
-        {
-          path: "profile-overview-3",
-          element: <ProfileOverview3 />,
         },
         {
           path: "wizard-layout-1",
@@ -749,22 +622,6 @@ function Router() {
         {
           path: "blog-layout-3",
           element: <BlogLayout3 />,
-        },
-        {
-          path: "pricing-layout-1",
-          element: <PricingLayout1 />,
-        },
-        {
-          path: "pricing-layout-2",
-          element: <PricingLayout2 />,
-        },
-        {
-          path: "invoice-layout-1",
-          element: <InvoiceLayout1 />,
-        },
-        {
-          path: "invoice-layout-2",
-          element: <InvoiceLayout2 />,
         },
         {
           path: "faq-layout-1",

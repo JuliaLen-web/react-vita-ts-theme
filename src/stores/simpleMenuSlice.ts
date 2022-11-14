@@ -25,21 +25,6 @@ const initialState: SimpleMenuState = {
           pathname: "/simple-menu/dashboard-overview-1",
           title: "Overview 1",
         },
-        {
-          icon: "Activity",
-          pathname: "/simple-menu/dashboard-overview-2",
-          title: "Overview 2",
-        },
-        {
-          icon: "Activity",
-          pathname: "/simple-menu/dashboard-overview-3",
-          title: "Overview 3",
-        },
-        {
-          icon: "Activity",
-          pathname: "/simple-menu/dashboard-overview-4",
-          title: "Overview 4",
-        },
       ],
     },
     {
@@ -191,18 +176,8 @@ const initialState: SimpleMenuState = {
       subMenu: [
         {
           icon: "Activity",
-          pathname: "/simple-menu/users-layout-1",
-          title: "Layout 1",
-        },
-        {
-          icon: "Activity",
           pathname: "/simple-menu/users-layout-2",
           title: "Layout 2",
-        },
-        {
-          icon: "Activity",
-          pathname: "/simple-menu/users-layout-3",
-          title: "Layout 3",
         },
       ],
     },
@@ -214,16 +189,6 @@ const initialState: SimpleMenuState = {
           icon: "Activity",
           pathname: "/simple-menu/profile-overview-1",
           title: "Overview 1",
-        },
-        {
-          icon: "Activity",
-          pathname: "/simple-menu/profile-overview-2",
-          title: "Overview 2",
-        },
-        {
-          icon: "Activity",
-          pathname: "/simple-menu/profile-overview-3",
-          title: "Overview 3",
         },
       ],
     },
@@ -270,38 +235,6 @@ const initialState: SimpleMenuState = {
               icon: "Zap",
               pathname: "/simple-menu/blog-layout-3",
               title: "Layout 3",
-            },
-          ],
-        },
-        {
-          icon: "Activity",
-          title: "Pricing",
-          subMenu: [
-            {
-              icon: "Zap",
-              pathname: "/simple-menu/pricing-layout-1",
-              title: "Layout 1",
-            },
-            {
-              icon: "Zap",
-              pathname: "/simple-menu/pricing-layout-2",
-              title: "Layout 2",
-            },
-          ],
-        },
-        {
-          icon: "Activity",
-          title: "Invoice",
-          subMenu: [
-            {
-              icon: "Zap",
-              pathname: "/simple-menu/invoice-layout-1",
-              title: "Layout 1",
-            },
-            {
-              icon: "Zap",
-              pathname: "/simple-menu/invoice-layout-2",
-              title: "Layout 2",
             },
           ],
         },

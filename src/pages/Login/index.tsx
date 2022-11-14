@@ -91,12 +91,6 @@ function Main() {
                   >
                     Login
                   </Button>
-                  <Button
-                    variant="outline-secondary"
-                    className="w-full px-4 py-3 mt-3 align-top xl:w-32 xl:mt-0"
-                  >
-                    Register
-                  </Button>
                 </div>
                 <div className="mt-10 text-center intro-x xl:mt-24 text-slate-600 dark:text-slate-500 xl:text-left">
                   By signin up, you agree to our{" "}

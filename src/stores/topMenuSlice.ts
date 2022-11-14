@@ -25,21 +25,6 @@ const initialState: TopMenuState = {
           pathname: "/top-menu/dashboard-overview-1",
           title: "Overview 1",
         },
-        {
-          icon: "Activity",
-          pathname: "/top-menu/dashboard-overview-2",
-          title: "Overview 2",
-        },
-        {
-          icon: "Activity",
-          pathname: "/top-menu/dashboard-overview-3",
-          title: "Overview 3",
-        },
-        {
-          icon: "Activity",
-          pathname: "/top-menu/dashboard-overview-4",
-          title: "Overview 4",
-        },
       ],
     },
     {
@@ -51,19 +36,7 @@ const initialState: TopMenuState = {
           pathname: "/",
           title: "Side Menu",
           ignore: true,
-        },
-        {
-          icon: "Activity",
-          pathname: "/simple-menu/dashboard-overview-1",
-          title: "Simple Menu",
-          ignore: true,
-        },
-        {
-          icon: "Activity",
-          pathname: "/top-menu/dashboard-overview-1",
-          title: "Top Menu",
-          ignore: true,
-        },
+        }
       ],
     },
     {
@@ -76,18 +49,8 @@ const initialState: TopMenuState = {
           subMenu: [
             {
               icon: "Zap",
-              pathname: "/top-menu/users-layout-1",
-              title: "Layout 1",
-            },
-            {
-              icon: "Zap",
               pathname: "/top-menu/users-layout-2",
               title: "Layout 2",
-            },
-            {
-              icon: "Zap",
-              pathname: "/top-menu/users-layout-3",
-              title: "Layout 3",
             },
           ],
         },
@@ -99,17 +62,7 @@ const initialState: TopMenuState = {
               icon: "Zap",
               pathname: "/top-menu/profile-overview-1",
               title: "Overview 1",
-            },
-            {
-              icon: "Zap",
-              pathname: "/top-menu/profile-overview-2",
-              title: "Overview 2",
-            },
-            {
-              icon: "Zap",
-              pathname: "/top-menu/profile-overview-3",
-              title: "Overview 3",
-            },
+            }
           ],
         },
         {
@@ -255,38 +208,6 @@ const initialState: TopMenuState = {
               icon: "Zap",
               pathname: "/top-menu/blog-layout-3",
               title: "Layout 3",
-            },
-          ],
-        },
-        {
-          icon: "Activity",
-          title: "Pricing",
-          subMenu: [
-            {
-              icon: "Zap",
-              pathname: "/top-menu/pricing-layout-1",
-              title: "Layout 1",
-            },
-            {
-              icon: "Zap",
-              pathname: "/top-menu/pricing-layout-2",
-              title: "Layout 2",
-            },
-          ],
-        },
-        {
-          icon: "Activity",
-          title: "Invoice",
-          subMenu: [
-            {
-              icon: "Zap",
-              pathname: "/top-menu/invoice-layout-1",
-              title: "Layout 1",
-            },
-            {
-              icon: "Zap",
-              pathname: "/top-menu/invoice-layout-2",
-              title: "Layout 2",
             },
           ],
         },
