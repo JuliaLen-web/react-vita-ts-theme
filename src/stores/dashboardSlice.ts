@@ -109,7 +109,6 @@ const initialState: RoleItems = {
         {
             title: 'Total customers',
             sum: 5,
-            difference: 33,
             icon: 'User',
             status: 'text-primary',
             link: '/users-layout-2'

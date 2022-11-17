@@ -55,16 +55,18 @@ function Main() {
                           />
                         }
                         <div className="ml-auto">
-                          <Tippy
-                            as="div"
-                            className={
-                              "cursor-pointer py-[3px] flex rounded-full text-white text-xs pl-2 pr-1 items-center font-medium" + (el.difference > 0 ? ' bg-success' : ' bg-danger')
-                            }
-                            content={el.difference > 0 ? el.difference + "% Higher than last month" : el.difference + "% lower than last month"}
-                          >
-                            {el.difference}%
-                            <Lucide icon="ChevronUp" className="w-4 h-4 ml-0.5" />
-                          </Tippy>
+                          {el.difference &&
+                            <Tippy
+                              as="div"
+                              className={
+                                "cursor-pointer py-[3px] flex rounded-full text-white text-xs pl-2 pr-1 items-center font-medium" + (el.difference > 0 ? ' bg-success' : ' bg-danger')
+                              }
+                              content={el.difference > 0 ? el.difference + "% Higher than last month" : el.difference + "% lower than last month"}
+                            >
+                              {el.difference}%
+                              <Lucide icon="ChevronUp" className="w-4 h-4 ml-0.5" />
+                            </Tippy>
+                          }
                         </div>
                       </div>
                       <div className="mt-6 text-3xl font-medium leading-8">
