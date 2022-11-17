@@ -14,24 +14,10 @@ export enum userRoles {
 }
 
 const initialState: User = {
-    name: '',
-    role: '',
+    name: 'Ivan',
+    role: userRoles.Seller
 }
 
-export const userSlice = createSlice({
-    name: "userAuth",
-    initialState,
-    reducers: {
-        setUserProfile: (state, action) => {
-            return {
-                name: 'Ivan',
-                role: userRoles.Customer
-            }
-        }
-    },
-  });
-
-
-export const selectUser = (state: RootState): User => state.userAuth;
-
-export default userSlice.reducer;
+export default function rootReducer(state = initialState) {
+    return state
+}

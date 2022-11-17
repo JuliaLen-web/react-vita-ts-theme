@@ -46,6 +46,27 @@ const initialState: SideMenuState = {
       pathname: "/profile-overview-1",
       title: "Profile",
     },
+    "devider",
+    {
+      icon: "Trello",
+      pathname: "/categories",
+      title: "Categories",
+    },
+    {
+      icon: "Trello",
+      pathname: "/seller-detail",
+      title: "Seller",
+    },
+    {
+      icon: "Trello",
+      pathname: "/seller-list",
+      title: "SellerList",
+    },
+    {
+      icon: "Trello",
+      pathname: "/transaction-detail",
+      title: "Order details",
+    },
   ],
 };
 

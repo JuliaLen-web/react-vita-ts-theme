@@ -1,30 +1,18 @@
 import _ from "lodash";
 import clsx from "clsx";
-import { useRef, useState } from "react";
 import fakerData from "../../utils/faker";
-import TinySlider, {
-  TinySliderElement,
-} from "../../base-components/TinySlider";
 import Lucide from "../../base-components/Lucide";
 import Tippy from "../../base-components/Tippy";
-
+import {store} from "../../stores/store";
 import { Link } from "react-router-dom";
 
 function Main() {
-  const [salesReportFilter, setSalesReportFilter] = useState<string>();
-  const importantNotesRef = useRef<TinySliderElement>();
-  const prevImportantNotes = () => {
-    importantNotesRef.current?.tns.goTo("prev");
-  };
-  const nextImportantNotes = () => {
-    importantNotesRef.current?.tns.goTo("next");
-  };
+  const contentWithSidebar = 'col-span-12 2xl:col-span-9'
+  const contentWithoutSidebar = 'col-span-12 2xl:col-span-12'
 
-  const user = {
-    'name': 'Ivan',
-    'role': 'customer',
-  }
-
+  const authUser = store.getState().user
+  const authUserRole = authUser.role
+  
   const rolesItems = {
     'admin': [
       {
@@ -214,7 +202,7 @@ function Main() {
 
   return (
     <div className="grid grid-cols-12 gap-6">
-      <div className={user.role === 'customer' ? "col-span-12 2xl:col-span-9" : "col-span-12 2xl:col-span-12"}>
+      <div className={authUserRole === 'customer' ? contentWithSidebar : contentWithoutSidebar}>
         <div className="grid grid-cols-12 gap-6">
           {/* BEGIN: General Report */}
           <div className="col-span-12 mt-8">
@@ -228,8 +216,8 @@ function Main() {
               </a>
             </div>
             <div className="grid grid-cols-12 gap-6 mt-5">
-              {rolesItems[user.role].map((el, i) => {
-                return <Link to={el.link ? el.linkPath : '#'} className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+              {rolesItems[authUserRole].map((el, i) => {
+                return <Link to={el.link ? el.linkPath : '#'} key={i} className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                   <div
                     className={clsx([
                       "relative zoom-in",
@@ -269,7 +257,7 @@ function Main() {
           </div>
         </div>
       </div>
-      {user.role === 'customer' &&
+      {authUserRole === 'customer' &&
         <div className="col-span-12 2xl:col-span-3">
           <div className="pb-10 -mb-10 2xl:border-l">
             <div className="grid grid-cols-12 2xl:pl-6 gap-x-6 2xl:gap-x-0 gap-y-6">
