@@ -4,7 +4,7 @@ import colorSchemeReducer from "./colorSchemeSlice";
 import sideMenuReducer from "./sideMenuSlice";
 import simpleMenuReducer from "./simpleMenuSlice";
 import topMenuReducer from "./topMenuSlice";
-import userReducer from "./user"
+import userReducer from "./userSlice"
 
 export const store = configureStore({
   reducer: {

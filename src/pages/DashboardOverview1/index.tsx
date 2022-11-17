@@ -1,24 +1,30 @@
 import _ from "lodash";
 import clsx from "clsx";
 import fakerData from "../../utils/faker";
-import Lucide from "../../base-components/Lucide";
+import Lucide, { icons } from "../../base-components/Lucide";
 import Tippy from "../../base-components/Tippy";
-import {store} from "../../stores/store";
 import { Link } from "react-router-dom";
+import { userRoles, selectUser, loadUser } from "../../stores/userSlice";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import { useEffect } from "react";
+
+const contentWithSidebar = 'col-span-12 2xl:col-span-9'
+const contentWithoutSidebar = 'col-span-12 2xl:col-span-12'
 
 function Main() {
-  const contentWithSidebar = 'col-span-12 2xl:col-span-9'
-  const contentWithoutSidebar = 'col-span-12 2xl:col-span-12'
+  const dispatch = useAppDispatch()
+  const user = useAppSelector(selectUser)
 
-  const authUser = store.getState().user
-  const authUserRole = authUser.role
-  
+  useEffect(() => {
+    dispatch(loadUser(user))
+  }, []);
+
   const rolesItems = {
-    'admin': [
+    [userRoles.Admin]: [
       {
         'title': 'Total customers',
-        'sum': '5',
-        'difference': '33',
+        'sum': 5,
+        'difference': 33,
         'icon': 'User',
         'status': 'text-primary',
         'link': true,
@@ -26,8 +32,8 @@ function Main() {
       },
       {
         'title': 'Total orders',
-        'sum': '456',
-        'difference': '5',
+        'sum': 456,
+        'difference': 5,
         'icon': '',
         'status': 'text-pending',
         'link': true,
@@ -35,8 +41,8 @@ function Main() {
       },
       {
         'title': 'Total products',
-        'sum': '44',
-        'difference': '-33',
+        'sum': 44,
+        'difference': -33,
         'icon': 'CreditCard',
         'status': 'text-warning',
         'link': true,
@@ -44,8 +50,8 @@ function Main() {
       },
       {
         'title': 'Total amount',
-        'sum': '3232',
-        'difference': '13',
+        'sum': 3232,
+        'difference': 13,
         'icon': '',
         'status': 'text-success',
         'link': true,
@@ -53,8 +59,8 @@ function Main() {
       },
       {
         'title': 'Total costs',
-        'sum': '12124',
-        'difference': '-3',
+        'sum': 12124,
+        'difference': -3,
         'icon': '',
         'status': '',
         'link': true,
@@ -62,18 +68,18 @@ function Main() {
       },
       {
         'title': 'Total profit',
-        'sum': '3333',
-        'difference': '33',
+        'sum': 3333,
+        'difference': 33,
         'icon': '',
         'link': true,
         'linkPath': '/transaction-list'
       },
     ],
-    'manager': [
+    [userRoles.Manager]: [
       {
         'title': 'Total customers',
-        'sum': '5',
-        'difference': '33',
+        'sum': 5,
+        'difference': 43,
         'icon': 'User',
         'status': 'text-primary',
         'link': true,
@@ -81,8 +87,8 @@ function Main() {
       },
       {
         'title': 'Total orders',
-        'sum': '456',
-        'difference': '5',
+        'sum': 456,
+        'difference': 5,
         'icon': '',
         'status': 'text-pending',
         'link': true,
@@ -90,8 +96,8 @@ function Main() {
       },
       {
         'title': 'Total products',
-        'sum': '44',
-        'difference': '-33',
+        'sum': 44,
+        'difference': -33,
         'icon': 'CreditCard',
         'status': 'text-warning',
         'link': true,
@@ -99,8 +105,8 @@ function Main() {
       },
       {
         'title': 'Total amount',
-        'sum': '3232',
-        'difference': '13',
+        'sum': 3232,
+        'difference': 13,
         'icon': '',
         'status': 'text-success',
         'link': true,
@@ -108,8 +114,8 @@ function Main() {
       },
       {
         'title': 'Total costs',
-        'sum': '12124',
-        'difference': '-3',
+        'sum': 12124,
+        'difference': -3,
         'icon': '',
         'status': '',
         'link': true,
@@ -117,18 +123,18 @@ function Main() {
       },
       {
         'title': 'Total profit',
-        'sum': '3333',
-        'difference': '33',
+        'sum': 3333,
+        'difference': 33,
         'icon': '',
         'link': true,
         'linkPath': '/transaction-list'
       },
     ],
-    'seller': [
+    [userRoles.Seller]: [
       {
         'title': 'Total customers',
-        'sum': '5',
-        'difference': '33',
+        'sum': 5,
+        'difference': 33,
         'icon': 'User',
         'status': 'text-primary',
         'link': true,
@@ -136,8 +142,8 @@ function Main() {
       },
       {
         'title': 'Total orders',
-        'sum': '456',
-        'difference': '5',
+        'sum': 756,
+        'difference': 5,
         'icon': '',
         'status': 'text-pending',
         'link': true,
@@ -145,8 +151,8 @@ function Main() {
       },
       {
         'title': 'Balance of accounts',
-        'sum': '44',
-        'difference': '-33',
+        'sum': 44,
+        'difference': -33,
         'icon': 'CreditCard',
         'status': 'text-warning',
         'link': true,
@@ -154,8 +160,8 @@ function Main() {
       },
       {
         'title': 'Total amount',
-        'sum': '3232',
-        'difference': '13',
+        'sum': 9232,
+        'difference': 13,
         'icon': '',
         'status': 'text-success',
         'link': true,
@@ -163,18 +169,18 @@ function Main() {
       },
       {
         'title': 'Total profit',
-        'sum': '3333',
-        'difference': '33',
+        'sum': 3333,
+        'difference': 33,
         'icon': '',
         'link': true,
         'linkPath': '/transaction-list'
       },
     ],
-    'customer': [
+    [userRoles.Customer]: [
       {
         'title': 'Total orders',
-        'sum': '456',
-        'difference': '5',
+        'sum': 456,
+        'difference': 5,
         'icon': '',
         'status': 'text-pending',
         'link': true,
@@ -182,8 +188,8 @@ function Main() {
       },
       {
         'title': 'New order',
-        'sum': '44',
-        'difference': '-33',
+        'sum': 44,
+        'difference': -33,
         'icon': 'CreditCard',
         'status': 'text-warning',
         'link': true,
@@ -191,8 +197,8 @@ function Main() {
       },
       {
         'title': 'Total costs',
-        'sum': '3333',
-        'difference': '33',
+        'sum': 7733,
+        'difference': 33,
         'icon': '',
         'link': true,
         'linkPath': '/transaction-list'
@@ -202,7 +208,7 @@ function Main() {
 
   return (
     <div className="grid grid-cols-12 gap-6">
-      <div className={authUserRole === 'customer' ? contentWithSidebar : contentWithoutSidebar}>
+      <div className={user.role === userRoles.Customer ? contentWithSidebar : contentWithoutSidebar}>
         <div className="grid grid-cols-12 gap-6">
           {/* BEGIN: General Report */}
           <div className="col-span-12 mt-8">
@@ -216,8 +222,8 @@ function Main() {
               </a>
             </div>
             <div className="grid grid-cols-12 gap-6 mt-5">
-              {rolesItems[authUserRole].map((el, i) => {
-                return <Link to={el.link ? el.linkPath : '#'} key={i} className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+              {user?.role && rolesItems[user.role].map((el, i) => {
+                return <Link to={el.link ? el.linkPath : '#'} key={el.linkPath + '' + i} className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                   <div
                     className={clsx([
                       "relative zoom-in",
@@ -257,7 +263,7 @@ function Main() {
           </div>
         </div>
       </div>
-      {authUserRole === 'customer' &&
+      {user.role === userRoles.Customer &&
         <div className="col-span-12 2xl:col-span-3">
           <div className="pb-10 -mb-10 2xl:border-l">
             <div className="grid grid-cols-12 2xl:pl-6 gap-x-6 2xl:gap-x-0 gap-y-6">
