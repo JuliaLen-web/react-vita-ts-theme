@@ -19,7 +19,7 @@ export const userSlice = createSlice({
     name: "userInfo",
     initialState,
     reducers: {
-        loadUser: (state, action) => {
+        loadUser: (state) => {
             state.name = 'Ivan';
             state.role = userRoles.Seller;
         },

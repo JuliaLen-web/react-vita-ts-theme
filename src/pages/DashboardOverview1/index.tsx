@@ -18,8 +18,7 @@ function Main() {
   const rolesItems = useAppSelector(selectDashboard)
 
   useEffect(() => {
-    dispatch(loadUser(user));
-    dispatch(loadUser(rolesItems));
+    dispatch(loadUser());
   }, []);
 
   return (

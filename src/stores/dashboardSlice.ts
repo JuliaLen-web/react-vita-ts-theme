@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { icons } from "lucide";
+import { icons } from "../base-components/Lucide";
 import { RootState } from "./store";
 import { userRoles } from "./userSlice";
 
@@ -147,7 +147,6 @@ const initialState: RoleItems = {
             title: 'Total orders',
             sum: 456,
             difference: 5,
-            icon: '',
             status: 'text-pending',
             link: '/product-list'
         },
@@ -163,7 +162,6 @@ const initialState: RoleItems = {
             title: 'Total costs',
             sum: 7733,
             difference: 33,
-            icon: '',
             link: '/transaction-list'
         },
     ],
