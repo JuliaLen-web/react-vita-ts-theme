@@ -1,12 +1,13 @@
-import _ from "lodash";
+import _, { isNumber, isString } from "lodash";
 import clsx from "clsx";
 import fakerData from "../../utils/faker";
-import Lucide, { icons } from "../../base-components/Lucide";
+import Lucide from "../../base-components/Lucide";
 import Tippy from "../../base-components/Tippy";
 import { Link } from "react-router-dom";
 import { userRoles, selectUser, loadUser } from "../../stores/userSlice";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { useEffect } from "react";
+import { selectDashboard } from "../../stores/dashboardSlice";
 
 const contentWithSidebar = 'col-span-12 2xl:col-span-9'
 const contentWithoutSidebar = 'col-span-12 2xl:col-span-12'
@@ -14,197 +15,12 @@ const contentWithoutSidebar = 'col-span-12 2xl:col-span-12'
 function Main() {
   const dispatch = useAppDispatch()
   const user = useAppSelector(selectUser)
+  const rolesItems = useAppSelector(selectDashboard)
 
   useEffect(() => {
-    dispatch(loadUser(user))
+    dispatch(loadUser(user));
+    dispatch(loadUser(rolesItems));
   }, []);
-
-  const rolesItems = {
-    [userRoles.Admin]: [
-      {
-        'title': 'Total customers',
-        'sum': 5,
-        'difference': 33,
-        'icon': 'User',
-        'status': 'text-primary',
-        'link': true,
-        'linkPath': '/users-layout-2'
-      },
-      {
-        'title': 'Total orders',
-        'sum': 456,
-        'difference': 5,
-        'icon': '',
-        'status': 'text-pending',
-        'link': true,
-        'linkPath': '/product-list'
-      },
-      {
-        'title': 'Total products',
-        'sum': 44,
-        'difference': -33,
-        'icon': 'CreditCard',
-        'status': 'text-warning',
-        'link': true,
-        'linkPath': '/product-grid'
-      },
-      {
-        'title': 'Total amount',
-        'sum': 3232,
-        'difference': 13,
-        'icon': '',
-        'status': 'text-success',
-        'link': true,
-        'linkPath': '/transaction-list'
-      },
-      {
-        'title': 'Total costs',
-        'sum': 12124,
-        'difference': -3,
-        'icon': '',
-        'status': '',
-        'link': true,
-        'linkPath': '/transaction-list'
-      },
-      {
-        'title': 'Total profit',
-        'sum': 3333,
-        'difference': 33,
-        'icon': '',
-        'link': true,
-        'linkPath': '/transaction-list'
-      },
-    ],
-    [userRoles.Manager]: [
-      {
-        'title': 'Total customers',
-        'sum': 5,
-        'difference': 43,
-        'icon': 'User',
-        'status': 'text-primary',
-        'link': true,
-        'linkPath': '/users-layout-2'
-      },
-      {
-        'title': 'Total orders',
-        'sum': 456,
-        'difference': 5,
-        'icon': '',
-        'status': 'text-pending',
-        'link': true,
-        'linkPath': '/product-list'
-      },
-      {
-        'title': 'Total products',
-        'sum': 44,
-        'difference': -33,
-        'icon': 'CreditCard',
-        'status': 'text-warning',
-        'link': true,
-        'linkPath': '/product-grid'
-      },
-      {
-        'title': 'Total amount',
-        'sum': 3232,
-        'difference': 13,
-        'icon': '',
-        'status': 'text-success',
-        'link': true,
-        'linkPath': '/transaction-list'
-      },
-      {
-        'title': 'Total costs',
-        'sum': 12124,
-        'difference': -3,
-        'icon': '',
-        'status': '',
-        'link': true,
-        'linkPath': '/transaction-list'
-      },
-      {
-        'title': 'Total profit',
-        'sum': 3333,
-        'difference': 33,
-        'icon': '',
-        'link': true,
-        'linkPath': '/transaction-list'
-      },
-    ],
-    [userRoles.Seller]: [
-      {
-        'title': 'Total customers',
-        'sum': 5,
-        'difference': 33,
-        'icon': 'User',
-        'status': 'text-primary',
-        'link': true,
-        'linkPath': '/users-layout-2'
-      },
-      {
-        'title': 'Total orders',
-        'sum': 756,
-        'difference': 5,
-        'icon': '',
-        'status': 'text-pending',
-        'link': true,
-        'linkPath': '/product-list'
-      },
-      {
-        'title': 'Balance of accounts',
-        'sum': 44,
-        'difference': -33,
-        'icon': 'CreditCard',
-        'status': 'text-warning',
-        'link': true,
-        'linkPath': '/product-grid'
-      },
-      {
-        'title': 'Total amount',
-        'sum': 9232,
-        'difference': 13,
-        'icon': '',
-        'status': 'text-success',
-        'link': true,
-        'linkPath': '/transaction-list'
-      },
-      {
-        'title': 'Total profit',
-        'sum': 3333,
-        'difference': 33,
-        'icon': '',
-        'link': true,
-        'linkPath': '/transaction-list'
-      },
-    ],
-    [userRoles.Customer]: [
-      {
-        'title': 'Total orders',
-        'sum': 456,
-        'difference': 5,
-        'icon': '',
-        'status': 'text-pending',
-        'link': true,
-        'linkPath': '/product-list'
-      },
-      {
-        'title': 'New order',
-        'sum': 44,
-        'difference': -33,
-        'icon': 'CreditCard',
-        'status': 'text-warning',
-        'link': true,
-        'linkPath': '/product-list'
-      },
-      {
-        'title': 'Total costs',
-        'sum': 7733,
-        'difference': 33,
-        'icon': '',
-        'link': true,
-        'linkPath': '/transaction-list'
-      },
-    ],
-  }
 
   return (
     <div className="grid grid-cols-12 gap-6">
@@ -222,8 +38,8 @@ function Main() {
               </a>
             </div>
             <div className="grid grid-cols-12 gap-6 mt-5">
-              {user?.role && rolesItems[user.role].map((el, i) => {
-                return <Link to={el.link ? el.linkPath : '#'} key={el.linkPath + '' + i} className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+              {user.role && rolesItems[user.role].map(el => {
+                return <Link to={el.link && el.link ? el.link : '#'} key={el.link + '' + el.sum} className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                   <div
                     className={clsx([
                       "relative zoom-in",
@@ -232,10 +48,12 @@ function Main() {
                   >
                     <div className="p-5 box">
                       <div className="flex">
-                        <Lucide
-                          icon={el.icon || "ShoppingCart"}
-                          className={"w-[28px] h-[28px]" + ' ' + el.status}
-                        />
+                        {el.icon &&
+                          <Lucide
+                            icon={el.icon}
+                            className={"w-[28px] h-[28px]" + ' ' + el.status}
+                          />
+                        }
                         <div className="ml-auto">
                           <Tippy
                             as="div"
