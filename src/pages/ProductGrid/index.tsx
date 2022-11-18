@@ -3,45 +3,140 @@ import { useState, useRef } from "react";
 import fakerData from "../../utils/faker";
 import Button from "../../base-components/Button";
 import Pagination from "../../base-components/Pagination";
-import { FormInput, FormSelect } from "../../base-components/Form";
+import { PreviewComponent, Preview, Source, Highlight } from "../../base-components/PreviewComponent";
+import { FormInput, FormSelect, FormSwitch } from "../../base-components/Form";
 import Lucide from "../../base-components/Lucide";
-import { Dialog, Menu } from "../../base-components/Headless";
+import { Dialog, Menu, Popover } from "../../base-components/Headless";
+import { Link } from "react-router-dom";
+
+export enum productStatus {
+  Approved = "approved",
+  Moderation = "moderation",
+  Rejected = "rejected",
+  Available = "available",
+  NotAvailable = "not available",
+}
 
 function Main() {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const deleteButtonRef = useRef(null);
+
+  const [editProductModal, setEditProductModal] = useState(false);
+  const editButtonRef = useRef(null);
+
+  const [previewInfoModal, setPreviewInfoModal] = useState(false);
 
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Product Grid</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-          <Button variant="primary" className="mr-2 shadow-md">
-            Add New Product
-          </Button>
-          <Menu>
-            <Menu.Button as={Button} className="px-2 !box">
-              <span className="flex items-center justify-center w-5 h-5">
-                <Lucide icon="Plus" className="w-4 h-4" />
-              </span>
-            </Menu.Button>
-            <Menu.Items className="w-40">
-              <Menu.Item>
-                <Lucide icon="Printer" className="w-4 h-4 mr-2" /> Print
-              </Menu.Item>
-              <Menu.Item>
-                <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to
-                Excel
-              </Menu.Item>
-              <Menu.Item>
-                <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to
-                PDF
-              </Menu.Item>
-            </Menu.Items>
-          </Menu>
+          <Link to="/add-product">
+            <Button variant="primary" className="mr-2 shadow-md">
+              Add New Product
+            </Button>
+          </Link>
+
+          <Link to="/categories">
+            <Button variant="primary" className="mr-2 shadow-md">
+              Add\Edit Categories
+            </Button>
+          </Link>
+
           <div className="hidden mx-auto md:block text-slate-500">
             Showing 1 to 10 of 150 entries
           </div>
+
+          {/* BEGIN: Filter Sellers */}
+          <div className="p-5">
+            <Preview>
+              <div className="flex justify-center">
+                <Menu>
+                  <Menu.Button as={Button} variant="primary">
+                    Filter sellers
+                  </Menu.Button>
+                  <Menu.Items className="w-40">
+
+                    <Menu.Item>
+                      <FormSwitch className="w-full mt-3 sm:w-auto sm:mt-0">
+                      <FormSwitch.Input
+                          id="show-example-1"
+                          className="ml-3 mr-0"
+                          type="checkbox"
+                        />
+
+                        <FormSwitch.Label htmlFor="show-example-1">
+                          Nick
+                        </FormSwitch.Label>
+                        
+                      </FormSwitch>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <FormSwitch className="w-full mt-3 sm:w-auto sm:mt-0">
+                      <FormSwitch.Input
+                          id="show-example-1"
+                          className="ml-3 mr-0"
+                          type="checkbox"
+                        />
+                        
+                        <FormSwitch.Label htmlFor="show-example-1">
+                          Adam
+                        </FormSwitch.Label>
+                        
+                      </FormSwitch>
+                    </Menu.Item>
+                  </Menu.Items>
+                </Menu>
+              </div>
+            </Preview>
+          </div>
+          {/* END: Filter Sellers */}
+
+          {/* BEGIN: Filter Categories */}
+          <div className="p-5">
+            <Preview>
+              <div className="flex justify-center">
+                <Menu>
+                  <Menu.Button as={Button} variant="primary">
+                    Filter Categories
+                  </Menu.Button>
+                  <Menu.Items className="w-40">
+
+                    <Menu.Item>
+                      <FormSwitch className="w-full mt-3 sm:w-auto sm:mt-0">
+                      <FormSwitch.Input
+                          id="show-example-1"
+                          className="ml-3 mr-0"
+                          type="checkbox"
+                        />
+
+                        <FormSwitch.Label htmlFor="show-example-1">
+                          PC
+                        </FormSwitch.Label>
+                        
+                      </FormSwitch>
+                    </Menu.Item>
+                    <Menu.Item>
+                      <FormSwitch className="w-full mt-3 sm:w-auto sm:mt-0">
+                      <FormSwitch.Input
+                          id="show-example-1"
+                          className="ml-3 mr-0"
+                          type="checkbox"
+                        />
+                        
+                        <FormSwitch.Label htmlFor="show-example-1">
+                          Laptop
+                        </FormSwitch.Label>
+                        
+                      </FormSwitch>
+                    </Menu.Item>
+                  </Menu.Items>
+                </Menu>
+              </div>
+            </Preview>
+          </div>
+          {/* END: Filter Categories */}
+
           <div className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0">
             <div className="relative w-56 text-slate-500">
               <FormInput
@@ -102,10 +197,24 @@ function Main() {
                 </div>
               </div>
               <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
-                <a className="flex items-center mr-auto text-primary" href="#">
+                <a
+                  className="flex items-center mr-auto text-primary"
+                  href="#"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setPreviewInfoModal(true);
+                  }}
+                >
                   <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
                 </a>
-                <a className="flex items-center mr-3" href="#">
+                <a
+                  className="flex items-center mr-3"
+                  href="#"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    setEditProductModal(true);
+                  }}
+                >
                   <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" /> Edit
                 </a>
                 <a
@@ -196,6 +305,95 @@ function Main() {
         </Dialog.Panel>
       </Dialog>
       {/* END: Delete Confirmation Modal */}
+
+      {/* BEGIN: View additional info Modal */}
+      <Dialog
+        open={previewInfoModal}
+        onClose={() => {
+          setPreviewInfoModal(false);
+        }}
+      >
+        <Dialog.Panel>
+          <div className="p-5 text-center">
+            <Lucide
+              icon="XCircle"
+              className="w-16 h-16 mx-auto mt-3 text-danger"
+            />
+            <div className="mt-5 text-3xl">Are you sure?</div>
+            <div className="mt-2 text-slate-500">
+              Do you really want to delete these records? <br />
+              This process cannot be undone.
+            </div>
+          </div>
+          <div className="px-5 pb-8 text-center">
+            <Button
+              variant="outline-secondary"
+              type="button"
+              onClick={() => {
+                setPreviewInfoModal(false);
+              }}
+              className="w-24 mr-1"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              type="button"
+              className="w-24"
+              onClick={() => {
+                setPreviewInfoModal(false);
+              }}
+            >
+              Close
+            </Button>
+          </div>
+        </Dialog.Panel>
+      </Dialog>
+      {/* END: View additional info Modal */}
+
+      {/* BEGIN: Edit Product Modal */}
+      <Dialog
+        open={editProductModal}
+        onClose={() => {
+          setEditProductModal(false);
+        }}
+        initialFocus={editButtonRef}
+      >
+        <Dialog.Panel>
+          <div className="p-5 text-center">
+            <Lucide
+              icon="XCircle"
+              className="w-16 h-16 mx-auto mt-3 text-danger"
+            />
+            <div className="mt-5 text-3xl">Are you sure?</div>
+            <div className="mt-2 text-slate-500">
+              Do you really want to delete these records? <br />
+              This process cannot be undone.
+            </div>
+          </div>
+          <div className="px-5 pb-8 text-center">
+            <Button
+              variant="outline-secondary"
+              type="button"
+              onClick={() => {
+                setEditProductModal(false);
+              }}
+              className="w-24 mr-1"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
+              type="button"
+              className="w-24"
+              ref={editButtonRef}
+            >
+              Edit
+            </Button>
+          </div>
+        </Dialog.Panel>
+      </Dialog>
+      {/* END: Edit Product Modal */}
     </>
   );
 }

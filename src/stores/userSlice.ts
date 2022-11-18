@@ -21,7 +21,7 @@ export const userSlice = createSlice({
     reducers: {
         loadUser: (state) => {
             state.name = 'Ivan';
-            state.role = userRoles.Seller;
+            state.role = userRoles.Admin;
         },
     },
 });
