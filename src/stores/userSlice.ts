@@ -20,7 +20,7 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         loadUser: (state) => {
-            state.name = 'Ivan';
+            state.name = 'Bruce Willis';
             state.role = userRoles.Admin;
         },
     },
