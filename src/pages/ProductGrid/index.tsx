@@ -50,13 +50,18 @@ function Main() {
             Showing 1 to 10 of 150 entries
           </div>
 
+          <Lucide
+            icon="Sliders"
+            className="w-6 h-6 mr-2"
+          />
+
           {user.role === userRoles.Admin &&
             <div className="mr-2">
               <Popover className="inline-block">
                 {(
                   <>
                     <Popover.Button as={Button} variant="primary">
-                      Filter Sellers
+                      Sellers
                       <Lucide
                         icon="ChevronDown"
                         className="w-4 h-4 ml-2"
@@ -100,7 +105,7 @@ function Main() {
               {(
                 <>
                   <Popover.Button as={Button} variant="primary">
-                    Filter Categories
+                    Categories
                     <Lucide
                       icon="ChevronDown"
                       className="w-4 h-4 ml-2"
@@ -108,7 +113,7 @@ function Main() {
                   </Popover.Button>
                   <Popover.Panel placement="bottom-start">
                     <div>
-                      {_.take(fakerData).map((faker, fakerKey) => (
+                      {_.take(fakerData, 9).map((faker, fakerKey) => (
                         <div key={fakerKey} className="mb-2">
                           <FormSwitch className="w-full mt-3 sm:w-auto sm:mt-0">
                             <FormSwitch.Input
@@ -159,10 +164,10 @@ function Main() {
           if (user.role === userRoles.Admin) {
             return (
               <ProductItem
-                user={user}
-                userRoles={userRoles}
                 faker={faker}
                 key={fakerKey}
+                user={user}
+                userRoles={userRoles}
                 setPreviewInfoModal={setPreviewInfoModal}
                 setEditProductModal={setEditProductModal}
                 setDeleteConfirmationModal={setDeleteConfirmationModal}

@@ -299,7 +299,16 @@ const fakers = {
     ];
     return _.shuffle(jobs);
   },
-  fakeStatus() {
+  fakeStatusOrder() {
+    const statusOrder = [
+      "active",
+      "inactive",
+      "paid",
+      "unpaid",
+    ];
+    return _.shuffle(statusOrder);
+  },
+  fakeStatusProduct() {
     const statusProduct = [
       "approved",
       "moderation",
@@ -435,6 +444,7 @@ const fakerData: Array<{
   files: Files[];
   jobs: string[];
   statusProduct: string[];
+  statusOrder: string[];
   statusStock: string[];
   notificationCount: number;
   foods: Foods[];
@@ -455,7 +465,8 @@ for (let i = 0; i < 20; i++) {
     news: fakers.fakeNews(),
     files: fakers.fakeFiles(),
     jobs: fakers.fakeJobs(),
-    statusProduct: fakers.fakeStatus(),
+    statusProduct: fakers.fakeStatusProduct(),
+    statusOrder: fakers.fakeStatusOrder(),
     statusStock: fakers.fakeStock(),
     notificationCount: fakers.fakeNotificationCount(),
     foods: fakers.fakeFoods(),
