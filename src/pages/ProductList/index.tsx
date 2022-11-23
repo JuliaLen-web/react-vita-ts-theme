@@ -29,7 +29,7 @@ function Main() {
 
   return (
     <>
-      <h2 className="mt-10 text-lg font-medium intro-y">Product List</h2>
+      <h2 className="mt-10 text-lg font-medium intro-y">Orders</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
           <Lucide
@@ -295,7 +295,7 @@ function Main() {
                 </Table.Th>
                 {(user.role === userRoles.Admin || user.role === userRoles.Manager) &&
                   <Table.Th className="border-b-0 whitespace-nowrap">
-                    CUSTOMER
+                    BUYER
                   </Table.Th>
                 }
                 {user.role === userRoles.Admin &&
@@ -325,7 +325,7 @@ function Main() {
             </Table.Thead>
             <Table.Tbody>
               {_.take(fakerData, 30).map((faker, fakerKey) => {
-                if (user.role === userRoles.Admin) {
+                if (user.role === userRoles.Admin || user.role === userRoles.Manager) {
                   return (
                     <OrderItem
                       key={fakerKey}
@@ -336,19 +336,6 @@ function Main() {
                       setEditOrderModal={setEditOrderModal}
                       setDeleteConfirmationModal={setDeleteConfirmationModal}
                     />)
-                } else if (user.role === userRoles.Manager) {
-                  return (
-                    <OrderItem
-                      key={fakerKey}
-                      faker={faker}
-                      user={user}
-                      userRoles={userRoles}
-                      setPreviewInfoModal={setPreviewInfoModal}
-                      setEditOrderModal={setEditOrderModal}
-                      setDeleteConfirmationModal={setDeleteConfirmationModal}
-                    />
-                  )
-
                 } else if (user.name === faker.users[1].name && user.role === userRoles.Seller) {
                   return (
                     <OrderItem

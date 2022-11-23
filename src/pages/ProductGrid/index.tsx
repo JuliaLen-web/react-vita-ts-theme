@@ -29,7 +29,7 @@ function Main() {
 
   return (
     <>
-      <h2 className="mt-10 text-lg font-medium intro-y">Product Grid</h2>
+      <h2 className="mt-10 text-lg font-medium intro-y">Products</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
           {(user.role === userRoles.Admin || user.role === userRoles.Seller) &&
