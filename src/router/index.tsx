@@ -1,10 +1,10 @@
 import { useRoutes } from "react-router-dom";
 import SideMenu from "../layouts/SideMenu";
-import DashboardOverview1 from "../pages/DashboardOverview1";
+import DashboardPage from "../pages/DashboardPage";
 import Categories from "../pages/Categories";
 import AddProduct from "../pages/AddProduct";
-import ProductList from "../pages/ProductList";
-import ProductGrid from "../pages/ProductGrid";
+import OrdersPage from "../pages/OrdersPage";
+import ProductsPage from "../pages/ProductsPage";
 import TransactionList from "../pages/TransactionList";
 import TransactionDetail from "../pages/TransactionDetail";
 import SellerList from "../pages/SellerList";
@@ -19,7 +19,7 @@ import Calendar from "../pages/Calendar";
 import CrudDataList from "../pages/CrudDataList";
 import CrudForm from "../pages/CrudForm";
 import UsersLayout2 from "../pages/UsersLayout2";
-import ProfileOverview1 from "../pages/ProfileOverview1";
+import ProfilePage from "../pages/ProfilePage";
 import WizardLayout1 from "../pages/WizardLayout1";
 import WizardLayout2 from "../pages/WizardLayout2";
 import WizardLayout3 from "../pages/WizardLayout3";
@@ -67,7 +67,7 @@ function Router() {
       children: [
         {
           path: "/",
-          element: <DashboardOverview1 />,
+          element: <DashboardPage />,
         },
         {
           path: "categories",
@@ -79,11 +79,11 @@ function Router() {
         },
         {
           path: "product-list",
-          element: <ProductList />,
+          element: <OrdersPage />,
         },
         {
           path: "product-grid",
-          element: <ProductGrid />,
+          element: <ProductsPage />,
         },
         {
           path: "transaction-list",
@@ -143,7 +143,7 @@ function Router() {
         },
         {
           path: "profile-overview-1",
-          element: <ProfileOverview1 />,
+          element: <ProfilePage />,
         },
         {
           path: "wizard-layout-1",
