@@ -1,6 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { icons } from "../base-components/Lucide";
+import { userRoles } from "./userSlice";
 
 export interface Menu {
   icon: keyof typeof icons;
@@ -8,10 +9,11 @@ export interface Menu {
   pathname?: string;
   subMenu?: Menu[];
   ignore?: boolean;
+  roles: userRoles[];
 }
 
 export interface SideMenuState {
-  menu: Array<Menu | "devider">;
+  menu: Menu[];
 }
 
 const initialState: SideMenuState = {
@@ -20,53 +22,38 @@ const initialState: SideMenuState = {
       icon: "Home",
       pathname: "/",
       title: "Dashboard",
+      roles: [userRoles.Admin, userRoles.Seller, userRoles.Manager, userRoles.Customer]
     },
     {
       icon: "Activity",
       pathname: "/product-grid",
       title: "Products",
+      roles: [userRoles.Admin, userRoles.Seller, userRoles.Manager, userRoles.Customer]
     },
     {
       icon: "Zap",
       pathname: "/product-list",
       title: "Orders",
+      roles: [userRoles.Admin, userRoles.Seller, userRoles.Manager, userRoles.Customer]
     },
     {
       icon: "Zap",
       pathname: "/transaction-list",
       title: "Transactions",
+      roles: [userRoles.Admin, userRoles.Seller, userRoles.Manager, userRoles.Customer]
     },
     {
       icon: "Users",
       pathname: "/users-layout-2",
       title: "Users",
+      roles: [userRoles.Admin, userRoles.Seller]
     },
     {
       icon: "Trello",
       pathname: "/profile-overview-1",
       title: "Profile",
-    },
-    "devider",
-    {
-      icon: "Trello",
-      pathname: "/categories",
-      title: "Categories",
-    },
-    {
-      icon: "Trello",
-      pathname: "/seller-detail",
-      title: "Seller",
-    },
-    {
-      icon: "Trello",
-      pathname: "/seller-list",
-      title: "SellerList",
-    },
-    {
-      icon: "Trello",
-      pathname: "/transaction-detail",
-      title: "Order details",
-    },
+      roles: [userRoles.Admin, userRoles.Seller, userRoles.Manager, userRoles.Customer]
+    }
   ],
 };
 
@@ -77,5 +64,15 @@ export const sideMenuSlice = createSlice({
 });
 
 export const selectSideMenu = (state: RootState) => state.sideMenu.menu;
+
+
+export const selectMenuByRole = (userRole: userRoles) => createSelector(selectSideMenu, (menuItems) => {
+  if (!userRole) return []
+
+  return menuItems.filter(menuItem => {
+    if (typeof menuItem === 'string') return true
+    return menuItem.roles.includes(userRole)
+  })
+})
 
 export default sideMenuSlice.reducer;

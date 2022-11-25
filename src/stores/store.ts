@@ -2,8 +2,6 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import darkModeReducer from "./darkModeSlice";
 import colorSchemeReducer from "./colorSchemeSlice";
 import sideMenuReducer from "./sideMenuSlice";
-import simpleMenuReducer from "./simpleMenuSlice";
-import topMenuReducer from "./topMenuSlice";
 import userReducer from "./userSlice"
 import dashboardSlice from "./dashboardSlice";
 
@@ -13,8 +11,6 @@ export const store = configureStore({
     colorScheme: colorSchemeReducer,
     dashboard: dashboardSlice,
     sideMenu: sideMenuReducer,
-    simpleMenu: simpleMenuReducer,
-    topMenu: topMenuReducer,
     user: userReducer
   },
 });

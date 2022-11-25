@@ -10,6 +10,7 @@ import Table from "../../base-components/Table";
 import OrderItem from "../../components/OrderItem";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { loadUser, selectUser, userRoles } from "../../stores/userSlice";
+import { selectMenuByRole } from "../../stores/sideMenuSlice";
 
 function Main() {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
@@ -20,12 +21,7 @@ function Main() {
 
   const [previewInfoModal, setPreviewInfoModal] = useState(false);
 
-  const dispatch = useAppDispatch()
   const user = useAppSelector(selectUser)
-
-  useEffect(() => {
-    dispatch(loadUser());
-  }, []);
 
   return (
     <>

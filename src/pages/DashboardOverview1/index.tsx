@@ -13,13 +13,8 @@ const contentWithSidebar = 'col-span-12 2xl:col-span-9'
 const contentWithoutSidebar = 'col-span-12 2xl:col-span-12'
 
 function Main() {
-  const dispatch = useAppDispatch()
   const user = useAppSelector(selectUser)
   const rolesItems = useAppSelector(selectDashboard)
-
-  useEffect(() => {
-    dispatch(loadUser());
-  }, []);
 
   return (
     <div className="grid grid-cols-12 gap-6">

@@ -1,8 +1,8 @@
 import { Transition } from "react-transition-group";
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { selectSideMenu } from "../../stores/sideMenuSlice";
-import { useAppSelector } from "../../stores/hooks";
+import { Menu, selectMenuByRole } from "../../stores/sideMenuSlice";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { FormattedMenu, linkTo, nestedMenu, enter, leave } from "./side-menu";
 import Lucide from "../../base-components/Lucide";
 import logoUrl from "@/assets/images/logo.svg";
@@ -12,18 +12,31 @@ import MobileMenu from "../../components/MobileMenu";
 import DarkModeSwitcher from "../../components/DarkModeSwitcher";
 import MainColorSwitcher from "../../components/MainColorSwitcher";
 import SideMenuTooltip from "../../components/SideMenuTooltip";
+import { loadUser, selectUser, userRoles } from "../../stores/userSlice";
+import { Loader } from "lucide-react";
 
 function Main() {
+  const dispatch = useAppDispatch()
+  const user = useAppSelector(selectUser)
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
+
   const location = useLocation();
   const [formattedMenu, setFormattedMenu] = useState<
     Array<FormattedMenu | "devider">
   >([]);
-  const sideMenuStore = useAppSelector(selectSideMenu);
-  const sideMenu = () => nestedMenu(sideMenuStore, location);
+
+  const sideMenu = (items: Menu[]) => nestedMenu(items, location);
+  const userMenu = useAppSelector(selectMenuByRole(user.role));
 
   useEffect(() => {
-    setFormattedMenu(sideMenu());
-  }, [sideMenuStore, location.pathname]);
+    if (!user.role) return
+    setFormattedMenu(sideMenu(userMenu));
+  }, [user.role, location.pathname]);
+  
+  if(!user.role) return <Loader />
 
   return (
     <div className="py-2">
@@ -54,11 +67,11 @@ function Main() {
                 <Devider type="li" className="my-6" key={menuKey}></Devider>
               ) : (
                 <li key={menuKey}>
-                  <Menu
+                  <MenuElement
                     menu={menu}
                     formattedMenuState={[formattedMenu, setFormattedMenu]}
                     level="first"
-                  ></Menu>
+                  ></MenuElement>
                   {/* BEGIN: Second Child */}
                   {menu.subMenu && (
                     <Transition
@@ -76,14 +89,14 @@ function Main() {
                       >
                         {menu.subMenu.map((subMenu, subMenuKey) => (
                           <li key={subMenuKey}>
-                            <Menu
+                            <MenuElement
                               menu={subMenu}
                               formattedMenuState={[
                                 formattedMenu,
                                 setFormattedMenu,
                               ]}
                               level="second"
-                            ></Menu>
+                            ></MenuElement>
                             {/* BEGIN: Third Child */}
                             {subMenu.subMenu && (
                               <Transition
@@ -104,14 +117,14 @@ function Main() {
                                   {subMenu.subMenu.map(
                                     (lastSubMenu, lastSubMenuKey) => (
                                       <li key={lastSubMenuKey}>
-                                        <Menu
+                                        <MenuElement
                                           menu={lastSubMenu}
                                           formattedMenuState={[
                                             formattedMenu,
                                             setFormattedMenu,
                                           ]}
                                           level="third"
-                                        ></Menu>
+                                        ></MenuElement>
                                       </li>
                                     )
                                   )}
@@ -143,7 +156,7 @@ function Main() {
   );
 }
 
-function Menu(props: {
+function MenuElement(props: {
   menu: FormattedMenu;
   formattedMenuState: [
     (FormattedMenu | "devider")[],
