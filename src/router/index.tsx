@@ -78,11 +78,11 @@ function Router() {
           element: <AddProduct />,
         },
         {
-          path: "product-list",
+          path: "orders-page",
           element: <OrdersPage />,
         },
         {
-          path: "product-grid",
+          path: "product-page",
           element: <ProductsPage />,
         },
         {
@@ -138,11 +138,11 @@ function Router() {
           element: <CrudForm />,
         },
         {
-          path: "users-layout-2",
+          path: "users-page",
           element: <UsersLayout2 />,
         },
         {
-          path: "profile-overview-1",
+          path: "profile-page",
           element: <ProfilePage />,
         },
         {

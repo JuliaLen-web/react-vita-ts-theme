@@ -9,7 +9,7 @@ export interface Menu {
   pathname?: string;
   subMenu?: Menu[];
   ignore?: boolean;
-  roles: userRoles[];
+  roles?: userRoles[];
 }
 
 export interface SideMenuState {
@@ -26,13 +26,13 @@ const initialState: SideMenuState = {
     },
     {
       icon: "Activity",
-      pathname: "/product-grid",
+      pathname: "/product-page",
       title: "Products",
       roles: [userRoles.Admin, userRoles.Seller, userRoles.Manager, userRoles.Customer]
     },
     {
       icon: "Zap",
-      pathname: "/product-list",
+      pathname: "/orders-page",
       title: "Orders",
       roles: [userRoles.Admin, userRoles.Seller, userRoles.Manager, userRoles.Customer]
     },
@@ -44,13 +44,13 @@ const initialState: SideMenuState = {
     },
     {
       icon: "Users",
-      pathname: "/users-layout-2",
+      pathname: "/users-page",
       title: "Users",
       roles: [userRoles.Admin, userRoles.Seller]
     },
     {
       icon: "Trello",
-      pathname: "/profile-overview-1",
+      pathname: "/profile-page",
       title: "Profile",
       roles: [userRoles.Admin, userRoles.Seller, userRoles.Manager, userRoles.Customer]
     }
@@ -71,7 +71,7 @@ export const selectMenuByRole = (userRole: userRoles) => createSelector(selectSi
 
   return menuItems.filter(menuItem => {
     if (typeof menuItem === 'string') return true
-    return menuItem.roles.includes(userRole)
+    if (menuItem.roles) return menuItem.roles.includes(userRole)
   })
 })
 

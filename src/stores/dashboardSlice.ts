@@ -24,14 +24,14 @@ const initialState: RoleItems = {
             difference: 33,
             icon: 'User',
             status: 'text-primary',
-            link: '/users-layout-2'
+            link: '/users-page'
         },
         {
             title: 'Total orders',
             sum: 456,
             difference: 5,
             status: 'text-pending',
-            link: '/product-list'
+            link: '/orders-page'
         },
         {
             title: 'Total products',
@@ -39,7 +39,7 @@ const initialState: RoleItems = {
             difference: -33,
             icon: 'CreditCard',
             status: 'text-warning',
-            link: '/product-grid'
+            link: '/product-page'
         },
         {
             title: 'Total amount',
@@ -68,14 +68,14 @@ const initialState: RoleItems = {
             difference: 43,
             icon: 'User',
             status: 'text-primary',
-            link: '/users-layout-2'
+            link: '/users-page'
         },
         {
             title: 'Total orders',
             sum: 456,
             difference: 5,
             status: 'text-pending',
-            link: '/product-list'
+            link: '/orders-page'
         },
         {
             title: 'Total products',
@@ -83,7 +83,7 @@ const initialState: RoleItems = {
             difference: -33,
             icon: 'CreditCard',
             status: 'text-warning',
-            link: '/product-grid'
+            link: '/product-page'
         },
         {
             title: 'Total amount',
@@ -111,14 +111,14 @@ const initialState: RoleItems = {
             sum: 5,
             icon: 'User',
             status: 'text-primary',
-            link: '/users-layout-2'
+            link: '/users-page'
         },
         {
             title: 'Total orders',
             sum: 756,
             difference: 5,
             status: 'text-pending',
-            link: '/product-list'
+            link: '/orders-page'
         },
         {
             title: 'Balance of accounts',
@@ -126,7 +126,7 @@ const initialState: RoleItems = {
             difference: -33,
             icon: 'CreditCard',
             status: 'text-warning',
-            link: '/product-grid'
+            link: '/product-page'
         },
         {
             title: 'Total amount',
@@ -148,7 +148,7 @@ const initialState: RoleItems = {
             sum: 456,
             difference: 5,
             status: 'text-pending',
-            link: '/product-list'
+            link: '/orders-page'
         },
         {
             title: 'New order',
@@ -156,7 +156,7 @@ const initialState: RoleItems = {
             difference: -33,
             icon: 'CreditCard',
             status: 'text-warning',
-            link: '/product-list'
+            link: '/orders-page'
         },
         {
             title: 'Total costs',
