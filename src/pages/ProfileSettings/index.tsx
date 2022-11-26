@@ -21,122 +21,7 @@ function Main() {
       <div className="flex items-center mt-8 intro-y">
         <h2 className="mr-auto text-lg font-medium">Update Profile</h2>
       </div>
-      <div className="grid grid-cols-12 gap-6">
-        {/* BEGIN: Profile Menu */}
-        <div className="flex flex-col-reverse col-span-12 lg:col-span-4 2xl:col-span-3 lg:block">
-          <div className="mt-5 intro-y box">
-            <div className="relative flex items-center p-5">
-              <div className="w-12 h-12 image-fit">
-                <img
-                  alt="Midone Tailwind HTML Admin Template"
-                  className="rounded-full"
-                  src={fakerData[0].photos[0]}
-                />
-              </div>
-              <div className="ml-4 mr-auto">
-                <div className="text-base font-medium">
-                  {fakerData[0].users[0].name}
-                </div>
-                <div className="text-slate-500">{fakerData[0].jobs[0]}</div>
-              </div>
-              <Menu>
-                <Menu.Button tag="a" className="block w-5 h-5" href="#">
-                  <Lucide
-                    icon="MoreHorizontal"
-                    className="w-5 h-5 text-slate-500"
-                  />
-                </Menu.Button>
-                <Menu.Items className="w-56">
-                  <Menu.Header> Export Options</Menu.Header>
-                  <Menu.Devider />
-                  <Menu.Item>
-                    <Lucide icon="Activity" className="w-4 h-4 mr-2" />
-                    English
-                  </Menu.Item>
-                  <Menu.Item>
-                    <Lucide icon="Box" className="w-4 h-4 mr-2" />
-                    Indonesia
-                    <div className="px-1 ml-auto text-xs text-white rounded-full bg-danger">
-                      10
-                    </div>
-                  </Menu.Item>
-                  <Menu.Item>
-                    <Lucide icon="Layout" className="w-4 h-4 mr-2" />
-                    English
-                  </Menu.Item>
-                  <Menu.Item>
-                    <Lucide icon="Sidebar" className="w-4 h-4 mr-2" />
-                    Indonesia
-                  </Menu.Item>
-                  <Menu.Devider />
-                  <Menu.Footer>
-                    <Button
-                      variant="primary"
-                      type="button"
-                      className="px-2 py-1"
-                    >
-                      Settings
-                    </Button>
-                    <Button
-                      variant="secondary"
-                      type="button"
-                      className="px-2 py-1 ml-auto"
-                    >
-                      View Profile
-                    </Button>
-                  </Menu.Footer>
-                </Menu.Items>
-              </Menu>
-            </div>
-            <div className="p-5 border-t border-slate-200/60 dark:border-darkmode-400">
-              <a className="flex items-center font-medium text-primary" href="">
-                <Lucide icon="Activity" className="w-4 h-4 mr-2" /> Personal
-                Information
-              </a>
-              <a className="flex items-center mt-5" href="">
-                <Lucide icon="Box" className="w-4 h-4 mr-2" /> Account Settings
-              </a>
-              <a className="flex items-center mt-5" href="">
-                <Lucide icon="Lock" className="w-4 h-4 mr-2" /> Change Password
-              </a>
-              <a className="flex items-center mt-5" href="">
-                <Lucide icon="Settings" className="w-4 h-4 mr-2" /> User
-                Settings
-              </a>
-            </div>
-            <div className="p-5 border-t border-slate-200/60 dark:border-darkmode-400">
-              <a className="flex items-center" href="">
-                <Lucide icon="Activity" className="w-4 h-4 mr-2" /> Email
-                Settings
-              </a>
-              <a className="flex items-center mt-5" href="">
-                <Lucide icon="Box" className="w-4 h-4 mr-2" /> Saved Credit
-                Cards
-              </a>
-              <a className="flex items-center mt-5" href="">
-                <Lucide icon="Lock" className="w-4 h-4 mr-2" /> Social Networks
-              </a>
-              <a className="flex items-center mt-5" href="">
-                <Lucide icon="Settings" className="w-4 h-4 mr-2" /> Tax
-                Information
-              </a>
-            </div>
-            <div className="flex p-5 border-t border-slate-200/60 dark:border-darkmode-400">
-              <Button variant="primary" type="button" className="px-2 py-1">
-                New Group
-              </Button>
-              <Button
-                variant="outline-secondary"
-                type="button"
-                className="px-2 py-1 ml-auto"
-              >
-                New Quick Link
-              </Button>
-            </div>
-          </div>
-        </div>
-        {/* END: Profile Menu */}
-        <div className="col-span-12 lg:col-span-8 2xl:col-span-9">
+      <div className="col-span-12 lg:col-span-8 2xl:col-span-9">
           {/* BEGIN: Display Information */}
           <div className="intro-y box lg:mt-5">
             <div className="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
@@ -150,11 +35,11 @@ function Main() {
                   <div className="grid grid-cols-12 gap-x-5">
                     <div className="col-span-12 2xl:col-span-6">
                       <div>
-                        <FormLabel htmlFor="update-profile-form-1">
+                        <FormLabel htmlFor="profile-settings-form-1">
                           Display Name
                         </FormLabel>
                         <FormInput
-                          id="update-profile-form-1"
+                          id="profile-settings-form-1"
                           type="text"
                           placeholder="Input text"
                           value={fakerData[0].users[0].name}
@@ -163,11 +48,11 @@ function Main() {
                         />
                       </div>
                       <div className="mt-3">
-                        <FormLabel htmlFor="update-profile-form-2">
+                        <FormLabel htmlFor="profile-settings-form-2">
                           Nearest MRT Station
                         </FormLabel>
                         <TomSelect
-                          id="update-profile-form-2"
+                          id="profile-settings-form-2"
                           value={select}
                           onChange={setSelect}
                           className="w-full"
@@ -182,11 +67,11 @@ function Main() {
                     </div>
                     <div className="col-span-12 2xl:col-span-6">
                       <div className="mt-3 2xl:mt-0">
-                        <FormLabel htmlFor="update-profile-form-3">
+                        <FormLabel htmlFor="profile-settings-form-3">
                           Postal Code
                         </FormLabel>
                         <TomSelect
-                          id="update-profile-form-3"
+                          id="profile-settings-form-3"
                           value={select}
                           onChange={setSelect}
                           className="w-full"
@@ -209,11 +94,11 @@ function Main() {
                         </TomSelect>
                       </div>
                       <div className="mt-3">
-                        <FormLabel htmlFor="update-profile-form-4">
+                        <FormLabel htmlFor="profile-settings-form-4">
                           Phone Number
                         </FormLabel>
                         <FormInput
-                          id="update-profile-form-4"
+                          id="profile-settings-form-4"
                           type="text"
                           placeholder="Input text"
                           value="65570828"
@@ -223,11 +108,11 @@ function Main() {
                     </div>
                     <div className="col-span-12">
                       <div className="mt-3">
-                        <FormLabel htmlFor="update-profile-form-5">
+                        <FormLabel htmlFor="profile-settings-form-5">
                           Address
                         </FormLabel>
                         <FormTextarea
-                          id="update-profile-form-5"
+                          id="profile-settings-form-5"
                           placeholder="Adress"
                           value="10 Anson Road, International Plaza, #10-11, 079903
                             Singapore, Singapore"
@@ -286,9 +171,9 @@ function Main() {
               <div className="grid grid-cols-12 gap-x-5">
                 <div className="col-span-12 xl:col-span-6">
                   <div>
-                    <FormLabel htmlFor="update-profile-form-6">Email</FormLabel>
+                    <FormLabel htmlFor="profile-settings-form-6">Email</FormLabel>
                     <FormInput
-                      id="update-profile-form-6"
+                      id="profile-settings-form-6"
                       type="text"
                       placeholder="Input text"
                       value={fakerData[0].users[0].email}
@@ -297,9 +182,9 @@ function Main() {
                     />
                   </div>
                   <div className="mt-3">
-                    <FormLabel htmlFor="update-profile-form-7">Name</FormLabel>
+                    <FormLabel htmlFor="profile-settings-form-7">Name</FormLabel>
                     <FormInput
-                      id="update-profile-form-7"
+                      id="profile-settings-form-7"
                       type="text"
                       placeholder="Input text"
                       value={fakerData[0].users[0].name}
@@ -308,21 +193,21 @@ function Main() {
                     />
                   </div>
                   <div className="mt-3">
-                    <FormLabel htmlFor="update-profile-form-8">
+                    <FormLabel htmlFor="profile-settings-form-8">
                       ID Type
                     </FormLabel>
-                    <FormSelect id="update-profile-form-8">
+                    <FormSelect id="profile-settings-form-8">
                       <option>IC</option>
                       <option>FIN</option>
                       <option>Passport</option>
                     </FormSelect>
                   </div>
                   <div className="mt-3">
-                    <FormLabel htmlFor="update-profile-form-9">
+                    <FormLabel htmlFor="profile-settings-form-9">
                       ID Number
                     </FormLabel>
                     <FormInput
-                      id="update-profile-form-9"
+                      id="profile-settings-form-9"
                       type="text"
                       placeholder="Input text"
                       value="357821204950001"
@@ -332,11 +217,11 @@ function Main() {
                 </div>
                 <div className="col-span-12 xl:col-span-6">
                   <div className="mt-3 xl:mt-0">
-                    <FormLabel htmlFor="update-profile-form-10">
+                    <FormLabel htmlFor="profile-settings-form-10">
                       Phone Number
                     </FormLabel>
                     <FormInput
-                      id="update-profile-form-10"
+                      id="profile-settings-form-10"
                       type="text"
                       placeholder="Input text"
                       value="65570828"
@@ -344,11 +229,11 @@ function Main() {
                     />
                   </div>
                   <div className="mt-3">
-                    <FormLabel htmlFor="update-profile-form-11">
+                    <FormLabel htmlFor="profile-settings-form-11">
                       Address
                     </FormLabel>
                     <FormInput
-                      id="update-profile-form-11"
+                      id="profile-settings-form-11"
                       type="text"
                       placeholder="Input text"
                       value="10 Anson Road, International Plaza, #10-11, 079903 Singapore, Singapore"
@@ -356,11 +241,11 @@ function Main() {
                     />
                   </div>
                   <div className="mt-3">
-                    <FormLabel htmlFor="update-profile-form-12">
+                    <FormLabel htmlFor="profile-settings-form-12">
                       Bank Name
                     </FormLabel>
                     <TomSelect
-                      id="update-profile-form-12"
+                      id="profile-settings-form-12"
                       value={select}
                       onChange={setSelect}
                       className="w-full"
@@ -370,11 +255,11 @@ function Main() {
                     </TomSelect>
                   </div>
                   <div className="mt-3">
-                    <FormLabel htmlFor="update-profile-form-13">
+                    <FormLabel htmlFor="profile-settings-form-13">
                       Bank Account
                     </FormLabel>
                     <FormInput
-                      id="update-profile-form-13"
+                      id="profile-settings-form-13"
                       type="text"
                       placeholder="Input text"
                       value="DBS Current 011-903573-0"
@@ -399,8 +284,50 @@ function Main() {
             </div>
           </div>
           {/* END: Personal Information */}
+          {/* BEGIN: Change Password */}
+          <div className="intro-y box lg:mt-5">
+            <div className="flex items-center p-5 border-b border-slate-200/60 dark:border-darkmode-400">
+              <h2 className="mr-auto text-base font-medium">Change Password</h2>
+            </div>
+            <div className="p-5">
+              <div>
+                <FormLabel htmlFor="change-password-form-1">
+                  Old Password
+                </FormLabel>
+                <FormInput
+                  id="change-password-form-1"
+                  type="password"
+                  placeholder="Input text"
+                />
+              </div>
+              <div className="mt-3">
+                <FormLabel htmlFor="change-password-form-2">
+                  New Password
+                </FormLabel>
+                <FormInput
+                  id="change-password-form-2"
+                  type="password"
+                  placeholder="Input text"
+                />
+              </div>
+              <div className="mt-3">
+                <FormLabel htmlFor="change-password-form-3">
+                  Confirm New Password
+                </FormLabel>
+                <FormInput
+                  id="change-password-form-3"
+                  type="password"
+                  placeholder="Input text"
+                />
+              </div>
+              <Button variant="primary" type="button" className="mt-4">
+                Change Password
+              </Button>
+            </div>
+          </div>
+          {/* END: Change Password */}
         </div>
-      </div>
+
     </>
   );
 }

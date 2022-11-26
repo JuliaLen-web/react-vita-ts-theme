@@ -5,6 +5,7 @@ import Pagination from "../../base-components/Pagination";
 import { FormInput, FormSelect } from "../../base-components/Form";
 import Lucide from "../../base-components/Lucide";
 import { Menu } from "../../base-components/Headless";
+import { Link } from "react-router-dom";
 
 function Main() {
   return (
@@ -68,14 +69,11 @@ function Main() {
                     {faker.jobs[0]}
                   </div>
                 </div>
-                <div className="flex mt-4 lg:mt-0">
-                  <Button variant="primary" className="px-2 py-1 mr-2">
-                    Message
-                  </Button>
+                <Link to="/profile-page" className="flex mt-4 lg:mt-0">
                   <Button variant="outline-secondary" className="px-2 py-1">
                     Profile
                   </Button>
-                </div>
+                </Link>
               </div>
             </div>
           </div>

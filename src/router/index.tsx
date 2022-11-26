@@ -10,30 +10,21 @@ import TransactionDetail from "../pages/TransactionDetail";
 import SellerList from "../pages/SellerList";
 import SellerDetail from "../pages/SellerDetail";
 import Reviews from "../pages/Reviews";
-import Inbox from "../pages/Inbox";
 import FileManager from "../pages/FileManager";
 import PointOfSale from "../pages/PointOfSale";
-import Chat from "../pages/Chat";
 import Post from "../pages/Post";
 import Calendar from "../pages/Calendar";
 import CrudDataList from "../pages/CrudDataList";
 import CrudForm from "../pages/CrudForm";
-import UsersLayout2 from "../pages/UsersLayout2";
-import ProfilePage from "../pages/ProfilePage";
-import WizardLayout1 from "../pages/WizardLayout1";
-import WizardLayout2 from "../pages/WizardLayout2";
-import WizardLayout3 from "../pages/WizardLayout3";
-import BlogLayout1 from "../pages/BlogLayout1";
-import BlogLayout2 from "../pages/BlogLayout2";
-import BlogLayout3 from "../pages/BlogLayout3";
+import UsersPage from "../pages/UsersPage";
+import ProfileUser from "../pages/ProfileUser";
 import FaqLayout1 from "../pages/FaqLayout1";
 import FaqLayout2 from "../pages/FaqLayout2";
 import FaqLayout3 from "../pages/FaqLayout3";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ErrorPage from "../pages/ErrorPage";
-import UpdateProfile from "../pages/UpdateProfile";
-import ChangePassword from "../pages/ChangePassword";
+import ProfileSettings from "../pages/ProfileSettings";
 import RegularTable from "../pages/RegularTable";
 import Tabulator from "../pages/Tabulator";
 import Modal from "../pages/Modal";
@@ -41,7 +32,6 @@ import SlideOver from "../pages/SlideOver";
 import Notification from "../pages/Notification";
 import Tab from "../pages/Tab";
 import Accordion from "../pages/Accordion";
-import Button from "../pages/Button";
 import Alert from "../pages/Alert";
 import ProgressBar from "../pages/ProgressBar";
 import Tooltip from "../pages/Tooltip";
@@ -53,7 +43,6 @@ import RegularForm from "../pages/RegularForm";
 import Datepicker from "../pages/Datepicker";
 import TomSelect from "../pages/TomSelect";
 import FileUpload from "../pages/FileUpload";
-import WysiwygEditor from "../pages/WysiwygEditor";
 import Validation from "../pages/Validation";
 import Chart from "../pages/Chart";
 import Slider from "../pages/Slider";
@@ -106,20 +95,12 @@ function Router() {
           element: <Reviews />,
         },
         {
-          path: "inbox",
-          element: <Inbox />,
-        },
-        {
           path: "file-manager",
           element: <FileManager />,
         },
         {
           path: "point-of-sale",
           element: <PointOfSale />,
-        },
-        {
-          path: "chat",
-          element: <Chat />,
         },
         {
           path: "post",
@@ -139,35 +120,11 @@ function Router() {
         },
         {
           path: "users-page",
-          element: <UsersLayout2 />,
+          element: <UsersPage />,
         },
         {
           path: "profile-page",
-          element: <ProfilePage />,
-        },
-        {
-          path: "wizard-layout-1",
-          element: <WizardLayout1 />,
-        },
-        {
-          path: "wizard-layout-2",
-          element: <WizardLayout2 />,
-        },
-        {
-          path: "wizard-layout-3",
-          element: <WizardLayout3 />,
-        },
-        {
-          path: "blog-layout-1",
-          element: <BlogLayout1 />,
-        },
-        {
-          path: "blog-layout-2",
-          element: <BlogLayout2 />,
-        },
-        {
-          path: "blog-layout-3",
-          element: <BlogLayout3 />,
+          element: <ProfileUser />,
         },
         {
           path: "faq-layout-1",
@@ -182,12 +139,8 @@ function Router() {
           element: <FaqLayout3 />,
         },
         {
-          path: "update-profile",
-          element: <UpdateProfile />,
-        },
-        {
-          path: "change-password",
-          element: <ChangePassword />,
+          path: "profile-settings",
+          element: <ProfileSettings />,
         },
         {
           path: "regular-table",
@@ -216,10 +169,6 @@ function Router() {
         {
           path: "accordion",
           element: <Accordion />,
-        },
-        {
-          path: "button",
-          element: <Button />,
         },
         {
           path: "alert",
@@ -264,10 +213,6 @@ function Router() {
         {
           path: "file-upload",
           element: <FileUpload />,
-        },
-        {
-          path: "wysiwyg-editor",
-          element: <WysiwygEditor />,
         },
         {
           path: "validation",

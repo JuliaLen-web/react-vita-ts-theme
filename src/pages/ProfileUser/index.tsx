@@ -67,11 +67,11 @@ function Main() {
             className="flex-col justify-center text-center sm:flex-row lg:justify-start"
           >
             <Tab fullWidth={false}>
-              <Tab.Button className="py-4 cursor-pointer">Dashboard</Tab.Button>
+              <Tab.Button className="py-4 cursor-pointer">Products</Tab.Button>
             </Tab>
             <Tab fullWidth={false}>
               <Tab.Button className="py-4 cursor-pointer">
-                Account & Profile
+                Orders
               </Tab.Button>
             </Tab>
           </Tab.List>
@@ -106,6 +106,11 @@ function Main() {
                 
               </Tab.Group>
               {/* END: Products */}
+              
+            </div>
+          </Tab.Panel>
+          <Tab.Panel>
+            <div className="grid grid-cols-12 gap-6">
               {/* BEGIN: Orders */}
               <div className="col-span-12 intro-y box">
                 <div className="flex items-center px-5 py-5 border-b sm:py-3 border-slate-200/60 dark:border-darkmode-400">
@@ -170,32 +175,6 @@ function Main() {
                 </div>
               </div>
               {/* END: Orders */}
-            </div>
-          </Tab.Panel>
-          <Tab.Panel>
-            <div className="grid grid-cols-12 gap-6">
-              {/* BEGIN: Edit Password */}
-              <Tab.Group className="col-span-12 intro-y box lg:col-span-6">
-                <div className="col-span-12 intro-y box">
-                  <div className="flex items-center px-5 py-5 border-b sm:py-3 border-slate-200/60 dark:border-darkmode-400">
-                    <h2 className="mr-auto text-base font-medium">
-                      Edit Password
-                    </h2>
-                  </div>
-                </div>
-              </Tab.Group>
-              {/* END: Edit Password */}
-              {/* BEGIN: Edit Main Information */}
-              <Tab.Group className="col-span-12 intro-y box lg:col-span-6">
-                <div className="col-span-12 intro-y box">
-                  <div className="flex items-center px-5 py-5 border-b sm:py-3 border-slate-200/60 dark:border-darkmode-400">
-                    <h2 className="mr-auto text-base font-medium">
-                      Edit Main Information
-                    </h2>
-                  </div>
-                </div>
-              </Tab.Group>
-              {/* END: Edit Main Information */}
             </div>
           </Tab.Panel>
         </Tab.Panels>

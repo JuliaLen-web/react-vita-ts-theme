@@ -50,7 +50,7 @@ const initialState: SideMenuState = {
     },
     {
       icon: "Trello",
-      pathname: "/profile-page",
+      pathname: "/profile-settings",
       title: "Profile",
       roles: [userRoles.Admin, userRoles.Seller, userRoles.Manager, userRoles.Customer]
     }

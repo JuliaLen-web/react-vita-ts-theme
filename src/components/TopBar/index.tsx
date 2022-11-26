@@ -7,6 +7,7 @@ import fakerData from "../../utils/faker";
 import _ from "lodash";
 import clsx from "clsx";
 import { Transition } from "@headlessui/react";
+import { Link } from "react-router-dom";
 
 function Main() {
   const [searchDropdown, setSearchDropdown] = useState(false);
@@ -185,17 +186,11 @@ function Main() {
               </div>
             </Menu.Header>
             <Menu.Devider className="bg-white/[0.08]" />
-            <Menu.Item className="hover:bg-white/5">
+            <Menu.Item as={Link} to="/profile-page" className="hover:bg-white/5">
               <Lucide icon="User" className="w-4 h-4 mr-2" /> Profile
             </Menu.Item>
-            <Menu.Item className="hover:bg-white/5">
-              <Lucide icon="Edit" className="w-4 h-4 mr-2" /> Add Account
-            </Menu.Item>
-            <Menu.Item className="hover:bg-white/5">
-              <Lucide icon="Lock" className="w-4 h-4 mr-2" /> Reset Password
-            </Menu.Item>
-            <Menu.Item className="hover:bg-white/5">
-              <Lucide icon="HelpCircle" className="w-4 h-4 mr-2" /> Help
+            <Menu.Item as={Link} to="/profile-settings" className="hover:bg-white/5">
+              <Lucide icon="Lock" className="w-4 h-4 mr-2" /> Settings
             </Menu.Item>
             <Menu.Devider className="bg-white/[0.08]" />
             <Menu.Item className="hover:bg-white/5">
