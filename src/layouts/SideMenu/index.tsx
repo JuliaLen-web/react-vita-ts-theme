@@ -12,7 +12,7 @@ import MobileMenu from "../../components/MobileMenu";
 import DarkModeSwitcher from "../../components/DarkModeSwitcher";
 import MainColorSwitcher from "../../components/MainColorSwitcher";
 import SideMenuTooltip from "../../components/SideMenuTooltip";
-import { loadUser, selectUser, userRoles } from "../../stores/userSlice";
+import { loadUser, selectUser } from "../../stores/userSlice";
 import { Loader } from "lucide-react";
 
 function Main() {

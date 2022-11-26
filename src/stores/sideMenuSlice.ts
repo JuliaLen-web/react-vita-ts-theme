@@ -9,7 +9,7 @@ export interface Menu {
   pathname?: string;
   subMenu?: Menu[];
   ignore?: boolean;
-  roles?: userRoles[];
+  roles: userRoles[];
 }
 
 export interface SideMenuState {
@@ -66,12 +66,11 @@ export const sideMenuSlice = createSlice({
 export const selectSideMenu = (state: RootState) => state.sideMenu.menu;
 
 
-export const selectMenuByRole = (userRole: userRoles) => createSelector(selectSideMenu, (menuItems) => {
+export const selectMenuByRole = (userRole?: userRoles) => createSelector(selectSideMenu, (menuItems) => {
   if (!userRole) return []
 
   return menuItems.filter(menuItem => {
-    if (typeof menuItem === 'string') return true
-    if (menuItem.roles) return menuItem.roles.includes(userRole)
+    return menuItem.roles.includes(userRole)
   })
 })
 
