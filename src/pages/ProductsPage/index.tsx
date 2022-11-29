@@ -215,6 +215,7 @@ function Main() {
           }
         })}
         {/* END: Users Layout */}
+
         {/* BEGIN: Pagination */}
         {/* <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
           <Pagination className="w-full sm:w-auto sm:mr-auto">
@@ -254,15 +255,69 @@ function Main() {
         }}
       >
         <Dialog.Panel>
-          <div className="p-5 text-center">
-            <Lucide
-              icon="Maximize2"
-              className="w-16 h-16 mx-auto mt-3"
-            />
+          <div className="p-5">
             <div className="mt-5 text-3xl">Information about this product</div>
-            <div className="mt-2 text-slate-500">
-              Do you really want to know about these records? <br />
-              This process cannot be undone.
+            <div className="mt-5">
+              <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
+                <img
+                  alt="Midone - HTML Admin Template"
+                  className="rounded-md"
+                  src={fakerData[0].images[0]}
+                />
+                {fakerData[0].trueFalse[0] && (
+                  <span className="absolute top-0 z-10 px-2 py-1 m-5 text-xs text-white rounded bg-pending/80">
+                    Featured
+                  </span>
+                )}
+                <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
+                  <a href="" className="block text-base font-medium">
+                    {fakerData[0].products[0].name}
+                  </a>
+                  <span className="mt-3 text-xs text-white/90">
+                    {fakerData[0].products[0].category}
+                  </span>
+                </div>
+              </div>
+              <div className="mt-5 text-slate-600 dark:text-slate-500">
+                <div className="flex items-center">
+                  <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
+                  {fakerData[0].totals[0]}
+                </div>
+                <div className="flex items-center mt-2">
+                  <Lucide icon="Layers" className="w-4 h-4 mr-2" />
+                  {fakerData[0].statusStock[0]}
+                </div>
+                {(user.role === userRoles.Admin || user.role === userRoles.Seller) &&
+                  <div className="flex items-center mt-2">
+                    <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
+                    Status:
+                    {" " + fakerData[0].statusProduct[0]}
+                  </div>
+                }
+                {user.role === userRoles.Admin &&
+                  <div className="flex items-center mt-2">
+                    <Lucide icon="Truck" className="w-4 h-4 mr-2" />{" "}
+                    Seller:
+                    {" " + fakerData[0].users[0].name}
+                  </div>
+                }
+                <div className="flex mt-2">
+                  <Lucide icon="MessageSquare" className="w-4 h-4 mr-2 mt-1" />{" "}
+                  Description: You may want to consider destructuring the action creators and exporting them individually, for ease of searching for references in a larger codebase.
+                </div>
+                {user.role === userRoles.Customer &&
+                  <div
+                  className="text-center mt-4">
+                  <Button
+                      type="button"
+                      variant="primary"
+                      className="w-full"
+                  >
+                      Buy
+                  </Button>
+              </div>
+                }
+              </div>
             </div>
           </div>
           <div className="px-5 pb-8 text-center">

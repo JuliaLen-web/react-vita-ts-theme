@@ -1,3 +1,4 @@
+import Button from "../../base-components/Button";
 import Lucide from "../../base-components/Lucide";
 
 function ProductItem({ ...props }) {
@@ -45,13 +46,26 @@ function ProductItem({ ...props }) {
                         }
                         {props.user.role === props.userRoles.Admin &&
                             <div className="flex items-center mt-2">
-                                <Lucide icon="Truck" className="w-4 h-4 mr-2" />{" "}
+                                <Lucide icon="Truck" className="w-4 h-4 mr-2 w-full" />{" "}
                                 Seller:
                                 {" " + props.faker.users[0].name}
                             </div>
                         }
                     </div>
+                    {props.user.role === props.userRoles.Customer &&
+                        <div
+                            className="text-center mt-4">
+                            <Button
+                                type="button"
+                                variant="primary"
+                                className="w-full "
+                            >
+                                Buy
+                            </Button>
+                        </div>
+                    }
                 </div>
+
                 <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
                     <a
                         className="flex items-center mr-auto text-primary"
