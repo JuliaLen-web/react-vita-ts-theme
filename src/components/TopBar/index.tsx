@@ -8,6 +8,8 @@ import _ from "lodash";
 import clsx from "clsx";
 import { Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
+import { selectUser } from "../../stores/userSlice";
+import { useAppSelector } from "../../stores/hooks";
 
 function Main() {
   const [searchDropdown, setSearchDropdown] = useState(false);
@@ -17,6 +19,8 @@ function Main() {
   const hideSearchDropdown = () => {
     setSearchDropdown(false);
   };
+
+  const user = useAppSelector(selectUser)
 
   return (
     <>
@@ -162,7 +166,7 @@ function Main() {
                     </div>
                   </div>
                   <div className="w-full truncate text-slate-500 mt-0.5">
-                    {faker.news[0].shortContent}
+                    Опубликовал новый товар
                   </div>
                 </div>
               </div>
@@ -180,9 +184,9 @@ function Main() {
           </Menu.Button>
           <Menu.Items className="w-56 mt-px text-white bg-primary">
             <Menu.Header className="font-normal">
-              <div className="font-medium">{fakerData[0].users[0].name}</div>
+              <div className="font-medium">{user.name}</div>
               <div className="text-xs text-white/70 mt-0.5 dark:text-slate-500">
-                {fakerData[0].jobs[0]}
+                {user.role}
               </div>
             </Menu.Header>
             <Menu.Devider className="bg-white/[0.08]" />
