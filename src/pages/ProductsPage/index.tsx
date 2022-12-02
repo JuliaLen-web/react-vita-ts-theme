@@ -41,7 +41,10 @@ function Main() {
 
   useEffect(() => {
     productsByRole()
-  }, [user.role]);
+  }, [user.role])
+
+  const sellers = [...new Set(productsSlice.map(product => product.seller))]
+  const categories = [...new Set(products.map(product => product.category))]
 
   return (
     <>
@@ -57,7 +60,7 @@ function Main() {
             </Link>
           }
           {user.role === userRoles.Admin &&
-            < Link to="/categories">
+            <Link to="/categories">
               <Button variant="primary" className="mr-2 shadow-md">
                 Add\Edit Categories
               </Button>
@@ -75,43 +78,39 @@ function Main() {
           {user.role === userRoles.Admin &&
             <div className="mr-2">
               <Popover className="inline-block">
-                {(
-                  <>
-                    <Popover.Button as={Button} variant="primary">
-                      Sellers
-                      <Lucide
-                        icon="ChevronDown"
-                        className="w-4 h-4 ml-2"
-                      />
-                    </Popover.Button>
-                    <Popover.Panel placement="bottom-start">
-                      <div>
-                        {_.take(fakerData, 9).map((faker, fakerKey) => (
-                          <div key={fakerKey} className="mb-2">
-                            <FormSwitch className="w-full mt-3 sm:w-auto sm:mt-0">
-                              <FormSwitch.Input
-                                id={faker.users[0].name}
-                                className="ml-1"
-                                type="checkbox"
-                              />
-                              <FormSwitch.Label htmlFor={faker.users[0].name}>
-                                {faker.users[0].name}
-                              </FormSwitch.Label>
-                            </FormSwitch>
-                          </div>
-                        ))}
-                        <div className="flex items-center">
-                          <Button
-                            variant="primary"
-                            className="w-32 ml-2"
-                          >
-                            Search
-                          </Button>
-                        </div>
+                <Popover.Button as={Button} variant="primary">
+                  Sellers
+                  <Lucide
+                    icon="ChevronDown"
+                    className="w-4 h-4 ml-2"
+                  />
+                </Popover.Button>
+                <Popover.Panel placement="bottom-start">
+                  <div>
+                    {sellers.map(seller =>
+                      <div key={seller} className="mb-2">
+                        <FormSwitch className="w-full mt-3 sm:w-auto sm:mt-0">
+                          <FormSwitch.Input
+                            id={seller}
+                            className="ml-1"
+                            type="checkbox"
+                          />
+                          <FormSwitch.Label htmlFor={seller}>
+                            {seller}
+                          </FormSwitch.Label>
+                        </FormSwitch>
                       </div>
-                    </Popover.Panel>
-                  </>
-                )}
+                    )}
+                    <div className="flex items-center">
+                      <Button
+                        variant="primary"
+                        className="w-32 ml-2"
+                      >
+                        Search
+                      </Button>
+                    </div>
+                  </div>
+                </Popover.Panel>
               </Popover>
             </div>
           }
@@ -119,44 +118,39 @@ function Main() {
           {/* BEGIN: Filter Categories */}
           <div className="mr-2">
             <Popover className="inline-block">
-              {(
-                <>
-                  <Popover.Button as={Button} variant="primary">
-                    Categories
-                    <Lucide
-                      icon="ChevronDown"
-                      className="w-4 h-4 ml-2"
-                    />
-                  </Popover.Button>
-                  <Popover.Panel placement="bottom-start">
-                    <div>
-                      {_.take(fakerData, 9).map((faker, fakerKey) => (
-                        <div key={fakerKey} className="mb-2">
-                          <FormSwitch className="w-full mt-3 sm:w-auto sm:mt-0">
-                            <FormSwitch.Input
-                              id={faker.categories[0].name}
-                              className="ml-1"
-                              type="checkbox"
-                            />
-
-                            <FormSwitch.Label htmlFor={faker.categories[0].name}>
-                              {faker.categories[0].name}
-                            </FormSwitch.Label>
-                          </FormSwitch>
-                        </div>
-                      ))}
-                      <div className="flex items-center">
-                        <Button
-                          variant="primary"
-                          className="w-32 ml-2"
-                        >
-                          Search
-                        </Button>
-                      </div>
+              <Popover.Button as={Button} variant="primary">
+                Categories
+                <Lucide
+                  icon="ChevronDown"
+                  className="w-4 h-4 ml-2"
+                />
+              </Popover.Button>
+              <Popover.Panel placement="bottom-start">
+                <div>
+                  {categories.map(category =>
+                    <div key={category} className="mb-2">
+                      <FormSwitch className="w-full mt-3 sm:w-auto sm:mt-0">
+                        <FormSwitch.Input
+                          id={category}
+                          className="ml-1"
+                          type="checkbox"
+                        />
+                        <FormSwitch.Label htmlFor={category}>
+                          {category}
+                        </FormSwitch.Label>
+                      </FormSwitch>
                     </div>
-                  </Popover.Panel>
-                </>
-              )}
+                  )}
+                  <div className="flex items-center">
+                    <Button
+                      variant="primary"
+                      className="w-32 ml-2"
+                    >
+                      Search
+                    </Button>
+                  </div>
+                </div>
+              </Popover.Panel>
             </Popover>
           </div>
           {/* END: Filter Categories */}
@@ -177,19 +171,16 @@ function Main() {
         </div>
         {/* filters block */}
 
-        {products.map(product => {
-          return (
-            <ProductItem
-              product={product}
-              key={product.id}
-              user={user}
-              userRoles={userRoles}
-              setPreviewInfoModal={setPreviewInfoModal}
-              setEditProductModal={setEditProductModal}
-              setDeleteConfirmationModal={setDeleteConfirmationModal}
-            />
-          )
-        }
+        {products.map(product =>
+          <ProductItem
+            product={product}
+            key={product.id}
+            user={user}
+            userRoles={userRoles}
+            setPreviewInfoModal={setPreviewInfoModal}
+            setEditProductModal={setEditProductModal}
+            setDeleteConfirmationModal={setDeleteConfirmationModal}
+          />
         )}
 
         {/* BEGIN: Pagination */}
