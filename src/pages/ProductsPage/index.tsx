@@ -2,14 +2,15 @@ import _ from "lodash";
 import { useState, useRef, useEffect } from "react";
 import fakerData from "../../utils/faker";
 import Button from "../../base-components/Button";
-import Pagination from "../../base-components/Pagination";
-import { FormInput, FormSelect, FormSwitch } from "../../base-components/Form";
+// import Pagination from "../../base-components/Pagination";
+import { FormInput, FormSwitch } from "../../base-components/Form";
 import Lucide from "../../base-components/Lucide";
-import { Dialog, Menu, Popover } from "../../base-components/Headless";
+import { Dialog, Popover } from "../../base-components/Headless";
 import { Link } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { loadUser, selectUser, userRoles } from "../../stores/userSlice";
+import { useAppSelector } from "../../stores/hooks";
+import { selectUser, userRoles } from "../../stores/userSlice";
 import ProductItem from "../../components/ProductItem";
+import { Product, selectProducts } from "../../stores/productSlice";
 
 function Main() {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
@@ -20,17 +21,33 @@ function Main() {
 
   const [previewInfoModal, setPreviewInfoModal] = useState(false);
 
-  const dispatch = useAppDispatch()
   const user = useAppSelector(selectUser)
+  const productsSlice: Product[] = useAppSelector(selectProducts)
+
+  const [products, setProducts] = useState([...productsSlice]);
+
+  function productsByRole() {
+    switch (user.role) {
+      case userRoles.Manager:
+        return setProducts(products => products.filter(product => product.status === "approved"))
+      case userRoles.Seller:
+        return setProducts(products => products.filter(product => product.seller === user.name))
+      case userRoles.Customer:
+        return setProducts(products => products.filter(product => product.status === "approved" && product.stock))
+      default:
+        return setProducts(products => products)
+    }
+  }
 
   useEffect(() => {
-    dispatch(loadUser());
-  }, []);
+    productsByRole()
+  }, [user.role]);
 
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Products</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
+        {/* filters block */}
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
           {(user.role === userRoles.Admin || user.role === userRoles.Seller) &&
             <Link to="/add-product">
@@ -158,63 +175,22 @@ function Main() {
             </div>
           </div>
         </div>
+        {/* filters block */}
 
-        {/* BEGIN: Users Layout */}
-        {_.take(fakerData, 12).map((faker, fakerKey) => {
-          if (user.role === userRoles.Admin) {
-            return (
-              <ProductItem
-                faker={faker}
-                key={fakerKey}
-                user={user}
-                userRoles={userRoles}
-                setPreviewInfoModal={setPreviewInfoModal}
-                setEditProductModal={setEditProductModal}
-                setDeleteConfirmationModal={setDeleteConfirmationModal}
-              />
-            )
-          } else if (faker.statusProduct[0] === "approved" && user.role === userRoles.Manager) {
-            return (
-              <ProductItem
-                user={user}
-                userRoles={userRoles}
-                faker={faker}
-                key={fakerKey}
-                setPreviewInfoModal={setPreviewInfoModal}
-                setEditProductModal={setEditProductModal}
-                setDeleteConfirmationModal={setDeleteConfirmationModal}
-              />
-            )
-
-          } else if (user.name === faker.users[0].name && user.role === userRoles.Seller) {
-            return (
-              <ProductItem
-                user={user}
-                userRoles={userRoles}
-                faker={faker}
-                key={fakerKey}
-                setPreviewInfoModal={setPreviewInfoModal}
-                setEditProductModal={setEditProductModal}
-                setDeleteConfirmationModal={setDeleteConfirmationModal}
-              />
-            )
-          } else if (faker.statusProduct[0] === "approved" && faker.statusStock[0] === "In Stock" && user.role === userRoles.Customer) {
-            return (
-              <ProductItem
-                user={user}
-                userRoles={userRoles}
-                faker={faker}
-                key={fakerKey}
-                setPreviewInfoModal={setPreviewInfoModal}
-                setEditProductModal={setEditProductModal}
-                setDeleteConfirmationModal={setDeleteConfirmationModal}
-              />
-            )
-          } else {
-            return null
-          }
-        })}
-        {/* END: Users Layout */}
+        {products.map(product => {
+          return (
+            <ProductItem
+              product={product}
+              key={product.id}
+              user={user}
+              userRoles={userRoles}
+              setPreviewInfoModal={setPreviewInfoModal}
+              setEditProductModal={setEditProductModal}
+              setDeleteConfirmationModal={setDeleteConfirmationModal}
+            />
+          )
+        }
+        )}
 
         {/* BEGIN: Pagination */}
         {/* <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
@@ -307,15 +283,15 @@ function Main() {
                 </div>
                 {user.role === userRoles.Customer &&
                   <div
-                  className="text-center mt-4">
-                  <Button
+                    className="text-center mt-4">
+                    <Button
                       type="button"
                       variant="primary"
                       className="w-full"
-                  >
+                    >
                       Buy
-                  </Button>
-              </div>
+                    </Button>
+                  </div>
                 }
               </div>
             </div>

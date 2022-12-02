@@ -1,4 +1,4 @@
-import _, { isNumber, isString } from "lodash";
+import _ from "lodash";
 import clsx from "clsx";
 import fakerData from "../../utils/faker";
 import Lucide from "../../base-components/Lucide";
@@ -6,7 +6,6 @@ import Tippy from "../../base-components/Tippy";
 import { Link } from "react-router-dom";
 import { userRoles, selectUser, loadUser } from "../../stores/userSlice";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { useEffect } from "react";
 import { selectDashboard } from "../../stores/dashboardSlice";
 
 const contentWithSidebar = 'col-span-12 2xl:col-span-9'
@@ -14,7 +13,7 @@ const contentWithoutSidebar = 'col-span-12 2xl:col-span-12'
 
 function Main() {
   const user = useAppSelector(selectUser)
-  const rolesItems = useAppSelector(selectDashboard)
+  const dashboardItemsByRole = useAppSelector(selectDashboard)
 
   return (
     <div className="grid grid-cols-12 gap-6">
@@ -32,7 +31,7 @@ function Main() {
               </a>
             </div>
             <div className="grid grid-cols-12 gap-6 mt-5">
-              {user.role && rolesItems[user.role].map(el => {
+              {user.role && dashboardItemsByRole[user.role].map(el => {
                 return <Link to={el.link && el.link ? el.link : '#'} key={el.link + '' + el.sum} className="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                   <div
                     className={clsx([

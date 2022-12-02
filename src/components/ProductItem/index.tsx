@@ -12,45 +12,45 @@ function ProductItem({ ...props }) {
                         <img
                             alt="Midone - HTML Admin Template"
                             className="rounded-md"
-                            src={props.faker.images[0]}
+                            src={props.product.image}
                         />
-                        {props.faker.trueFalse[0] && (
+                        {props.product.fearured && (
                             <span className="absolute top-0 z-10 px-2 py-1 m-5 text-xs text-white rounded bg-pending/80">
                                 Featured
                             </span>
                         )}
                         <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
                             <a href="" className="block text-base font-medium">
-                                {props.faker.products[0].name}
+                                {props.product.name}
                             </a>
                             <span className="mt-3 text-xs text-white/90">
-                                {props.faker.products[0].category}
+                                {props.product.category}
                             </span>
                         </div>
                     </div>
                     <div className="mt-5 text-slate-600 dark:text-slate-500">
                         <div className="flex items-center">
                             <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                            {props.faker.totals[0]}
+                            {props.product.price}
                         </div>
                         <div className="flex items-center mt-2">
                             <Lucide icon="Layers" className="w-4 h-4 mr-2" />
-                            {props.faker.statusStock[0]}
+                            {props.product.stock ? 'In Stock' : 'Out of stock'}
                         </div>
-                        {(props.user.role === props.userRoles.Admin || props.user.role === props.userRoles.Seller) &&
+                        {/* {(props.user.role === props.userRoles.Admin || props.user.role === props.userRoles.Seller) && */}
                             <div className="flex items-center mt-2">
                                 <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
                                 Status:
-                                {" " + props.faker.statusProduct[0]}
+                                {" " + props.product.status}
                             </div>
-                        }
-                        {props.user.role === props.userRoles.Admin &&
+                        {/* } */}
+                        {/* {props.user.role === props.userRoles.Admin && */}
                             <div className="flex items-center mt-2">
                                 <Lucide icon="Truck" className="w-4 h-4 mr-2 w-full" />{" "}
                                 Seller:
-                                {" " + props.faker.users[0].name}
+                                {" " + props.product.seller}
                             </div>
-                        }
+                        {/* } */}
                     </div>
                     {props.user.role === props.userRoles.Customer &&
                         <div
