@@ -5,9 +5,8 @@ import fakerData from "../../utils/faker"
 
 const productsObj: Products = []
 
-fakerData.map((faker, fakerKey) => {
-    if(fakerKey >= 20) return false
-    productsObj[fakerKey] = {
+fakerData.slice(0, 20).map((faker, fakerKey) => {
+    productsObj.push({
         name: faker.products[0].name,
         seller: faker.users[0].name,
         price: Math.ceil(Math.random() * 1000),
@@ -18,7 +17,7 @@ fakerData.map((faker, fakerKey) => {
         description: faker.products[1].name + faker.users[1].name + 'bla',
         featured: faker.trueFalse[0],
         id: fakerKey + 1,
-    }
+    })
 })
 
 export const fetchProducts = createAsyncThunk(
