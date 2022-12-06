@@ -12,7 +12,7 @@ import MobileMenu from "../../components/MobileMenu";
 import DarkModeSwitcher from "../../components/DarkModeSwitcher";
 import MainColorSwitcher from "../../components/MainColorSwitcher";
 import SideMenuTooltip from "../../components/SideMenuTooltip";
-import { fetchUsers } from "../../stores/action-creators/user";
+import { fetchUserInfo } from "../../stores/action-creators/user";
 import { UserState } from "../../types/user";
 import LoadingIcon from "../../base-components/LoadingIcon";
 
@@ -21,9 +21,7 @@ function Main() {
 
   const dispatch = useAppDispatch()
   useEffect(() => {
-    setTimeout(() => {
-      dispatch(fetchUsers());
-    }, 5000);  //for imitation loading
+    dispatch(fetchUserInfo());
   }, [dispatch]);
 
   const location = useLocation();
@@ -39,10 +37,10 @@ function Main() {
     setFormattedMenu(sideMenu(userMenu));
   }, [user.role, location.pathname]);
 
-  if (loading || user.role) { //for imitation loading, condition user.role will be delated
+  if (loading) {
     return (
       <h1 className="text-4xl flex items-center justify-center font-medium text-center text-white intro-y">
-        <LoadingIcon icon="hearts" className="w-20 h-20 mr-3" color={'#fff'}/>Loading...
+        <LoadingIcon icon="hearts" className="w-20 h-20 mr-3" color={'#fff'} />Loading...
       </h1>
     )
   }

@@ -46,7 +46,7 @@ const initialState: SideMenuState = {
       icon: "Users",
       pathname: "/users-page",
       title: "Users",
-      roles: [userRoles.Admin, userRoles.Seller]
+      roles: [userRoles.Admin, userRoles.Manager]
     },
     {
       icon: "Trello",

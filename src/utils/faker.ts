@@ -1,16 +1,11 @@
 import _ from "lodash";
 import dayjs from "dayjs";
+import { User, userRoles } from "../types/user";
 
 interface Users {
   name: string;
   gender: string;
   email: string;
-}
-
-interface AuthUser {
-  id: number;
-  name: string;
-  role: string;
 }
 
 interface Products {
@@ -64,16 +59,16 @@ const fakers = {
       };
     });
   },
-  fakeAuthUser() {
-    const authUser: Array<Omit<AuthUser, "email">> = [
-      { id: 9, name: "Bruce Willis", role: "seller" },
+  fakeUser() {
+    const user: Array<Omit<User, "email">> = [
+      { id: 9, name: "Bruce Willis", role: userRoles.Seller },
     ];
 
-    return _.sampleSize(authUser, 3).map((user) => {
+    return _.sampleSize(user, 3).map((userInfo) => {
       return {
-        id: user.id,
-        name: user.name,
-        role: user.role,
+        id: userInfo.id,
+        name: userInfo.name,
+        role: userInfo.role,
       };
     });
   },
@@ -343,7 +338,7 @@ const fakers = {
 
 const fakerData: Array<{
   users: Users[];
-  authUser: AuthUser[];
+  user: User[];
   photos: string[];
   images: string[];
   dates: string[];
@@ -365,7 +360,7 @@ const fakerData: Array<{
 for (let i = 0; i < 50; i++) {
   fakerData[fakerData.length] = {
     users: fakers.fakeUsers(),
-    authUser: fakers.fakeAuthUser(),
+    user: fakers.fakeUser(),
     photos: fakers.fakePhotos(),
     images: fakers.fakeImages(),
     dates: fakers.fakeDates(),
