@@ -1,16 +1,11 @@
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import { FormCheck } from "../../base-components/Form";
 import Lucide from "../../base-components/Lucide";
 import Table from "../../base-components/Table";
-import Tippy from "../../base-components/Tippy";
 
 function TransactionItem({ ...props }) {
     return (
         <Table.Tr key={props.fakerKey} className="intro-x">
-            <Table.Td className="first:rounded-l-md last:rounded-r-md w-10 bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b]">
-                <FormCheck.Input type="checkbox" />
-            </Table.Td>
             <Table.Td className="first:rounded-l-md last:rounded-r-md w-40 !py-4 bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b]">
                 <Link
                     to="/transaction-detail"

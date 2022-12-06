@@ -92,9 +92,6 @@ function Main() {
             <Table.Thead>
               <Table.Tr>
                 <Table.Th className="border-b-0 whitespace-nowrap">
-                  <FormCheck.Input type="checkbox" />
-                </Table.Th>
-                <Table.Th className="border-b-0 whitespace-nowrap">
                   INVOICE
                 </Table.Th>
                 {(user.role === userRoles.Admin || user.role === userRoles.Manager) &&
