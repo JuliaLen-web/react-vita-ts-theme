@@ -11,7 +11,6 @@ import {
 import Lucide from "../../base-components/Lucide";
 import Tippy from "../../base-components/Tippy";
 import TomSelect from "../../base-components/TomSelect";
-import { Menu } from "../../base-components/Headless";
 
 function Main() {
   const [select, setSelect] = useState("1");

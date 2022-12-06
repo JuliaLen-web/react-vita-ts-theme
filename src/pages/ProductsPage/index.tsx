@@ -7,13 +7,44 @@ import { FormInput, FormSwitch } from "../../base-components/Form";
 import Lucide from "../../base-components/Lucide";
 import { Dialog, Popover } from "../../base-components/Headless";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../stores/hooks";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import ProductItem from "../../components/ProductItem";
-import { Product, selectProducts } from "../../stores/productSlice";
+// import { Product, selectProducts } from "../../stores/productSlice";
 import { userRoles, UserState } from "../../types/user";
+import { Products, ProductState } from "../../types/product";
+import { fetchProducts } from "../../stores/action-creators/product";
 
 function Main() {
   const { user } = useAppSelector((state: { user: UserState; }) => state.user)
+  const { products } = useAppSelector((state: { products: ProductState; }) => state.products)
+
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, [dispatch]);
+
+  const [productsState, setProductsState] = useState([...products]);
+  
+  function productsByRole() {
+    switch (user.role) {
+      case userRoles.Manager:
+        return setProductsState(productsState => productsState.filter(product => product.status === "approved"))
+      case userRoles.Seller:
+        return setProductsState(productsState => productsState.filter(product => product.seller === user.name))
+      case userRoles.Customer:
+        return setProductsState(productsState => productsState.filter(product => product.status === "approved" && product.stock))
+      default:
+        return setProductsState(productsState => productsState)
+    }
+  }
+
+  useEffect(() => {
+    productsByRole()
+  }, [user.role])
+
+  const sellers = [...new Set(products.map(product => product.seller))]
+  const categories = [...new Set(productsState.map(product => product.category))]
 
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const deleteButtonRef = useRef(null);
@@ -22,30 +53,6 @@ function Main() {
   const editButtonRef = useRef(null);
 
   const [previewInfoModal, setPreviewInfoModal] = useState(false);
-
-  const productsSlice: Product[] = useAppSelector(selectProducts)
-
-  const [products, setProducts] = useState([...productsSlice]);
-
-  function productsByRole() {
-    switch (user.role) {
-      case userRoles.Manager:
-        return setProducts(products => products.filter(product => product.status === "approved"))
-      case userRoles.Seller:
-        return setProducts(products => products.filter(product => product.seller === user.name))
-      case userRoles.Customer:
-        return setProducts(products => products.filter(product => product.status === "approved" && product.stock))
-      default:
-        return setProducts(products => products)
-    }
-  }
-
-  useEffect(() => {
-    productsByRole()
-  }, [user.role])
-
-  const sellers = [...new Set(productsSlice.map(product => product.seller))]
-  const categories = [...new Set(products.map(product => product.category))]
 
   return (
     <>
@@ -172,7 +179,7 @@ function Main() {
         </div>
         {/* filters block */}
 
-        {products.map(product =>
+        {productsState.map(product =>
           <ProductItem
             product={product}
             key={product.id}
