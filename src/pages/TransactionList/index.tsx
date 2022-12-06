@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { useEffect } from "react";
 import fakerData from "../../utils/faker";
 import Button from "../../base-components/Button";
 import Pagination from "../../base-components/Pagination";
@@ -8,16 +7,12 @@ import Lucide from "../../base-components/Lucide";
 import { Popover } from "../../base-components/Headless";
 import Table from "../../base-components/Table";
 import TransactionItem from "../../components/TransactionItem";
-import { loadUser, selectUser, userRoles } from "../../stores/userSlice";
-import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import { useAppSelector } from "../../stores/hooks";
+import { userRoles, UserState } from "../../types/user";
 
 function Main() {
-  const dispatch = useAppDispatch()
-  const user = useAppSelector(selectUser)
+  const { user } = useAppSelector((state: { user: UserState; }) => state.user)
 
-  useEffect(() => {
-    dispatch(loadUser());
-  }, []);
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Transaction List</h2>

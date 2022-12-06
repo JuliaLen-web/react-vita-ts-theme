@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import fakerData from "../../utils/faker";
 import Button from "../../base-components/Button";
 import Pagination from "../../base-components/Pagination";
@@ -8,11 +8,12 @@ import Lucide from "../../base-components/Lucide";
 import { Dialog, Popover } from "../../base-components/Headless";
 import Table from "../../base-components/Table";
 import OrderItem from "../../components/OrderItem";
-import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { loadUser, selectUser, userRoles } from "../../stores/userSlice";
-import { selectMenuByRole } from "../../stores/sideMenuSlice";
+import { useAppSelector } from "../../stores/hooks";
+import { userRoles, UserState } from "../../types/user";
 
 function Main() {
+  const { user } = useAppSelector((state: { user: UserState; }) => state.user)
+
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const deleteButtonRef = useRef(null);
 
@@ -20,8 +21,6 @@ function Main() {
   const editButtonRef = useRef(null);
 
   const [previewInfoModal, setPreviewInfoModal] = useState(false);
-
-  const user = useAppSelector(selectUser)
 
   return (
     <>

@@ -1,34 +1,35 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { RootState } from "./store";
+import { createSlice } from "@reduxjs/toolkit";
+import { UserState } from "../types/user";
+import { fetchUsers } from "./action-creators/user";
 
-export interface User {
-    name?: string;
-    role?: userRoles;
+const initialState: UserState = {
+    user: {},
+    loading: false,
+    error: null
 }
-
-export enum userRoles {
-    Admin = "admin",
-    Manager = "manager",
-    Seller = "seller",
-    Customer = "customer",
-}
-
-const initialState: User = {}
 
 export const userSlice = createSlice({
-    name: "userInfo",
+    name: "userSlice",
     initialState,
     reducers: {
-        loadUser: (state) => {
-            state.name = 'Bruce Willis';
-            state.role = userRoles.Admin;
-        },
     },
+    extraReducers(builder) {
+        builder
+            .addCase(fetchUsers.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(fetchUsers.fulfilled, (state, action) => {
+                state.loading = false;
+                state.user = action.payload;
+                
+            })
+            .addCase(fetchUsers.rejected, (state, action) => {
+                state.loading = false;
+                state.error = 'Error, user is not found';
+            })
+    }
 });
 
-export const { loadUser } = userSlice.actions;
-
-export const selectUser = (state: RootState) => state.user;
 
 export default userSlice.reducer;
 

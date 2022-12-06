@@ -6,14 +6,13 @@ import Lucide from "../../base-components/Lucide";
 import { Menu, Tab } from "../../base-components/Headless";
 import { Tab as HeadlessTab } from "@headlessui/react";
 import OrderItem from "../../components/OrderItem";
-import { selectUser, userRoles } from "../../stores/userSlice";
 import { useAppSelector } from "../../stores/hooks";
 import Table from "../../base-components/Table";
 import ProductItem from "../../components/ProductItem";
+import { userRoles, UserState } from "../../types/user";
 
 function Main() {
-
-  const user = useAppSelector(selectUser)
+  const { user } = useAppSelector((state: { user: UserState; }) => state.user)
 
   return (
     <>

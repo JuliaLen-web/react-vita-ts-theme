@@ -7,6 +7,12 @@ interface Users {
   email: string;
 }
 
+interface AuthUser {
+  id: number;
+  name: string;
+  role: string;
+}
+
 interface Products {
   name: string;
   category: string;
@@ -55,6 +61,19 @@ const fakers = {
         name: user.name,
         gender: user.gender,
         email: _.toLower(_.replace(user.name, / /g, "") + "@left4code.com"),
+      };
+    });
+  },
+  fakeAuthUser() {
+    const authUser: Array<Omit<AuthUser, "email">> = [
+      { id: 9, name: "Bruce Willis", role: "seller" },
+    ];
+
+    return _.sampleSize(authUser, 3).map((user) => {
+      return {
+        id: user.id,
+        name: user.name,
+        role: user.role,
       };
     });
   },
@@ -324,6 +343,7 @@ const fakers = {
 
 const fakerData: Array<{
   users: Users[];
+  authUser: AuthUser[];
   photos: string[];
   images: string[];
   dates: string[];
@@ -345,6 +365,7 @@ const fakerData: Array<{
 for (let i = 0; i < 50; i++) {
   fakerData[fakerData.length] = {
     users: fakers.fakeUsers(),
+    authUser: fakers.fakeAuthUser(),
     photos: fakers.fakePhotos(),
     images: fakers.fakeImages(),
     dates: fakers.fakeDates(),

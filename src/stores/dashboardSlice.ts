@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { icons } from "../base-components/Lucide";
+import { userRoles } from "../types/user";
 import { RootState } from "./store";
-import { userRoles } from "./userSlice";
 
 export interface DashboardItem {
     title: string;

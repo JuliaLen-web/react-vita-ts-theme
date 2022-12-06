@@ -8,7 +8,6 @@ import _ from "lodash";
 import clsx from "clsx";
 import { Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import { selectUser } from "../../stores/userSlice";
 import { useAppSelector } from "../../stores/hooks";
 
 function Main() {
@@ -18,9 +17,9 @@ function Main() {
   };
   const hideSearchDropdown = () => {
     setSearchDropdown(false);
-  };
-
-  const user = useAppSelector(selectUser)
+  }; 
+  
+  const { user, error, loading } = useAppSelector(state => state.user)
 
   return (
     <>

@@ -1,7 +1,7 @@
 import { createSelector, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { icons } from "../base-components/Lucide";
-import { userRoles } from "./userSlice";
+import { userRoles } from "../types/user";
 
 export interface Menu {
   icon: keyof typeof icons;

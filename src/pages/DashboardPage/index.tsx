@@ -4,15 +4,15 @@ import fakerData from "../../utils/faker";
 import Lucide from "../../base-components/Lucide";
 import Tippy from "../../base-components/Tippy";
 import { Link } from "react-router-dom";
-import { userRoles, selectUser, loadUser } from "../../stores/userSlice";
-import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import { useAppSelector } from "../../stores/hooks";
 import { selectDashboard } from "../../stores/dashboardSlice";
+import { userRoles, UserState } from "../../types/user";
 
 const contentWithSidebar = 'col-span-12 2xl:col-span-9'
 const contentWithoutSidebar = 'col-span-12 2xl:col-span-12'
 
 function Main() {
-  const user = useAppSelector(selectUser)
+  const { user } = useAppSelector((state: { user: UserState; }) => state.user)
   const dashboardItemsByRole = useAppSelector(selectDashboard)
 
   return (

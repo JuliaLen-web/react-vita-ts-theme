@@ -12,15 +12,18 @@ import MobileMenu from "../../components/MobileMenu";
 import DarkModeSwitcher from "../../components/DarkModeSwitcher";
 import MainColorSwitcher from "../../components/MainColorSwitcher";
 import SideMenuTooltip from "../../components/SideMenuTooltip";
-import { loadUser, selectUser } from "../../stores/userSlice";
-import { Loader } from "lucide-react";
+import { fetchUsers } from "../../stores/action-creators/user";
+import { UserState } from "../../types/user";
+import LoadingIcon from "../../base-components/LoadingIcon";
 
 function Main() {
-  const dispatch = useAppDispatch()
-  const user = useAppSelector(selectUser)
+  const { user, loading } = useAppSelector((state: { user: UserState; }) => state.user)
 
+  const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatch(loadUser());
+    setTimeout(() => {
+      dispatch(fetchUsers());
+    }, 5000);  //for imitation loading
   }, [dispatch]);
 
   const location = useLocation();
@@ -35,8 +38,14 @@ function Main() {
     if (!user.role) return
     setFormattedMenu(sideMenu(userMenu));
   }, [user.role, location.pathname]);
-  
-  if(!user.role) return <Loader />
+
+  if (loading || user.role) { //for imitation loading, condition user.role will be delated
+    return (
+      <h1 className="text-4xl flex items-center justify-center font-medium text-center text-white intro-y">
+        <LoadingIcon icon="hearts" className="w-20 h-20 mr-3" color={'#fff'}/>Loading...
+      </h1>
+    )
+  }
 
   return (
     <div className="py-2">

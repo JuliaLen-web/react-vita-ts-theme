@@ -8,11 +8,13 @@ import Lucide from "../../base-components/Lucide";
 import { Dialog, Popover } from "../../base-components/Headless";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../stores/hooks";
-import { selectUser, userRoles } from "../../stores/userSlice";
 import ProductItem from "../../components/ProductItem";
 import { Product, selectProducts } from "../../stores/productSlice";
+import { userRoles, UserState } from "../../types/user";
 
 function Main() {
+  const { user } = useAppSelector((state: { user: UserState; }) => state.user)
+
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const deleteButtonRef = useRef(null);
 
@@ -21,7 +23,6 @@ function Main() {
 
   const [previewInfoModal, setPreviewInfoModal] = useState(false);
 
-  const user = useAppSelector(selectUser)
   const productsSlice: Product[] = useAppSelector(selectProducts)
 
   const [products, setProducts] = useState([...productsSlice]);
