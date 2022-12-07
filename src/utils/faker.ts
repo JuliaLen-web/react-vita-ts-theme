@@ -1,6 +1,6 @@
 import _ from "lodash";
 import dayjs from "dayjs";
-import { User, userRoles } from "../types/user";
+import { User } from "../types/user";
 
 interface Users {
   name: string;
@@ -56,19 +56,6 @@ const fakers = {
         name: user.name,
         gender: user.gender,
         email: _.toLower(_.replace(user.name, / /g, "") + "@left4code.com"),
-      };
-    });
-  },
-  fakeUser() {
-    const user: Array<Omit<User, "email">> = [
-      { id: 9, name: "Bruce Willis", role: userRoles.Seller },
-    ];
-
-    return _.sampleSize(user, 3).map((userInfo) => {
-      return {
-        id: userInfo.id,
-        name: userInfo.name,
-        role: userInfo.role,
       };
     });
   },
@@ -338,7 +325,6 @@ const fakers = {
 
 const fakerData: Array<{
   users: Users[];
-  user: User[];
   photos: string[];
   images: string[];
   dates: string[];
@@ -360,7 +346,6 @@ const fakerData: Array<{
 for (let i = 0; i < 50; i++) {
   fakerData[fakerData.length] = {
     users: fakers.fakeUsers(),
-    user: fakers.fakeUser(),
     photos: fakers.fakePhotos(),
     images: fakers.fakeImages(),
     dates: fakers.fakeDates(),
