@@ -7,6 +7,7 @@ const productsObj: Products = []
 
 fakerData.slice(0, 20).map((faker, fakerKey) => {
     productsObj.push({
+        id: fakerKey + 1,
         name: faker.products[0].name,
         seller: faker.users[0].name,
         price: Math.ceil(Math.random() * 1000),
@@ -16,7 +17,6 @@ fakerData.slice(0, 20).map((faker, fakerKey) => {
         category: faker.products[0].category,
         description: faker.products[1].name + faker.users[1].name + 'bla',
         featured: faker.trueFalse[0],
-        id: fakerKey + 1,
     })
 })
 
@@ -25,6 +25,17 @@ export const fetchProducts = createAsyncThunk(
     async (): Promise<Products> => {
         return new Promise((resolve) => {
             setTimeout(() => resolve(productsObj), 1000);
+        });
+    }
+)
+
+export const deleteProduct = createAsyncThunk(
+    'products/deleteProduct',
+    async (productId): Promise<Products> => {
+        console.log(productsObj);
+        console.log(productsObj.filter(el => el.id != productId));
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(productsObj.filter(el => el.id != productId)), 1000);
         });
     }
 )

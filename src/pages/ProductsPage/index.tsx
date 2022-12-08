@@ -11,8 +11,8 @@ import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import ProductItem from "../../components/ProductItem";
 // import { Product, selectProducts } from "../../stores/productSlice";
 import { userRoles, UserState } from "../../types/user";
-import { Products, ProductState } from "../../types/product";
-import { fetchProducts } from "../../stores/action-creators/product";
+import { Product, ProductState } from "../../types/product";
+import { deleteProduct, fetchProducts } from "../../stores/action-creators/product";
 
 function Main() {
   const { user } = useAppSelector((state: { user: UserState; }) => state.user)
@@ -25,7 +25,7 @@ function Main() {
   }, [dispatch]);
 
   const [productsState, setProductsState] = useState([...products]);
-  
+
   function productsByRole() {
     switch (user.role) {
       case userRoles.Manager:
@@ -47,12 +47,10 @@ function Main() {
   const categories = [...new Set(productsState.map(product => product.category))]
 
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
-  const deleteButtonRef = useRef(null);
-
   const [editProductModal, setEditProductModal] = useState(false);
-  const editButtonRef = useRef(null);
-
   const [previewInfoModal, setPreviewInfoModal] = useState(false);
+
+  const [selectProduct, setSelectProduct] = useState();
 
   return (
     <>
@@ -188,6 +186,7 @@ function Main() {
             setPreviewInfoModal={setPreviewInfoModal}
             setEditProductModal={setEditProductModal}
             setDeleteConfirmationModal={setDeleteConfirmationModal}
+            setSelectProduct={setSelectProduct}
           />
         )}
 
@@ -232,68 +231,71 @@ function Main() {
         <Dialog.Panel>
           <div className="p-5">
             <div className="mt-5 text-3xl">Information about this product</div>
-            <div className="mt-5">
-              <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
-                <img
-                  alt="Midone - HTML Admin Template"
-                  className="rounded-md"
-                  src={fakerData[0].images[0]}
-                />
-                {fakerData[0].trueFalse[0] && (
-                  <span className="absolute top-0 z-10 px-2 py-1 m-5 text-xs text-white rounded bg-pending/80">
-                    Featured
-                  </span>
-                )}
-                <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
-                  <a href="" className="block text-base font-medium">
-                    {fakerData[0].products[0].name}
-                  </a>
-                  <span className="mt-3 text-xs text-white/90">
-                    {fakerData[0].products[0].category}
-                  </span>
+            {selectProduct &&
+              <div className="mt-5">
+                <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
+                  <img
+                    alt="Midone - HTML Admin Template"
+                    className="rounded-md"
+                    src={selectProduct.image}
+                  />
+                  {selectProduct.featured && (
+                    <span className="absolute top-0 z-10 px-2 py-1 m-5 text-xs text-white rounded bg-pending/80">
+                      Featured
+                    </span>
+                  )}
+                  <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
+                    <a href="" className="block text-base font-medium">
+                      {selectProduct.name}
+                    </a>
+                    <span className="mt-3 text-xs text-white/90">
+                      {selectProduct.category}
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-5 text-slate-600 dark:text-slate-500">
+                  <div className="flex items-center">
+                    <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
+                    {selectProduct.price}
+                  </div>
+                  <div className="flex items-center mt-2">
+                    <Lucide icon="Layers" className="w-4 h-4 mr-2" />
+                    {selectProduct.stock ? 'In Stock' : 'Out of stock'}
+                  </div>
+                  {(user.role === userRoles.Admin || user.role === userRoles.Seller) &&
+                    <div className="flex items-center mt-2">
+                      <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
+                      Status:
+                      {" " + selectProduct.status}
+                    </div>
+                  }
+                  {user.role === userRoles.Admin &&
+                    <div className="flex items-center mt-2">
+                      <Lucide icon="Truck" className="w-4 h-4 mr-2" />{" "}
+                      Seller:
+                      {" " + selectProduct.seller}
+                    </div>
+                  }
+                  <div className="flex mt-2">
+                    <Lucide icon="MessageSquare" className="w-4 h-4 mr-2 mt-1" />{" "}
+                    Description: You may want to consider destructuring the action creators and exporting them individually, for ease of searching for references in a larger codebase.
+                  </div>
+                  {user.role === userRoles.Customer &&
+                    <div
+                      className="text-center mt-4">
+                      <Button
+                        type="button"
+                        variant="primary"
+                        className="w-full"
+                      >
+                        Buy
+                      </Button>
+                    </div>
+                  }
                 </div>
               </div>
-              <div className="mt-5 text-slate-600 dark:text-slate-500">
-                <div className="flex items-center">
-                  <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                  {fakerData[0].totals[0]}
-                </div>
-                <div className="flex items-center mt-2">
-                  <Lucide icon="Layers" className="w-4 h-4 mr-2" />
-                  {fakerData[0].statusStock[0]}
-                </div>
-                {(user.role === userRoles.Admin || user.role === userRoles.Seller) &&
-                  <div className="flex items-center mt-2">
-                    <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                    Status:
-                    {" " + fakerData[0].statusProduct[0]}
-                  </div>
-                }
-                {user.role === userRoles.Admin &&
-                  <div className="flex items-center mt-2">
-                    <Lucide icon="Truck" className="w-4 h-4 mr-2" />{" "}
-                    Seller:
-                    {" " + fakerData[0].users[0].name}
-                  </div>
-                }
-                <div className="flex mt-2">
-                  <Lucide icon="MessageSquare" className="w-4 h-4 mr-2 mt-1" />{" "}
-                  Description: You may want to consider destructuring the action creators and exporting them individually, for ease of searching for references in a larger codebase.
-                </div>
-                {user.role === userRoles.Customer &&
-                  <div
-                    className="text-center mt-4">
-                    <Button
-                      type="button"
-                      variant="primary"
-                      className="w-full"
-                    >
-                      Buy
-                    </Button>
-                  </div>
-                }
-              </div>
-            </div>
+            }
+
           </div>
           <div className="px-5 pb-8 text-center">
             <Button
@@ -327,7 +329,6 @@ function Main() {
         onClose={() => {
           setEditProductModal(false);
         }}
-        initialFocus={editButtonRef}
       >
         <Dialog.Panel>
           <div className="p-5 text-center">
@@ -356,7 +357,6 @@ function Main() {
               variant="danger"
               type="button"
               className="w-24"
-              ref={editButtonRef}
             >
               Edit
             </Button>
@@ -365,14 +365,12 @@ function Main() {
       </Dialog>
       {/* END: Edit Product Modal */}
 
-
       {/* BEGIN: Delete Confirmation Modal */}
       <Dialog
         open={deleteConfirmationModal}
         onClose={() => {
           setDeleteConfirmationModal(false);
         }}
-        initialFocus={deleteButtonRef}
       >
         <Dialog.Panel>
           <div className="p-5 text-center">
@@ -391,7 +389,7 @@ function Main() {
               variant="outline-secondary"
               type="button"
               onClick={() => {
-                setDeleteConfirmationModal(false);
+                setDeleteConfirmationModal(false)
               }}
               className="w-24 mr-1"
             >
@@ -401,7 +399,10 @@ function Main() {
               variant="danger"
               type="button"
               className="w-24"
-              ref={deleteButtonRef}
+              onClick={() => {
+                setDeleteConfirmationModal(false)
+                dispatch(deleteProduct(selectProduct.id))
+              }}
             >
               Delete
             </Button>

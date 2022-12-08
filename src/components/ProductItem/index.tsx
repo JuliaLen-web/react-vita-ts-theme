@@ -1,5 +1,7 @@
 import Button from "../../base-components/Button";
 import Lucide from "../../base-components/Lucide";
+import { deleteProduct } from "../../stores/action-creators/product";
+import { useAppDispatch } from "../../stores/hooks";
 
 function ProductItem({ ...props }) {
     return (
@@ -14,7 +16,7 @@ function ProductItem({ ...props }) {
                             className="rounded-md"
                             src={props.product.image}
                         />
-                        {props.product.fearured && (
+                        {props.product.featured && (
                             <span className="absolute top-0 z-10 px-2 py-1 m-5 text-xs text-white rounded bg-pending/80">
                                 Featured
                             </span>
@@ -38,18 +40,18 @@ function ProductItem({ ...props }) {
                             {props.product.stock ? 'In Stock' : 'Out of stock'}
                         </div>
                         {/* {(props.user.role === props.userRoles.Admin || props.user.role === props.userRoles.Seller) && */}
-                            <div className="flex items-center mt-2">
-                                <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                                Status:
-                                {" " + props.product.status}
-                            </div>
+                        <div className="flex items-center mt-2">
+                            <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
+                            Status:
+                            {" " + props.product.status}
+                        </div>
                         {/* } */}
                         {/* {props.user.role === props.userRoles.Admin && */}
-                            <div className="flex items-center mt-2">
-                                <Lucide icon="Truck" className="w-4 h-4 mr-2 w-full" />{" "}
-                                Seller:
-                                {" " + props.product.seller}
-                            </div>
+                        <div className="flex items-center mt-2">
+                            <Lucide icon="Truck" className="w-4 h-4 mr-2 w-full" />{" "}
+                            Seller:
+                            {" " + props.product.seller}
+                        </div>
                         {/* } */}
                     </div>
                     {props.user.role === props.userRoles.Customer &&
@@ -73,6 +75,7 @@ function ProductItem({ ...props }) {
                         onClick={(event) => {
                             event.preventDefault();
                             props.setPreviewInfoModal(true);
+                            props.setSelectProduct(props.product)
                         }}
                     >
                         <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
@@ -84,6 +87,7 @@ function ProductItem({ ...props }) {
                             onClick={(event) => {
                                 event.preventDefault();
                                 props.setEditProductModal(true);
+                                props.setSelectProduct(props.product)
                             }}
                         >
                             <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" /> Edit
@@ -96,6 +100,7 @@ function ProductItem({ ...props }) {
                             onClick={(event) => {
                                 event.preventDefault();
                                 props.setDeleteConfirmationModal(true);
+                                props.setSelectProduct(props.product)
                             }}
                         >
                             <Lucide icon="Trash2" className="w-4 h-4 mr-1" /> Delete
