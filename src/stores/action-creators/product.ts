@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import _ from "lodash";
 import { Products } from "../../types/product";
 import fakerData from "../../utils/faker"
+import { RootState } from "../store";
 
 const productsArray: Products = []
 
@@ -31,9 +32,10 @@ export const fetchProducts = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
     'products/deleteProduct',
-    async (productId: number): Promise<Products> => {
-        const newProductsArray = productsArray.filter(el => el.id != productId)
-        console.log(newProductsArray);
+    async (productId: number, { getState }): Promise<Products> => {
+        const { products } = getState() as RootState
+        const productsState = products.products
+        const newProductsArray = productsState.filter(el => el.id != productId)
         return new Promise((resolve) => {
             setTimeout(() => resolve(newProductsArray), 1000);
         });

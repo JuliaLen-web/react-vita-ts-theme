@@ -22,37 +22,17 @@ function Main() {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const [productsState, setProductsState] = useState([...products]);
-
-  function productsByRole() {
-    switch (user.role) {
-      case userRoles.Manager:
-        return setProductsState(productsState => productsState.filter(product => product.status === "approved"))
-      case userRoles.Seller:
-        return setProductsState(productsState => productsState.filter(product => product.seller === user.name))
-      case userRoles.Customer:
-        return setProductsState(productsState => productsState.filter(product => product.status === "approved" && product.stock))
-      default:
-        return setProductsState(productsState => productsState)
-    }
-  }
-
-  useEffect(() => {
-    productsByRole()
-  }, [user.role, products])
-
   const sellers = [...new Set(products.map(product => product.seller))]
-  const categories = [...new Set(productsState.map(product => product.category))]
+  const categories = [...new Set(products.map(product => product.category))]
 
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const [editProductModal, setEditProductModal] = useState(false);
   const [previewInfoModal, setPreviewInfoModal] = useState(false);
 
   const [selectProductId, setSelectProductId] = useState(0)
-  const productForModal = productsState.filter(el => el.id === selectProductId)[0]
+  const productForModal = products.filter(el => el.id === selectProductId)[0]
 
   function handleActionProductId(id: number) {
-    console.log(id)
     setSelectProductId(id)
   }
 
@@ -181,7 +161,7 @@ function Main() {
         </div>
         {/* filters block */}
 
-        {productsState.map(product =>
+        {products.map(product =>
           <ProductItem
             product={product}
             key={product.id}
