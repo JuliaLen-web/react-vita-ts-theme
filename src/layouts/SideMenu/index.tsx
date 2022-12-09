@@ -13,11 +13,12 @@ import DarkModeSwitcher from "../../components/DarkModeSwitcher";
 import MainColorSwitcher from "../../components/MainColorSwitcher";
 import SideMenuTooltip from "../../components/SideMenuTooltip";
 import { fetchUserInfo } from "../../stores/action-creators/user";
-import { UserState } from "../../types/user";
 import LoadingIcon from "../../base-components/LoadingIcon";
+import { loadingUser, selectUser } from "../../stores/userSlice";
 
 function Main() {
-  const { user, loading } = useAppSelector((state: { user: UserState; }) => state.user)
+  const user = useAppSelector(selectUser)
+  const loading = useAppSelector(loadingUser)
 
   const dispatch = useAppDispatch()
   useEffect(() => {

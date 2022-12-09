@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductState } from "../types/product";
 import { deleteProduct, fetchProducts } from "./action-creators/product";
+import { RootState } from "./store";
 
 const initialState: ProductState = {
     products: [],
@@ -30,5 +31,7 @@ export const productsSlice = createSlice({
             })
     }
 });
+
+export const selectProducts = (state: RootState) => state.products.products;
 
 export default productsSlice.reducer;

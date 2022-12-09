@@ -1,7 +1,5 @@
 import Button from "../../base-components/Button";
 import Lucide from "../../base-components/Lucide";
-import { deleteProduct } from "../../stores/action-creators/product";
-import { useAppDispatch } from "../../stores/hooks";
 
 function ProductItem({ ...props }) {
     return (
@@ -75,7 +73,7 @@ function ProductItem({ ...props }) {
                         onClick={(event) => {
                             event.preventDefault();
                             props.setPreviewInfoModal(true);
-                            props.setSelectProduct(props.product)
+                            props.handleActionProductId(props.product.id)
                         }}
                     >
                         <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
@@ -87,7 +85,7 @@ function ProductItem({ ...props }) {
                             onClick={(event) => {
                                 event.preventDefault();
                                 props.setEditProductModal(true);
-                                props.setSelectProduct(props.product)
+                                props.handleActionProductId(props.product.id)
                             }}
                         >
                             <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" /> Edit
@@ -100,7 +98,7 @@ function ProductItem({ ...props }) {
                             onClick={(event) => {
                                 event.preventDefault();
                                 props.setDeleteConfirmationModal(true);
-                                props.setSelectProduct(props.product)
+                                props.handleActionProductId(props.product.id)
                             }}
                         >
                             <Lucide icon="Trash2" className="w-4 h-4 mr-1" /> Delete

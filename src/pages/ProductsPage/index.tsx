@@ -1,6 +1,5 @@
 import _ from "lodash";
-import { useState, useRef, useEffect } from "react";
-import fakerData from "../../utils/faker";
+import { useState, useEffect } from "react";
 import Button from "../../base-components/Button";
 // import Pagination from "../../base-components/Pagination";
 import { FormInput, FormSwitch } from "../../base-components/Form";
@@ -9,17 +8,16 @@ import { Dialog, Popover } from "../../base-components/Headless";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import ProductItem from "../../components/ProductItem";
-// import { Product, selectProducts } from "../../stores/productSlice";
-import { userRoles, UserState } from "../../types/user";
-import { Product, ProductState } from "../../types/product";
+import { userRoles } from "../../types/user";
 import { deleteProduct, fetchProducts } from "../../stores/action-creators/product";
+import { selectUser } from "../../stores/userSlice";
+import { selectProducts } from "../../stores/productSlice";
 
 function Main() {
-  const { user } = useAppSelector((state: { user: UserState; }) => state.user)
-  const { products } = useAppSelector((state: { products: ProductState; }) => state.products)
+  const user = useAppSelector(selectUser)
+  const products = useAppSelector(selectProducts)
 
   const dispatch = useAppDispatch()
-
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
@@ -41,7 +39,7 @@ function Main() {
 
   useEffect(() => {
     productsByRole()
-  }, [user.role])
+  }, [user.role, products])
 
   const sellers = [...new Set(products.map(product => product.seller))]
   const categories = [...new Set(productsState.map(product => product.category))]
@@ -50,7 +48,13 @@ function Main() {
   const [editProductModal, setEditProductModal] = useState(false);
   const [previewInfoModal, setPreviewInfoModal] = useState(false);
 
-  const [selectProduct, setSelectProduct] = useState();
+  const [selectProductId, setSelectProductId] = useState(0)
+  const productForModal = productsState.filter(el => el.id === selectProductId)[0]
+
+  function handleActionProductId(id: number) {
+    console.log(id)
+    setSelectProductId(id)
+  }
 
   return (
     <>
@@ -186,7 +190,7 @@ function Main() {
             setPreviewInfoModal={setPreviewInfoModal}
             setEditProductModal={setEditProductModal}
             setDeleteConfirmationModal={setDeleteConfirmationModal}
-            setSelectProduct={setSelectProduct}
+            handleActionProductId={handleActionProductId}
           />
         )}
 
@@ -231,49 +235,49 @@ function Main() {
         <Dialog.Panel>
           <div className="p-5">
             <div className="mt-5 text-3xl">Information about this product</div>
-            {selectProduct &&
+            {productForModal &&
               <div className="mt-5">
                 <div className="h-40 overflow-hidden rounded-md 2xl:h-56 image-fit before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
                   <img
                     alt="Midone - HTML Admin Template"
                     className="rounded-md"
-                    src={selectProduct.image}
+                    src={productForModal.image}
                   />
-                  {selectProduct.featured && (
+                  {productForModal.featured && (
                     <span className="absolute top-0 z-10 px-2 py-1 m-5 text-xs text-white rounded bg-pending/80">
                       Featured
                     </span>
                   )}
                   <div className="absolute bottom-0 z-10 px-5 pb-6 text-white">
                     <a href="" className="block text-base font-medium">
-                      {selectProduct.name}
+                      {productForModal.name}
                     </a>
                     <span className="mt-3 text-xs text-white/90">
-                      {selectProduct.category}
+                      {productForModal.category}
                     </span>
                   </div>
                 </div>
                 <div className="mt-5 text-slate-600 dark:text-slate-500">
                   <div className="flex items-center">
                     <Lucide icon="Link" className="w-4 h-4 mr-2" /> Price: $
-                    {selectProduct.price}
+                    {productForModal.price}
                   </div>
                   <div className="flex items-center mt-2">
                     <Lucide icon="Layers" className="w-4 h-4 mr-2" />
-                    {selectProduct.stock ? 'In Stock' : 'Out of stock'}
+                    {productForModal.stock ? 'In Stock' : 'Out of stock'}
                   </div>
                   {(user.role === userRoles.Admin || user.role === userRoles.Seller) &&
                     <div className="flex items-center mt-2">
                       <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
                       Status:
-                      {" " + selectProduct.status}
+                      {" " + productForModal.status}
                     </div>
                   }
                   {user.role === userRoles.Admin &&
                     <div className="flex items-center mt-2">
                       <Lucide icon="Truck" className="w-4 h-4 mr-2" />{" "}
                       Seller:
-                      {" " + selectProduct.seller}
+                      {" " + productForModal.seller}
                     </div>
                   }
                   <div className="flex mt-2">
@@ -401,7 +405,7 @@ function Main() {
               className="w-24"
               onClick={() => {
                 setDeleteConfirmationModal(false)
-                dispatch(deleteProduct(selectProduct.id))
+                dispatch(deleteProduct(selectProductId))
               }}
             >
               Delete

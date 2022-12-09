@@ -9,10 +9,11 @@ import { Dialog, Popover } from "../../base-components/Headless";
 import Table from "../../base-components/Table";
 import OrderItem from "../../components/OrderItem";
 import { useAppSelector } from "../../stores/hooks";
-import { userRoles, UserState } from "../../types/user";
+import { userRoles } from "../../types/user";
+import { selectUser } from "../../stores/userSlice";
 
 function Main() {
-  const { user } = useAppSelector((state: { user: UserState; }) => state.user)
+  const user = useAppSelector(selectUser)
 
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const deleteButtonRef = useRef(null);

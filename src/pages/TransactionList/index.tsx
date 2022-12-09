@@ -8,10 +8,11 @@ import { Popover } from "../../base-components/Headless";
 import Table from "../../base-components/Table";
 import TransactionItem from "../../components/TransactionItem";
 import { useAppSelector } from "../../stores/hooks";
-import { userRoles, UserState } from "../../types/user";
+import { userRoles } from "../../types/user";
+import { selectUser } from "../../stores/userSlice";
 
 function Main() {
-  const { user } = useAppSelector((state: { user: UserState; }) => state.user)
+  const user = useAppSelector(selectUser)
 
   return (
     <>

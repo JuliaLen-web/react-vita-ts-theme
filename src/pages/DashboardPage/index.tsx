@@ -6,13 +6,14 @@ import Tippy from "../../base-components/Tippy";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../stores/hooks";
 import { selectDashboard } from "../../stores/dashboardSlice";
-import { userRoles, UserState } from "../../types/user";
+import { userRoles } from "../../types/user";
+import { selectUser } from "../../stores/userSlice";
 
 const contentWithSidebar = 'col-span-12 2xl:col-span-9'
 const contentWithoutSidebar = 'col-span-12 2xl:col-span-12'
 
 function Main() {
-  const { user } = useAppSelector((state: { user: UserState; }) => state.user)
+  const user = useAppSelector(selectUser)
   const dashboardItemsByRole = useAppSelector(selectDashboard)
 
   return (

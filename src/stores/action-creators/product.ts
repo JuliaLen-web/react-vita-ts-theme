@@ -3,10 +3,10 @@ import _ from "lodash";
 import { Products } from "../../types/product";
 import fakerData from "../../utils/faker"
 
-const productsObj: Products = []
+const productsArray: Products = []
 
 fakerData.slice(0, 20).map((faker, fakerKey) => {
-    productsObj.push({
+    productsArray.push({
         id: fakerKey + 1,
         name: faker.products[0].name,
         seller: faker.users[0].name,
@@ -24,18 +24,18 @@ export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
     async (): Promise<Products> => {
         return new Promise((resolve) => {
-            setTimeout(() => resolve(productsObj), 1000);
+            setTimeout(() => resolve(productsArray), 1000);
         });
     }
 )
 
 export const deleteProduct = createAsyncThunk(
     'products/deleteProduct',
-    async (productId): Promise<Products> => {
-        console.log(productsObj);
-        console.log(productsObj.filter(el => el.id != productId));
+    async (productId: number): Promise<Products> => {
+        const newProductsArray = productsArray.filter(el => el.id != productId)
+        console.log(newProductsArray);
         return new Promise((resolve) => {
-            setTimeout(() => resolve(productsObj.filter(el => el.id != productId)), 1000);
+            setTimeout(() => resolve(newProductsArray), 1000);
         });
     }
 )

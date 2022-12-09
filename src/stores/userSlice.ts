@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserState } from "../types/user";
 import { fetchUserInfo } from "./action-creators/user";
+import { RootState } from "./store";
 
 const initialState: UserState = {
     user: {
@@ -30,6 +31,8 @@ export const userSlice = createSlice({
     }
 });
 
+export const selectUser = (state: RootState) => state.user.user;
+export const loadingUser = (state: RootState) => state.user.loading;
 
 export default userSlice.reducer;
 
