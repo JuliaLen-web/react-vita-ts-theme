@@ -32,7 +32,7 @@ export const userSlice = createSlice({
 });
 
 export const selectUser = (state: RootState) => state.user.user;
-export const loadingUser = (state: RootState) => state.user.loading;
+export const selectUserLoading = (state: RootState) => state.user.loading;
 
 export default userSlice.reducer;
 

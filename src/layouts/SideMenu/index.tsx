@@ -14,11 +14,11 @@ import MainColorSwitcher from "../../components/MainColorSwitcher";
 import SideMenuTooltip from "../../components/SideMenuTooltip";
 import { fetchUserInfo } from "../../stores/action-creators/user";
 import LoadingIcon from "../../base-components/LoadingIcon";
-import { loadingUser, selectUser } from "../../stores/userSlice";
+import { selectUserLoading, selectUser } from "../../stores/userSlice";
 
 function Main() {
   const user = useAppSelector(selectUser)
-  const loading = useAppSelector(loadingUser)
+  const loading = useAppSelector(selectUserLoading)
 
   const dispatch = useAppDispatch()
   useEffect(() => {
