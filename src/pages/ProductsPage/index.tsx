@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import Button from "../../base-components/Button";
 // import Pagination from "../../base-components/Pagination";
 import { FormInput, FormSwitch } from "../../base-components/Form";
@@ -14,7 +14,7 @@ import { selectUser } from "../../stores/userSlice";
 import { selectProducts } from "../../stores/productSlice";
 
 function Main() {
-  const user = useAppSelector(selectUser)
+  const { role } = useAppSelector(selectUser)
   const products = useAppSelector(selectProducts)
 
   const dispatch = useAppDispatch()
@@ -25,16 +25,29 @@ function Main() {
   const sellers = [...new Set(products.map(product => product.seller))]
   const categories = [...new Set(products.map(product => product.category))]
 
-  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
-  const [editProductModal, setEditProductModal] = useState(false);
-  const [previewInfoModal, setPreviewInfoModal] = useState(false);
-
   const [selectProductId, setSelectProductId] = useState(0)
-  const productForModal = products.filter(el => el.id === selectProductId)[0]
-
-  function handleActionProductId(id: number) {
+  function handleClickProductId(id: number) {
     setSelectProductId(id)
   }
+
+  const [deleteProductModal, setDeleteProductModal] = useState(false);
+  function handleDeleteProductModal(value: boolean) {
+    setDeleteProductModal(value)
+  }
+
+  const [editProductModal, setEditProductModal] = useState(false);
+  function handleEditProductModal(value: boolean) {
+    setEditProductModal(value)
+  }
+
+  const [previewProductModal, setPreviewProductModal] = useState(false);
+  function handlePreviewProductModal(value: boolean) {
+    setPreviewProductModal(value)
+  }
+  
+  const productForModal = products.filter(el => el.id === selectProductId)[0]
+
+  // const [productsFilter, setProductsFilter] = useState();
 
   return (
     <>
@@ -42,14 +55,14 @@ function Main() {
       <div className="grid grid-cols-12 gap-6 mt-5">
         {/* filters block */}
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-          {(user.role === userRoles.Admin || user.role === userRoles.Seller) &&
+          {(role === userRoles.Admin || role === userRoles.Seller) &&
             <Link to="/add-product">
               <Button variant="primary" className="mr-2 shadow-md">
                 Add New Product
               </Button>
             </Link>
           }
-          {user.role === userRoles.Admin &&
+          {role === userRoles.Admin &&
             <Link to="/categories">
               <Button variant="primary" className="mr-2 shadow-md">
                 Add\Edit Categories
@@ -65,7 +78,7 @@ function Main() {
             className="w-6 h-6 mr-2"
           />
 
-          {user.role === userRoles.Admin &&
+          {role === userRoles.Admin &&
             <div className="mr-2">
               <Popover className="inline-block">
                 <Popover.Button as={Button} variant="primary">
@@ -165,12 +178,11 @@ function Main() {
           <ProductItem
             product={product}
             key={product.id}
-            user={user}
-            userRoles={userRoles}
-            setPreviewInfoModal={setPreviewInfoModal}
-            setEditProductModal={setEditProductModal}
-            setDeleteConfirmationModal={setDeleteConfirmationModal}
-            handleActionProductId={handleActionProductId}
+            userRole={role}
+            handleClickProductId={handleClickProductId}
+            handlePreviewProductModal={handlePreviewProductModal}
+            handleEditProductModal={handleEditProductModal}
+            handleDeleteProductModal={handleDeleteProductModal}
           />
         )}
 
@@ -207,9 +219,9 @@ function Main() {
 
       {/* BEGIN: View additional info Modal */}
       <Dialog
-        open={previewInfoModal}
+        open={previewProductModal}
         onClose={() => {
-          setPreviewInfoModal(false);
+          handlePreviewProductModal(true)
         }}
       >
         <Dialog.Panel>
@@ -246,14 +258,14 @@ function Main() {
                     <Lucide icon="Layers" className="w-4 h-4 mr-2" />
                     {productForModal.stock ? 'In Stock' : 'Out of stock'}
                   </div>
-                  {(user.role === userRoles.Admin || user.role === userRoles.Seller) &&
+                  {(role === userRoles.Admin || role === userRoles.Seller) &&
                     <div className="flex items-center mt-2">
                       <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
                       Status:
                       {" " + productForModal.status}
                     </div>
                   }
-                  {user.role === userRoles.Admin &&
+                  {role === userRoles.Admin &&
                     <div className="flex items-center mt-2">
                       <Lucide icon="Truck" className="w-4 h-4 mr-2" />{" "}
                       Seller:
@@ -264,7 +276,7 @@ function Main() {
                     <Lucide icon="MessageSquare" className="w-4 h-4 mr-2 mt-1" />{" "}
                     Description: You may want to consider destructuring the action creators and exporting them individually, for ease of searching for references in a larger codebase.
                   </div>
-                  {user.role === userRoles.Customer &&
+                  {role === userRoles.Customer &&
                     <div
                       className="text-center mt-4">
                       <Button
@@ -283,21 +295,11 @@ function Main() {
           </div>
           <div className="px-5 pb-8 text-center">
             <Button
-              variant="outline-secondary"
-              type="button"
-              onClick={() => {
-                setPreviewInfoModal(false);
-              }}
-              className="w-24 mr-1"
-            >
-              Cancel
-            </Button>
-            <Button
               variant="danger"
               type="button"
               className="w-24"
               onClick={() => {
-                setPreviewInfoModal(false);
+                handlePreviewProductModal(false)
               }}
             >
               Close
@@ -311,7 +313,7 @@ function Main() {
       <Dialog
         open={editProductModal}
         onClose={() => {
-          setEditProductModal(false);
+          handleEditProductModal(false)
         }}
       >
         <Dialog.Panel>
@@ -331,14 +333,14 @@ function Main() {
               variant="outline-secondary"
               type="button"
               onClick={() => {
-                setEditProductModal(false);
+                handleEditProductModal(false)
               }}
               className="w-24 mr-1"
             >
               Cancel
             </Button>
             <Button
-              variant="danger"
+              variant="success"
               type="button"
               className="w-24"
             >
@@ -351,9 +353,9 @@ function Main() {
 
       {/* BEGIN: Delete Confirmation Modal */}
       <Dialog
-        open={deleteConfirmationModal}
+        open={deleteProductModal}
         onClose={() => {
-          setDeleteConfirmationModal(false);
+          handleDeleteProductModal(false)
         }}
       >
         <Dialog.Panel>
@@ -373,7 +375,7 @@ function Main() {
               variant="outline-secondary"
               type="button"
               onClick={() => {
-                setDeleteConfirmationModal(false)
+                handleDeleteProductModal(false)
               }}
               className="w-24 mr-1"
             >
@@ -384,7 +386,7 @@ function Main() {
               type="button"
               className="w-24"
               onClick={() => {
-                setDeleteConfirmationModal(false)
+                handleDeleteProductModal(false)
                 dispatch(deleteProduct(selectProductId))
               }}
             >
