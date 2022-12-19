@@ -22,12 +22,20 @@ export const productsSlice = createSlice({
                 state.loading = false;
                 state.products = action.payload;
             })
-            .addCase(deleteProduct.fulfilled, (state, action) => {
-                state.products = action.payload;
-            })
             .addCase(fetchProducts.rejected, (state, action) => {
                 state.loading = false;
                 state.error = 'Error, products are not found';
+            })
+            .addCase(deleteProduct.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(deleteProduct.fulfilled, (state, action) => {
+                state.loading = false;
+                state.products = action.payload;
+            })
+            .addCase(deleteProduct.rejected, (state, action) => {
+                state.loading = false;
+                state.error = 'Error, products was not be deleted';
             })
     }
 });
