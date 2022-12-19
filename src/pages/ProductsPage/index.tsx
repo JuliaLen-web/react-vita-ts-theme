@@ -319,59 +319,60 @@ function Main() {
         }}
       >
         <Dialog.Panel>
-          <div className="p-5 pb-10 xl:pb-5 text-center overflow-y-auto xl:overflow-hidden h-[500px] sl:h-auto">
-            <FormInline className="flex-col items-start xl:mt-8 xl:flex-row">
-              <FormLabel className="w-full xl:w-48 xl:!mr-10">
-                <div className="text-left">
-                  <div className="flex items-center">
-                    <div className="font-medium">Product Photos</div>
-                  </div>
-                  <div className="mt-3 text-xs leading-relaxed text-slate-500">
-                    <div>
-                      The image format is .jpg .jpeg .png and a minimum size
-                      of 300 x 300 pixels (For optimal images use a minimum
-                      size of 700 x 700 pixels).
+          {productForModal &&
+            <div className="p-5 pb-10 xl:pb-5 text-center overflow-y-auto xl:overflow-hidden h-[500px] xl:h-auto">
+              <FormInline className="flex-col items-start xl:mt-8 xl:flex-row">
+                <FormLabel className="w-full xl:w-48 xl:!mr-10">
+                  <div className="text-left">
+                    <div className="flex items-center">
+                      <div className="font-medium">Product Photos</div>
+                    </div>
+                    <div className="mt-3 text-xs leading-relaxed text-slate-500">
+                      <div>
+                        The image format is .jpg .jpeg .png and a minimum size
+                        of 300 x 300 pixels (For optimal images use a minimum
+                        size of 700 x 700 pixels).
+                      </div>
                     </div>
                   </div>
-                </div>
-              </FormLabel>
-              <div className="flex-1 w-full pt-4 mt-3 border-2 border-dashed rounded-md xl:mt-0 dark:border-darkmode-400">
-                <div className="grid grid-cols-10 gap-5 pl-4 pr-5">
-                  {_.take(fakerData, 5).map((faker, fakerKey) => (
-                    <div
-                      key={fakerKey}
-                      className="relative col-span-5 cursor-pointer col-span-2 md:h-20 h-14 image-fit zoom-in"
-                    >
-                      <img
-                        className="rounded-md"
-                        alt="Midone - HTML Admin Template"
-                        src={faker.photos[0]}
-                      />
-                      <Tippy
-                        content="Remove this image?"
-                        className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
+                </FormLabel>
+                <div className="flex-1 w-full pt-4 mt-3 border-2 border-dashed rounded-md xl:mt-0 dark:border-darkmode-400">
+                  <div className="grid grid-cols-10 gap-5 pl-4 pr-5">
+                    {_.take(fakerData, 5).map((faker, fakerKey) => (
+                      <div
+                        key={fakerKey}
+                        className="relative col-span-5 cursor-pointer col-span-2 md:h-20 h-14 image-fit zoom-in"
                       >
-                        <Lucide icon="X" className="w-4 h-4" />
-                      </Tippy>
-                    </div>
-                  ))}
+                        <img
+                          className="rounded-md"
+                          alt="Midone - HTML Admin Template"
+                          src={faker.photos[0]}
+                        />
+                        <Tippy
+                          content="Remove this image?"
+                          className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
+                        >
+                          <Lucide icon="X" className="w-4 h-4" />
+                        </Tippy>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="relative flex items-center justify-center px-4 pb-4 mt-5 cursor-pointer">
+                    <Lucide icon="Image" className="w-4 h-4 mr-2" />
+                    <span className="mr-1 text-primary">
+                      Upload a file
+                    </span>{" "}
+                    or drag and drop
+                    <FormInput
+                      id="horizontal-form-1"
+                      type="file"
+                      className="absolute top-0 left-0 w-full h-full opacity-0"
+                    />
+                  </div>
                 </div>
-                <div className="relative flex items-center justify-center px-4 pb-4 mt-5 cursor-pointer">
-                  <Lucide icon="Image" className="w-4 h-4 mr-2" />
-                  <span className="mr-1 text-primary">
-                    Upload a file
-                  </span>{" "}
-                  or drag and drop
-                  <FormInput
-                    id="horizontal-form-1"
-                    type="file"
-                    className="absolute top-0 left-0 w-full h-full opacity-0"
-                  />
-                </div>
-              </div>
-            </FormInline>
+              </FormInline>
 
-            <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
+              <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
                 <FormLabel className="xl:w-48 xl:!mr-10">
                   <div className="text-left">
                     <div className="flex items-center">
@@ -384,10 +385,12 @@ function Main() {
                     id="product-name"
                     type="text"
                     placeholder="Product name"
+                    value={productForModal.name}
+                    readOnly // delete after wrote onChange
                   />
                 </div>
-              
-            </FormInline>
+
+              </FormInline>
               <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
                 <FormLabel className="xl:w-48 xl:!mr-10">
                   <div className="text-left">
@@ -399,123 +402,141 @@ function Main() {
                 <div className="flex-1 w-full mt-3 xl:mt-0">
                   <FormSelect id="category">
                     {_.take(fakerData, 9).map((faker, fakerKey) => (
-                      <option key={fakerKey} value={faker.categories[0].name}>
+                      <option key={fakerKey} value={productForModal.category}>
                         {faker.categories[0].name}
                       </option>
                     ))}
                   </FormSelect>
                 </div>
-            </FormInline>
-
-
-            <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
-              <FormLabel className="xl:w-48 xl:!mr-10">
-                <div className="text-left">
-                  <div className="flex items-center">
-                    <div className="font-medium">Publication status</div>
-                  </div>
-                </div>
-              </FormLabel>
-              <div className="flex-1 w-full mt-3 xl:mt-0">
-                <div className="flex flex-col sm:flex-row">
-                  <FormCheck className="mr-4">
-                    <FormCheck.Input
-                      id="moderation"
-                      type="radio"
-                      name="status-publication"
-                    />
-                    <FormCheck.Label htmlFor="moderation">
-                      Moderation
-                    </FormCheck.Label>
-                  </FormCheck>
-                  <FormCheck className="mt-2 mr-4 sm:mt-0">
-                    <FormCheck.Input
-                      id="rejected"
-                      type="radio"
-                      name="status-publication"
-                    />
-                    <FormCheck.Label htmlFor="rejected">
-                      Rejected
-                    </FormCheck.Label>
-                  </FormCheck>
-                  <FormCheck className="mt-2 mr-4 sm:mt-0">
-                    <FormCheck.Input
-                      id="approved"
-                      type="radio"
-                      name="status-publication"
-                    />
-                    <FormCheck.Label htmlFor="approved">
-                      Approved
-                    </FormCheck.Label>
-                  </FormCheck>
-                </div>
-              </div>
-            </FormInline>
-            <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
-              <FormLabel className="xl:w-48 xl:!mr-10">
-                <div className="text-left">
-                  <div className="flex items-center">
-                    <div className="font-medium">Stock</div>
-                  </div>
-                </div>
-              </FormLabel>
-              <div className="flex-1 w-full mt-3 xl:mt-0">
-                <div className="flex flex-col sm:flex-row">
-                  <FormCheck className="mr-4">
-                    <FormCheck.Input
-                      id="in-stock"
-                      type="radio"
-                      name="status-stock"
-                    />
-                    <FormCheck.Label htmlFor="in-stock">
-                      In of stock
-                    </FormCheck.Label>
-                  </FormCheck>
-                  <FormCheck className="mt-2 mr-4 sm:mt-0">
-                    <FormCheck.Input
-                      id="out-stock"
-                      type="radio"
-                      name="status-stock"
-                    />
-                    <FormCheck.Label htmlFor="out-stock">
-                      Out of stock
-                    </FormCheck.Label>
-                  </FormCheck>
-                </div>
-              </div>
-            </FormInline>
-            <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
-              <FormLabel className="xl:w-48 xl:!mr-10">
-                <div className="text-left">
-                  <div>
-                    <div className="font-medium">
-                      Price
+              </FormInline>
+              <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
+                <FormLabel className="xl:w-48 xl:!mr-10">
+                  <div className="text-left">
+                    <div className="flex items-center">
+                      <div className="font-medium">Publication status</div>
                     </div>
                   </div>
-                </div>
-              </FormLabel>
-              <div className="flex-1 w-full mt-3 xl:mt-0">
-                <FormInput id="price" type="text" placeholder="Input price" />
-              </div>
-            </FormInline>
-
-            <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
-              <FormLabel className="xl:w-48 xl:!mr-10">
-                <div className="text-left">
-                  <div>
-                    <div className="font-medium">Product Description</div>
+                </FormLabel>
+                <div className="flex-1 w-full mt-3 xl:mt-0">
+                  <div className="flex flex-col sm:flex-row">
+                    <FormCheck className="mr-4">
+                      <FormCheck.Input
+                        id="moderation"
+                        type="radio"
+                        name="status-publication"
+                        checked={productForModal.status === 'moderation'}
+                        readOnly // delete after wrote onChange
+                      />
+                      <FormCheck.Label htmlFor="moderation">
+                        Moderation
+                      </FormCheck.Label>
+                    </FormCheck>
+                    <FormCheck className="mt-2 mr-4 sm:mt-0">
+                      <FormCheck.Input
+                        id="rejected"
+                        type="radio"
+                        name="status-publication"
+                        checked={productForModal.status === 'rejected'}
+                        readOnly // delete after wrote onChange
+                      />
+                      <FormCheck.Label htmlFor="rejected">
+                        Rejected
+                      </FormCheck.Label>
+                    </FormCheck>
+                    <FormCheck className="mt-2 mr-4 sm:mt-0">
+                      <FormCheck.Input
+                        id="approved"
+                        type="radio"
+                        name="status-publication"
+                        checked={productForModal.status === 'approved'}
+                        readOnly // delete after wrote onChange
+                      />
+                      <FormCheck.Label htmlFor="approved">
+                        Approved
+                      </FormCheck.Label>
+                    </FormCheck>
                   </div>
                 </div>
-              </FormLabel>
-              <div className="flex-1 w-full mt-3 xl:mt-0">
-                <FormInput
-                  id="product-description"
-                  type="text"
-                  placeholder="Product description"
-                />
-              </div>
-            </FormInline>
-          </div>
+              </FormInline>
+              <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
+                <FormLabel className="xl:w-48 xl:!mr-10">
+                  <div className="text-left">
+                    <div className="flex items-center">
+                      <div className="font-medium">Stock</div>
+                    </div>
+                  </div>
+                </FormLabel>
+                <div className="flex-1 w-full mt-3 xl:mt-0">
+                  <div className="flex flex-col sm:flex-row">
+                    <FormCheck className="mr-4">
+                      <FormCheck.Input
+                        id="in-stock"
+                        type="radio"
+                        name="status-stock"
+                        checked={productForModal.stock}
+                        readOnly // delete after wrote onChange
+                      />
+                      <FormCheck.Label htmlFor="in-stock">
+                        In of stock
+                      </FormCheck.Label>
+                    </FormCheck>
+                    <FormCheck className="mt-2 mr-4 sm:mt-0">
+                      <FormCheck.Input
+                        id="out-stock"
+                        type="radio"
+                        name="status-stock"
+                        checked={productForModal.stock}
+                        readOnly // delete after wrote onChange
+                      />
+                      <FormCheck.Label htmlFor="out-stock">
+                        Out of stock
+                      </FormCheck.Label>
+                    </FormCheck>
+                  </div>
+                </div>
+              </FormInline>
+              <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
+                <FormLabel className="xl:w-48 xl:!mr-10">
+                  <div className="text-left">
+                    <div>
+                      <div className="font-medium">
+                        Price
+                      </div>
+                    </div>
+                  </div>
+                </FormLabel>
+                <div className="flex-1 w-full mt-3 xl:mt-0">
+                  <FormInput
+                    id="price"
+                    type="text"
+                    placeholder="Input price"
+                    value={productForModal.price}
+                    readOnly // delete after wrote onChange
+                  />
+                </div>
+              </FormInline>
+
+              <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
+                <FormLabel className="xl:w-48 xl:!mr-10">
+                  <div className="text-left">
+                    <div>
+                      <div className="font-medium">Product Description</div>
+                    </div>
+                  </div>
+                </FormLabel>
+                <div className="flex-1 w-full mt-3 xl:mt-0">
+                  <FormInput
+                    id="product-description"
+                    type="text"
+                    placeholder="Product description"
+                    value={productForModal.description}
+                    readOnly // delete after wrote onChange
+                  />
+                </div>
+              </FormInline>
+            </div>
+          }
+
           <div className="px-5 pt-2 pb-8 text-center shadow-[0px_3px_5px_5px_#0000000b] xl:shadow-none">
             <Button
               variant="outline-secondary"
