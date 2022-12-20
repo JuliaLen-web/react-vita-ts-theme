@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import ProductItem from "../../components/ProductItem";
 import { userRoles } from "../../types/user";
-import { deleteProduct, fetchProducts } from "../../stores/action-creators/product";
+import { deleteProduct, editProduct, fetchProducts } from "../../stores/action-creators/product";
 import { selectUser } from "../../stores/userSlice";
 import { selectProducts } from "../../stores/productSlice";
 import fakerData from "../../utils/faker";
@@ -54,7 +54,10 @@ function Main() {
     mode: 'onChange'
   })
 
-  const onSubmit = (data: any) => console.log(data)
+  const onSubmit = (data: any) => {
+    console.log(data)
+    dispatch(editProduct(data))
+  }
 
   useEffect(() => {
     reset(productForModal);
@@ -394,7 +397,6 @@ function Main() {
                   <div className="flex-1 w-full mt-3 xl:mt-0">
                     <FormInput
                       {...register("name")}
-                      defaultValue={productForModal.name}
                       id="product-name"
                       type="text"
                       placeholder="Product name"
@@ -416,7 +418,6 @@ function Main() {
                         <option
                           key={category}
                           value={category}
-                          defaultValue={productForModal.category}
                         >
                           {category}
                         </option>
@@ -441,7 +442,6 @@ function Main() {
                           id="moderation"
                           type="radio"
                           value="moderation"
-                          defaultChecked={productForModal.status === "moderation"}
                         />
                         <FormCheck.Label htmlFor="moderation">
                           Moderation
@@ -453,7 +453,6 @@ function Main() {
                           id="rejected"
                           type="radio"
                           value="rejected"
-                          defaultChecked={productForModal.status === "rejected"}
                         />
                         <FormCheck.Label htmlFor="rejected">
                           Rejected
@@ -465,7 +464,6 @@ function Main() {
                           id="approved"
                           type="radio"
                           value="approved"
-                          defaultChecked={productForModal.status === "approved"}
                         />
                         <FormCheck.Label htmlFor="approved">
                           Approved
@@ -491,7 +489,7 @@ function Main() {
                           id="in-stock"
                           type="radio"
                           value="true"
-                          defaultChecked={productForModal.stock === true}
+                          defaultChecked={productForModal.stock}
                         />
                         <FormCheck.Label htmlFor="in-stock">
                           In of stock
@@ -503,7 +501,7 @@ function Main() {
                           id="out-stock"
                           type="radio"
                           value="false"
-                          defaultChecked={productForModal.stock === false}
+                          defaultChecked={!productForModal.stock}
                         />
                         <FormCheck.Label htmlFor="out-stock">
                           Out of stock
@@ -526,7 +524,6 @@ function Main() {
                   <div className="flex-1 w-full mt-3 xl:mt-0">
                     <FormInput
                       {...register("price")}
-                      defaultValue={productForModal.price}
                       id="price"
                       type="text"
                       placeholder="Input price"
@@ -545,7 +542,6 @@ function Main() {
                   <div className="flex-1 w-full mt-3 xl:mt-0">
                     <FormTextarea
                       {...register("description")}
-                      defaultValue={productForModal.description}
                       id="product-description"
                       placeholder="Product description"
                     />

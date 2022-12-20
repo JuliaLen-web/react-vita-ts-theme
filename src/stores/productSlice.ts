@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ProductState } from "../types/product";
-import { deleteProduct, fetchProducts } from "./action-creators/product";
+import { deleteProduct, editProduct, fetchProducts } from "./action-creators/product";
 import { RootState } from "./store";
 
 const initialState: ProductState = {
@@ -36,6 +36,17 @@ export const productsSlice = createSlice({
             .addCase(deleteProduct.rejected, (state, action) => {
                 state.loading = false;
                 state.error = 'Error, products was not be deleted';
+            })
+            .addCase(editProduct.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(editProduct.fulfilled, (state, action) => {
+                state.loading = false;
+                state.products = action.payload;
+            })
+            .addCase(editProduct.rejected, (state, action) => {
+                state.loading = false;
+                state.error = 'Error, product was not be edited';
             })
     }
 });
