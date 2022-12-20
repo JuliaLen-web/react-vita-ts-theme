@@ -53,7 +53,8 @@ function Main() {
   const { register, handleSubmit } = useForm({
     mode: 'onChange'
   })
-  const onSubmit = (data: any) => console.log(data);
+
+  const onSubmit = (data: any) => console.log(data)
 
   return (
     <>
@@ -406,10 +407,14 @@ function Main() {
                     </div>
                   </FormLabel>
                   <div className="flex-1 w-full mt-3 xl:mt-0">
-                    <FormSelect id="category">
-                      {_.take(fakerData, 9).map((faker, fakerKey) => (
-                        <option key={fakerKey} value={productForModal.category}>
-                          {faker.categories[0].name}
+                    <FormSelect id="category" {...register("category")}>
+                      {categories.map(category => (
+                        <option
+                          key={category}
+                          value={category}
+                          defaultValue={productForModal.category}
+                        >
+                          {category}
                         </option>
                       ))}
                     </FormSelect>
@@ -431,6 +436,8 @@ function Main() {
                           {...register("status")}
                           id="moderation"
                           type="radio"
+                          value="moderation"
+                          defaultChecked={productForModal.status === "moderation"}
                         />
                         <FormCheck.Label htmlFor="moderation">
                           Moderation
@@ -441,6 +448,8 @@ function Main() {
                           {...register("status")}
                           id="rejected"
                           type="radio"
+                          value="rejected"
+                          defaultChecked={productForModal.status === "rejected"}
                         />
                         <FormCheck.Label htmlFor="rejected">
                           Rejected
@@ -451,6 +460,8 @@ function Main() {
                           {...register("status")}
                           id="approved"
                           type="radio"
+                          value="approved"
+                          defaultChecked={productForModal.status === "approved"}
                         />
                         <FormCheck.Label htmlFor="approved">
                           Approved
@@ -475,6 +486,8 @@ function Main() {
                           {...register("stock")}
                           id="in-stock"
                           type="radio"
+                          value="true"
+                          defaultChecked={productForModal.stock === true}
                         />
                         <FormCheck.Label htmlFor="in-stock">
                           In of stock
@@ -485,6 +498,8 @@ function Main() {
                           {...register("stock")}
                           id="out-stock"
                           type="radio"
+                          value="false"
+                          defaultChecked={productForModal.stock === false}
                         />
                         <FormCheck.Label htmlFor="out-stock">
                           Out of stock

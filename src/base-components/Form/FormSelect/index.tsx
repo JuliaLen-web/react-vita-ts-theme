@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { forwardRef, useContext } from "react";
 import { formInlineContext } from "../FormInline";
 import { twMerge } from "tailwind-merge";
 
@@ -6,12 +6,15 @@ interface FormSelectProps extends React.ComponentPropsWithoutRef<"select"> {
   formSelectSize?: "sm" | "lg";
 }
 
-function FormSelect(props: FormSelectProps) {
+type FormSelectRef = React.ComponentPropsWithRef<"select">["ref"];
+
+const FormSelect = forwardRef((props: FormSelectProps, ref: FormSelectRef) => {
   const formInline = useContext(formInlineContext);
   const { formSelectSize, ...computedProps } = props;
   return (
     <select
       {...computedProps}
+      ref={ref}
       className={twMerge([
         "disabled:bg-slate-100 disabled:cursor-not-allowed disabled:dark:bg-darkmode-800/50",
         "[&[readonly]]:bg-slate-100 [&[readonly]]:cursor-not-allowed [&[readonly]]:dark:bg-darkmode-800/50",
@@ -25,6 +28,6 @@ function FormSelect(props: FormSelectProps) {
       {props.children}
     </select>
   );
-}
+})
 
 export default FormSelect;
