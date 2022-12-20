@@ -1,6 +1,5 @@
 import Button from "../../base-components/Button";
 import Lucide from "../../base-components/Lucide";
-import { userRoles } from "../../types/user";
 
 function ProductItem({ ...props }) {
     return (
@@ -36,24 +35,24 @@ function ProductItem({ ...props }) {
                         </div>
                         <div className="flex items-center mt-2">
                             <Lucide icon="Layers" className="w-4 h-4 mr-2" />
-                            {props.product.stock ? 'In Stock' : 'Out of stock'}
+                            {props.product.stock == true ? 'In Stock' : 'Out of stock'}
                         </div>
-                        {(props.userRole === userRoles.Admin || props.userRole === userRoles.Seller) &&
-                        <div className="flex items-center mt-2">
-                            <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
-                            Status:
-                            {" " + props.product.status}
-                        </div>
+                        {(props.accessAdmin || props.accessSeller) &&
+                            <div className="flex items-center mt-2">
+                                <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
+                                Status:
+                                {" " + props.product.status}
+                            </div>
                         } 
-                        {props.userRole === userRoles.Admin &&
-                        <div className="flex items-center mt-2">
-                            <Lucide icon="Truck" className="w-4 h-4 mr-2 w-full" />{" "}
-                            Seller:
-                            {" " + props.product.seller}
-                        </div>
+                        {props.accessAdmin &&
+                            <div className="flex items-center mt-2">
+                                <Lucide icon="Truck" className="w-4 h-4 mr-2 w-full" />{" "}
+                                Seller:
+                                {" " + props.product.seller}
+                            </div>
                         }
                     </div>
-                    {props.userRole === userRoles.Customer &&
+                    {/* {props.userRole === userRoles.Customer && */}
                         <div
                             className="text-center mt-4">
                             <Button
@@ -64,7 +63,6 @@ function ProductItem({ ...props }) {
                                 Buy
                             </Button>
                         </div>
-                    }
                 </div>
 
                 <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">
@@ -73,33 +71,30 @@ function ProductItem({ ...props }) {
                         href="#"
                         onClick={(event) => {
                             event.preventDefault()
-                            props.handlePreviewProductModal(true)
-                            props.handleClickProductId(props.product.id)
+                            props.onPreview(true, props.product.id)
                         }}
                     >
                         <Lucide icon="Eye" className="w-4 h-4 mr-1" /> Preview
                     </a>
-                    {(props.userRole === userRoles.Admin || props.userRole === userRoles.Seller) &&
+                    {props.onEdit &&
                         <a
                             className="flex items-center mr-3"
                             href="#"
                             onClick={(event) => {
                                 event.preventDefault()
-                                props.handleEditProductModal(true)
-                                props.handleClickProductId(props.product.id)
+                                props.onEdit(true, props.product.id)
                             }}
                         >
                             <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" /> Edit
                         </a>
                     }
-                    {(props.userRole === userRoles.Admin || props.userRole === userRoles.Seller) &&
+                    {props.onDelete &&
                         <a
                             className="flex items-center text-danger"
                             href="#"
                             onClick={(event) => {
                                 event.preventDefault()
-                                props.handleDeleteProductModal(true)
-                                props.handleClickProductId(props.product.id)
+                                props.onDelete(true, props.product.id)
                             }}
                         >
                             <Lucide icon="Trash2" className="w-4 h-4 mr-1" /> Delete

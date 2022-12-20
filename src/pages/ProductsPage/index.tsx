@@ -12,40 +12,45 @@ import ProductItem from "../../components/ProductItem";
 import { userRoles } from "../../types/user";
 import { deleteProduct, editProduct, fetchProducts } from "../../stores/action-creators/product";
 import { selectUser } from "../../stores/userSlice";
-import { selectProducts } from "../../stores/productSlice";
+import { selectProducts, selectProductsLoading } from "../../stores/productSlice";
 import fakerData from "../../utils/faker";
 import Tippy from "../../base-components/Tippy";
+import LoadingIcon from "../../base-components/LoadingIcon";
 
 function Main() {
   const { role } = useAppSelector(selectUser)
   const products = useAppSelector(selectProducts)
+  const loading = useAppSelector(selectProductsLoading)
 
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
+  const accessSeller = (role === userRoles.Seller)
+  const accessAdmin = (role === userRoles.Admin)
+
   const sellers = [...new Set(products.map(product => product.seller))]
   const categories = [...new Set(products.map(product => product.category))]
 
   const [selectProductId, setSelectProductId] = useState(0)
-  function handleClickProductId(id: number) {
+
+  const [deleteProductModal, setDeleteProductModal] = useState(false)
+  function handleDeleteProductModal(value: boolean, id: number) {
+    setDeleteProductModal(value)
     setSelectProductId(id)
   }
 
-  const [deleteProductModal, setDeleteProductModal] = useState(false);
-  function handleDeleteProductModal(value: boolean) {
-    setDeleteProductModal(value)
-  }
-
-  const [editProductModal, setEditProductModal] = useState(false);
-  function handleEditProductModal(value: boolean) {
+  const [editProductModal, setEditProductModal] = useState(false)
+  function handleEditProductModal(value: boolean, id: number) {
     setEditProductModal(value)
+    setSelectProductId(id)
   }
 
-  const [previewProductModal, setPreviewProductModal] = useState(false);
-  function handlePreviewProductModal(value: boolean) {
+  const [previewProductModal, setPreviewProductModal] = useState(false)
+  function handlePreviewProductModal(value: boolean, id: number) {
     setPreviewProductModal(value)
+    setSelectProductId(id)
   }
 
   const productForModal = products.filter(el => el.id === selectProductId)[0]
@@ -55,13 +60,24 @@ function Main() {
   })
 
   const onSubmit = (data: any) => {
-    console.log(data)
     dispatch(editProduct(data))
   }
 
   useEffect(() => {
-    reset(productForModal);
-  }, [productForModal]);
+    reset(productForModal)
+  }, [productForModal])
+
+  // if (productForModal.stock) {
+  //   console.log( typeof productForModal.stock)
+  // }
+
+  if (loading) {
+    return (
+      <h1 className="text-4xl flex items-center justify-center font-medium text-center intro-y">
+        <LoadingIcon icon="hearts" className="w-20 h-20 mr-3" />Loading...
+      </h1>
+    )
+  }
 
   return (
     <>
@@ -69,14 +85,14 @@ function Main() {
       <div className="grid grid-cols-12 gap-6 mt-5">
         {/* filters block */}
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-          {(role === userRoles.Admin || role === userRoles.Seller) &&
+          {(accessAdmin || accessSeller) &&
             <Link to="/add-product">
               <Button variant="primary" className="mr-2 shadow-md">
                 Add New Product
               </Button>
             </Link>
           }
-          {role === userRoles.Admin &&
+          {accessAdmin &&
             <Link to="/categories">
               <Button variant="primary" className="mr-2 shadow-md">
                 Add\Edit Categories
@@ -92,7 +108,7 @@ function Main() {
             className="w-6 h-6 mr-2"
           />
 
-          {role === userRoles.Admin &&
+          {accessAdmin &&
             <div className="mr-2">
               <Popover className="inline-block">
                 <Popover.Button as={Button} variant="primary">
@@ -192,11 +208,11 @@ function Main() {
           <ProductItem
             product={product}
             key={product.id}
-            userRole={role}
-            handleClickProductId={handleClickProductId}
-            handlePreviewProductModal={handlePreviewProductModal}
-            handleEditProductModal={handleEditProductModal}
-            handleDeleteProductModal={handleDeleteProductModal}
+            onPreview={handlePreviewProductModal}
+            onEdit={(accessAdmin || accessSeller) ? handleEditProductModal : undefined}
+            onDelete={(accessAdmin || accessSeller) ? handleDeleteProductModal : undefined}
+            accessAdmin={accessAdmin}
+            accessSeller={accessSeller}
           />
         )}
 
@@ -235,7 +251,7 @@ function Main() {
       <Dialog
         open={previewProductModal}
         onClose={() => {
-          handlePreviewProductModal(true)
+          setPreviewProductModal(true)
         }}
       >
         <Dialog.Panel>
@@ -313,7 +329,7 @@ function Main() {
               type="button"
               className="w-24"
               onClick={() => {
-                handlePreviewProductModal(false)
+                setPreviewProductModal(false)
               }}
             >
               Close
@@ -328,7 +344,7 @@ function Main() {
         size="xl"
         open={editProductModal}
         onClose={() => {
-          handleEditProductModal(false)
+          setEditProductModal(false)
         }}
       >
         <Dialog.Panel>
@@ -352,24 +368,21 @@ function Main() {
                   </FormLabel>
                   <div className="flex-1 w-full pt-4 mt-3 border-2 border-dashed rounded-md xl:mt-0 dark:border-darkmode-400">
                     <div className="grid grid-cols-10 gap-5 pl-4 pr-5">
-                      {_.take(fakerData, 5).map((faker, fakerKey) => (
-                        <div
-                          key={fakerKey}
-                          className="relative col-span-5 cursor-pointer col-span-2 md:h-20 h-14 image-fit zoom-in"
+                      <div
+                        className="relative col-span-5 cursor-pointer col-span-2 md:h-20 h-14 image-fit zoom-in"
+                      >
+                        <img
+                          className="rounded-md"
+                          alt="Midone - HTML Admin Template"
+                          src={productForModal.image}
+                        />
+                        <Tippy
+                          content="Remove this image?"
+                          className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
                         >
-                          <img
-                            className="rounded-md"
-                            alt="Midone - HTML Admin Template"
-                            src={faker.photos[0]}
-                          />
-                          <Tippy
-                            content="Remove this image?"
-                            className="absolute top-0 right-0 flex items-center justify-center w-5 h-5 -mt-2 -mr-2 text-white rounded-full bg-danger"
-                          >
-                            <Lucide icon="X" className="w-4 h-4" />
-                          </Tippy>
-                        </div>
-                      ))}
+                          <Lucide icon="X" className="w-4 h-4" />
+                        </Tippy>
+                      </div>
                     </div>
                     <div className="relative flex items-center justify-center px-4 pb-4 mt-5 cursor-pointer">
                       <Lucide icon="Image" className="w-4 h-4 mr-2" />
@@ -488,11 +501,10 @@ function Main() {
                           {...register("stock")}
                           id="in-stock"
                           type="radio"
-                          value="true"
-                          defaultChecked={productForModal.stock}
+                          value="inStock"
                         />
                         <FormCheck.Label htmlFor="in-stock">
-                          In of stock
+                          In stock
                         </FormCheck.Label>
                       </FormCheck>
                       <FormCheck className="mt-2 mr-4 sm:mt-0">
@@ -500,8 +512,7 @@ function Main() {
                           {...register("stock")}
                           id="out-stock"
                           type="radio"
-                          value="false"
-                          defaultChecked={!productForModal.stock}
+                          value="outStock"
                         />
                         <FormCheck.Label htmlFor="out-stock">
                           Out of stock
@@ -555,7 +566,7 @@ function Main() {
                 variant="outline-secondary"
                 type="button"
                 onClick={() => {
-                  handleEditProductModal(false)
+                  setEditProductModal(false)
                 }}
                 className="w-24 mr-1"
               >
@@ -565,6 +576,9 @@ function Main() {
                 variant="success"
                 type="submit"
                 className="w-24"
+                onClick={() => {
+                  setEditProductModal(false)
+                }}
               >
                 Edit
               </Button>
@@ -578,7 +592,7 @@ function Main() {
       <Dialog
         open={deleteProductModal}
         onClose={() => {
-          handleDeleteProductModal(false)
+          setDeleteProductModal(false)
         }}
       >
         <Dialog.Panel>
@@ -598,7 +612,7 @@ function Main() {
               variant="outline-secondary"
               type="button"
               onClick={() => {
-                handleDeleteProductModal(false)
+                setDeleteProductModal(false)
               }}
               className="w-24 mr-1"
             >
@@ -609,7 +623,7 @@ function Main() {
               type="button"
               className="w-24"
               onClick={() => {
-                handleDeleteProductModal(false)
+                setDeleteProductModal(false)
                 dispatch(deleteProduct(selectProductId))
               }}
             >
