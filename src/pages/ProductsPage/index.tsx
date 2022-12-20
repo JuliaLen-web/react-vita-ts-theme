@@ -50,11 +50,15 @@ function Main() {
 
   const productForModal = products.filter(el => el.id === selectProductId)[0]
 
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     mode: 'onChange'
   })
 
   const onSubmit = (data: any) => console.log(data)
+
+  useEffect(() => {
+    reset(productForModal);
+  }, [productForModal]);
 
   return (
     <>
