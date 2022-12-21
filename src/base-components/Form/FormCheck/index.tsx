@@ -30,9 +30,9 @@ interface InputProps extends React.ComponentPropsWithoutRef<"input"> {
   type: "radio" | "checkbox";
 }
 
-type FormInputRef = React.ComponentPropsWithRef<"input">["ref"];
+type InputRef = React.ComponentPropsWithRef<"input">["ref"];
 
-FormCheck.Input = forwardRef((props: InputProps, ref: FormInputRef) => {
+FormCheck.Input = forwardRef((props: InputProps, ref: InputRef) => {
   return (
     <input
       {...props}

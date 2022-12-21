@@ -35,16 +35,16 @@ function ProductItem({ ...props }) {
                         </div>
                         <div className="flex items-center mt-2">
                             <Lucide icon="Layers" className="w-4 h-4 mr-2" />
-                            {props.product.stock == true ? 'In Stock' : 'Out of stock'}
+                            {props.product.stock === true ? 'In Stock' : 'Out of stock'}
                         </div>
-                        {(props.accessAdmin || props.accessSeller) &&
+                        {(props.admin || props.seller) &&
                             <div className="flex items-center mt-2">
                                 <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
                                 Status:
                                 {" " + props.product.status}
                             </div>
-                        } 
-                        {props.accessAdmin &&
+                        }
+                        {props.admin &&
                             <div className="flex items-center mt-2">
                                 <Lucide icon="Truck" className="w-4 h-4 mr-2 w-full" />{" "}
                                 Seller:
@@ -52,7 +52,7 @@ function ProductItem({ ...props }) {
                             </div>
                         }
                     </div>
-                    {/* {props.userRole === userRoles.Customer && */}
+                    {props.customer &&
                         <div
                             className="text-center mt-4">
                             <Button
@@ -63,6 +63,7 @@ function ProductItem({ ...props }) {
                                 Buy
                             </Button>
                         </div>
+                    }
                 </div>
 
                 <div className="flex items-center justify-center p-5 border-t lg:justify-end border-slate-200/60 dark:border-darkmode-400">

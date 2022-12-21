@@ -69,8 +69,6 @@ export const editProduct = createAsyncThunk(
     async (newProduct: Product, { getState }): Promise<Products> => {
         const { products } = getState() as RootState
         const productsState = products.products
-        console.log(typeof newProduct.stock)
-        console.log(newProduct.stock)
         const newProductsArray = productsState.map(el => {
             if (el.id === newProduct.id) {
                 el = newProduct

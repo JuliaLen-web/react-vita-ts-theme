@@ -13,7 +13,6 @@ import { userRoles } from "../../types/user";
 import { deleteProduct, editProduct, fetchProducts } from "../../stores/action-creators/product";
 import { selectUser } from "../../stores/userSlice";
 import { selectProducts, selectProductsLoading } from "../../stores/productSlice";
-import fakerData from "../../utils/faker";
 import Tippy from "../../base-components/Tippy";
 import LoadingIcon from "../../base-components/LoadingIcon";
 
@@ -29,6 +28,7 @@ function Main() {
 
   const accessSeller = (role === userRoles.Seller)
   const accessAdmin = (role === userRoles.Admin)
+  const accessCustomer = (role === userRoles.Customer)
 
   const sellers = [...new Set(products.map(product => product.seller))]
   const categories = [...new Set(products.map(product => product.category))]
@@ -55,21 +55,13 @@ function Main() {
 
   const productForModal = products.filter(el => el.id === selectProductId)[0]
 
-  const { register, handleSubmit, reset } = useForm({
-    mode: 'onChange'
-  })
+  const { register, handleSubmit, reset, setValue } = useForm()
 
-  const onSubmit = (data: any) => {
-    dispatch(editProduct(data))
-  }
+  const onSubmit = (data: any) => dispatch(editProduct(data))
 
   useEffect(() => {
     reset(productForModal)
   }, [productForModal])
-
-  // if (productForModal.stock) {
-  //   console.log( typeof productForModal.stock)
-  // }
 
   if (loading) {
     return (
@@ -211,40 +203,11 @@ function Main() {
             onPreview={handlePreviewProductModal}
             onEdit={(accessAdmin || accessSeller) ? handleEditProductModal : undefined}
             onDelete={(accessAdmin || accessSeller) ? handleDeleteProductModal : undefined}
-            accessAdmin={accessAdmin}
-            accessSeller={accessSeller}
+            admin={accessAdmin}
+            seller={accessSeller}
+            customer={accessCustomer}
           />
         )}
-
-        {/* BEGIN: Pagination */}
-        {/* <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
-          <Pagination className="w-full sm:w-auto sm:mr-auto">
-            <Pagination.Link>
-              <Lucide icon="ChevronsLeft" className="w-4 h-4" />
-            </Pagination.Link>
-            <Pagination.Link>
-              <Lucide icon="ChevronLeft" className="w-4 h-4" />
-            </Pagination.Link>
-            <Pagination.Link>...</Pagination.Link>
-            <Pagination.Link>1</Pagination.Link>
-            <Pagination.Link active>2</Pagination.Link>
-            <Pagination.Link>3</Pagination.Link>
-            <Pagination.Link>...</Pagination.Link>
-            <Pagination.Link>
-              <Lucide icon="ChevronRight" className="w-4 h-4" />
-            </Pagination.Link>
-            <Pagination.Link>
-              <Lucide icon="ChevronsRight" className="w-4 h-4" />
-            </Pagination.Link>
-          </Pagination>
-          <FormSelect className="w-20 mt-3 !box sm:mt-0">
-            <option>10</option>
-            <option>25</option>
-            <option>35</option>
-            <option>50</option>
-          </FormSelect>
-        </div> */}
-        {/* END: Pagination */}
       </div>
 
       {/* BEGIN: View additional info Modal */}
@@ -288,14 +251,14 @@ function Main() {
                     <Lucide icon="Layers" className="w-4 h-4 mr-2" />
                     {productForModal.stock ? 'In Stock' : 'Out of stock'}
                   </div>
-                  {(role === userRoles.Admin || role === userRoles.Seller) &&
+                  {(accessAdmin || accessSeller) &&
                     <div className="flex items-center mt-2">
                       <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />{" "}
                       Status:
                       {" " + productForModal.status}
                     </div>
                   }
-                  {role === userRoles.Admin &&
+                  {accessAdmin &&
                     <div className="flex items-center mt-2">
                       <Lucide icon="Truck" className="w-4 h-4 mr-2" />{" "}
                       Seller:
@@ -304,9 +267,9 @@ function Main() {
                   }
                   <div className="flex mt-2">
                     <Lucide icon="MessageSquare" className="w-4 h-4 mr-2 mt-1" />{" "}
-                    Description: You may want to consider destructuring the action creators and exporting them individually, for ease of searching for references in a larger codebase.
+                    {" " + productForModal.description}
                   </div>
-                  {role === userRoles.Customer &&
+                  {accessCustomer &&
                     <div
                       className="text-center mt-4">
                       <Button
@@ -451,10 +414,12 @@ function Main() {
                     <div className="flex flex-col sm:flex-row">
                       <FormCheck className="mr-4">
                         <FormCheck.Input
-                          {...register("status")}
+                          name="status"
                           id="moderation"
                           type="radio"
                           value="moderation"
+                          defaultChecked={productForModal.status === "moderation"}
+                          onChange={(e) => (e.target.checked) ? setValue('status', e.target.value) : false}
                         />
                         <FormCheck.Label htmlFor="moderation">
                           Moderation
@@ -462,10 +427,12 @@ function Main() {
                       </FormCheck>
                       <FormCheck className="mt-2 mr-4 sm:mt-0">
                         <FormCheck.Input
-                          {...register("status")}
+                          name="status"
                           id="rejected"
                           type="radio"
                           value="rejected"
+                          defaultChecked={productForModal.status === "rejected"}
+                          onChange={(e) => (e.target.checked) ? setValue('status', e.target.value) : false}
                         />
                         <FormCheck.Label htmlFor="rejected">
                           Rejected
@@ -473,10 +440,12 @@ function Main() {
                       </FormCheck>
                       <FormCheck className="mt-2 mr-4 sm:mt-0">
                         <FormCheck.Input
-                          {...register("status")}
+                          name="status"
                           id="approved"
                           type="radio"
                           value="approved"
+                          defaultChecked={productForModal.status === "approved"}
+                          onChange={(e) => (e.target.checked) ? setValue('status', e.target.value) : false}
                         />
                         <FormCheck.Label htmlFor="approved">
                           Approved
@@ -498,10 +467,12 @@ function Main() {
                     <div className="flex flex-col sm:flex-row">
                       <FormCheck className="mr-4">
                         <FormCheck.Input
-                          {...register("stock")}
                           id="in-stock"
                           type="radio"
-                          value="inStock"
+                          value={true}
+                          name="stock"
+                          defaultChecked={productForModal.stock}
+                          onChange={(e) => (e.target.checked) ? setValue('stock', true) : false}
                         />
                         <FormCheck.Label htmlFor="in-stock">
                           In stock
@@ -509,10 +480,12 @@ function Main() {
                       </FormCheck>
                       <FormCheck className="mt-2 mr-4 sm:mt-0">
                         <FormCheck.Input
-                          {...register("stock")}
                           id="out-stock"
                           type="radio"
-                          value="outStock"
+                          value={false}
+                          name="stock"
+                          defaultChecked={!productForModal.stock}
+                          onChange={(e) => (e.target.checked) ? setValue('stock', false) : false}
                         />
                         <FormCheck.Label htmlFor="out-stock">
                           Out of stock
@@ -536,7 +509,7 @@ function Main() {
                     <FormInput
                       {...register("price")}
                       id="price"
-                      type="text"
+                      type="number"
                       placeholder="Input price"
                     />
                   </div>
@@ -633,7 +606,6 @@ function Main() {
         </Dialog.Panel>
       </Dialog>
       {/* END: Delete Confirmation Modal */}
-
     </>
   );
 }
