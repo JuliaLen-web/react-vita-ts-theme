@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import fakerData from "../../utils/faker";
 import Button from "../../base-components/Button";
 import {
@@ -7,21 +7,34 @@ import {
   FormInline,
   FormSelect,
   FormLabel,
-  FormHelp,
   FormCheck,
-  InputGroup,
-  FormSwitch,
+  FormTextarea,
 } from "../../base-components/Form";
-import TomSelect from "../../base-components/TomSelect";
-import { ClassicEditor } from "../../base-components/Ckeditor";
 import Alert from "../../base-components/Alert";
 import Lucide from "../../base-components/Lucide";
 import Tippy from "../../base-components/Tippy";
-import Table from "../../base-components/Table";
+import { addProduct } from "../../stores/action-creators/product";
+import { useAppDispatch } from "../../stores/hooks";
+import { Product } from "../../types/product";
 
 function Main() {
-  const [subcategory, setSubcategory] = useState(["0"]);
-  const [editorData, setEditorData] = useState("<p>Content of the editor.</p>");
+  const dispatch = useAppDispatch()
+  const { register, handleSubmit, reset, setValue } = useForm({
+    defaultValues: {
+      id: 999,
+      name: '',
+      seller: fakerData[0].users[0].name,
+      price: 0,
+      stock: true,
+      image: "/src/assets/images/fakers/preview-" + Math.ceil(Math.random() * 15) + ".jpg",
+      status: '',
+      category: '',
+      description: '',
+      featured: false,
+    }
+  })
+
+  const onSubmit: SubmitHandler<Product> = (data: any) => dispatch(addProduct(data))
 
   return (
     <>
@@ -64,14 +77,17 @@ function Main() {
             </>
           )}
         </Alert>
-        {/* BEGIN: Notification */}
-        <div className="col-span-11 intro-y 2xl:col-span-9">
-          {/* BEGIN: Uplaod Product */}
+        {/* END: Notification */}
+
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="col-span-11 intro-y 2xl:col-span-9"
+        >
+          {/* BEGIN: Uplaod Photo Product */}
           <div className="p-5 intro-y box">
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
               <div className="flex items-center pb-5 text-base font-medium border-b border-slate-200/60 dark:border-darkmode-400">
-                <Lucide icon="ChevronDown" className="w-4 h-4 mr-2" /> Upload
-                Product
+                <Lucide icon="ChevronDown" className="w-4 h-4 mr-2" /> Upload Photo Product
               </div>
               <div className="mt-5">
                 <div className="flex items-center text-slate-500">
@@ -108,17 +124,12 @@ function Main() {
                           of 300 x 300 pixels (For optimal images use a minimum
                           size of 700 x 700 pixels).
                         </div>
-                        <div className="mt-2">
-                          Select product photos or drag and drop up to 5 photos
-                          at once here. Include min. 3 attractive photos to make
-                          the product more attractive to buyers.
-                        </div>
                       </div>
                     </div>
                   </FormLabel>
                   <div className="flex-1 w-full pt-4 mt-3 border-2 border-dashed rounded-md xl:mt-0 dark:border-darkmode-400">
                     <div className="grid grid-cols-10 gap-5 pl-4 pr-5">
-                      {_.take(fakerData, 5).map((faker, fakerKey) => (
+                      {_.take(fakerData, 1).map((faker, fakerKey) => (
                         <div
                           key={fakerKey}
                           className="relative col-span-5 cursor-pointer md:col-span-2 h-28 image-fit zoom-in"
@@ -154,7 +165,7 @@ function Main() {
               </div>
             </div>
           </div>
-          {/* END: Uplaod Product */}
+          {/* END: Uplaod Photo Product */}
           {/* BEGIN: Product Information */}
           <div className="p-5 mt-5 intro-y box">
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
@@ -163,6 +174,7 @@ function Main() {
                 Information
               </div>
               <div className="mt-5">
+
                 <FormInline className="flex-col items-start pt-5 mt-5 xl:flex-row first:mt-0 first:pt-0">
                   <FormLabel className="xl:w-64 xl:!mr-10">
                     <div className="text-left">
@@ -181,72 +193,67 @@ function Main() {
                   </FormLabel>
                   <div className="flex-1 w-full mt-3 xl:mt-0">
                     <FormInput
+                      {...register("name", { required: true })}
                       id="product-name"
                       type="text"
                       placeholder="Product name"
                     />
-                    <FormHelp className="text-right">
-                      Maximum character 0/70
-                    </FormHelp>
                   </div>
                 </FormInline>
+
                 <FormInline className="flex-col items-start pt-5 mt-5 xl:flex-row first:mt-0 first:pt-0">
                   <FormLabel className="xl:w-64 xl:!mr-10">
                     <div className="text-left">
                       <div className="flex items-center">
                         <div className="font-medium">Category</div>
-                        <div className="ml-2 px-2 py-0.5 bg-slate-200 text-slate-600 dark:bg-darkmode-300 dark:text-slate-400 text-xs rounded-md">
-                          Required
-                        </div>
                       </div>
                     </div>
                   </FormLabel>
                   <div className="flex-1 w-full mt-3 xl:mt-0">
-                    <FormSelect id="category">
-                      {_.take(fakerData, 9).map((faker, fakerKey) => (
-                        <option key={fakerKey} value={faker.categories[0].name}>
-                          {faker.categories[0].name}
+                    {/* <FormSelect id="category" {...register("category")}>
+                      {categories.map(category => (
+                        <option
+                          key={category}
+                          value={category}
+                        >
+                          {category}
                         </option>
                       ))}
-                    </FormSelect>
+                    </FormSelect> */}
                   </div>
                 </FormInline>
               </div>
             </div>
           </div>
           {/* END: Product Information */}
-          {/* BEGIN: Product Detail */}
+          {/* BEGIN: Product Description */}
           <div className="p-5 mt-5 intro-y box">
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
               <div className="flex items-center pb-5 text-base font-medium border-b border-slate-200/60 dark:border-darkmode-400">
-                <Lucide icon="ChevronDown" className="w-4 h-4 mr-2" /> Product
-                Detail
+                <Lucide icon="ChevronDown" className="w-4 h-4 mr-2" /> Product Description
               </div>
               <div className="mt-5">
 
                 <FormInline className="flex-col items-start pt-5 mt-5 xl:flex-row first:mt-0 first:pt-0">
                   <FormLabel className="xl:w-64 xl:!mr-10">
                     <div className="text-left">
-                      <div className="flex items-center">
+                      <div>
                         <div className="font-medium">Product Description</div>
                       </div>
                     </div>
                   </FormLabel>
                   <div className="flex-1 w-full mt-3 xl:mt-0">
-                    <FormInput
+                    <FormTextarea
+                      {...register("description")}
                       id="product-description"
-                      type="text"
                       placeholder="Product description"
                     />
-                    <FormHelp className="text-right">
-                      Maximum character 0/70
-                    </FormHelp>
                   </div>
                 </FormInline>
               </div>
             </div>
           </div>
-          {/* END: Product Detail */}
+          {/* END: Product Description */}
           {/* BEGIN: Product Management */}
           <div className="p-5 mt-5 intro-y box">
             <div className="p-5 border rounded-md border-slate-200/60 dark:border-darkmode-400">
@@ -255,6 +262,7 @@ function Main() {
                 Management
               </div>
               <div className="mt-5">
+
                 <FormInline className="flex-col items-start pt-5 mt-5 xl:flex-row first:mt-0 first:pt-0">
                   <FormLabel className="xl:w-64 xl:!mr-10">
                     <div className="text-left">
@@ -270,9 +278,14 @@ function Main() {
                     <div className="flex flex-col sm:flex-row">
                       <FormCheck className="mr-4">
                         <FormCheck.Input
+                          {...register("status", {
+                            required: true,
+                          })}
                           id="moderation"
                           type="radio"
-                          name="status-publication"
+                          value="moderation"
+                          defaultChecked
+                          onChange={(e) => (e.target.checked) ? setValue('status', e.target.value) : false}
                         />
                         <FormCheck.Label htmlFor="moderation">
                           Moderation
@@ -280,9 +293,13 @@ function Main() {
                       </FormCheck>
                       <FormCheck className="mt-2 mr-4 sm:mt-0">
                         <FormCheck.Input
+                          {...register("status", {
+                            required: true,
+                          })}
                           id="rejected"
                           type="radio"
-                          name="status-publication"
+                          value="rejected"
+                          onChange={(e) => (e.target.checked) ? setValue('status', e.target.value) : false}
                         />
                         <FormCheck.Label htmlFor="rejected">
                           Rejected
@@ -292,7 +309,11 @@ function Main() {
                         <FormCheck.Input
                           id="approved"
                           type="radio"
-                          name="status-publication"
+                          value="approved"
+                          {...register("status", {
+                            required: true,
+                          })}
+                          onChange={(e) => (e.target.checked) ? setValue('status', e.target.value) : false}
                         />
                         <FormCheck.Label htmlFor="approved">
                           Approved
@@ -301,6 +322,7 @@ function Main() {
                     </div>
                   </div>
                 </FormInline>
+
                 <FormInline className="flex-col items-start pt-5 mt-5 xl:flex-row first:mt-0 first:pt-0">
                   <FormLabel className="xl:w-64 xl:!mr-10">
                     <div className="text-left">
@@ -318,17 +340,22 @@ function Main() {
                         <FormCheck.Input
                           id="in-stock"
                           type="radio"
-                          name="status-stock"
+                          name="stock"
+                          value={true}
+                          defaultChecked
+                          onChange={(e) => (e.target.checked) ? setValue('stock', true) : false}
                         />
                         <FormCheck.Label htmlFor="in-stock">
-                          In of stock
+                          In stock
                         </FormCheck.Label>
                       </FormCheck>
                       <FormCheck className="mt-2 mr-4 sm:mt-0">
                         <FormCheck.Input
                           id="out-stock"
                           type="radio"
-                          name="status-stock"
+                          name="stock"
+                          value={false}
+                          onChange={(e) => (e.target.checked) ? setValue('stock', false) : false}
                         />
                         <FormCheck.Label htmlFor="out-stock">
                           Out of stock
@@ -351,7 +378,12 @@ function Main() {
                     </div>
                   </FormLabel>
                   <div className="flex-1 w-full mt-3 xl:mt-0">
-                    <FormInput id="price" type="text" placeholder="Input price" />
+                    <FormInput
+                      {...register("price", { required: true })}
+                      id="price"
+                      type="number"
+                      placeholder="Input price"
+                    />
                   </div>
                 </FormInline>
               </div>
@@ -366,31 +398,32 @@ function Main() {
               Cancel
             </Button>
             <Button
-              type="button"
+              type="submit"
               className="w-full py-3 border-slate-300 dark:border-darkmode-400 text-slate-500 md:w-52"
             >
               Save & Add New Product
             </Button>
             <Button
               variant="primary"
-              type="button"
+              type="submit"
               className="w-full py-3 md:w-52"
             >
               Save
             </Button>
           </div>
-        </div>
+        </form>
+        {/* BEGIN: SIDEBAR */}
         <div className="hidden col-span-2 intro-y 2xl:block">
           <div className="sticky top-0 pt-10">
             <ul className="text-slate-500 relative before:content-[''] before:w-[2px] before:bg-slate-200 before:dark:bg-darkmode-600 before:h-full before:absolute before:left-0 before:z-[-1]">
               <li className="pl-5 mb-4 font-medium border-l-2 border-primary dark:border-primary text-primary">
-                <a href="">Upload Product</a>
+                <a href="">Upload Photo Product</a>
               </li>
               <li className="pl-5 mb-4 border-l-2 border-transparent dark:border-transparent">
                 <a href="">Product Information</a>
               </li>
               <li className="pl-5 mb-4 border-l-2 border-transparent dark:border-transparent">
-                <a href="">Product Detail</a>
+                <a href="">Product Description</a>
               </li>
               <li className="pl-5 mb-4 border-l-2 border-transparent dark:border-transparent">
                 <a href="">Product Management</a>
@@ -409,15 +442,11 @@ function Main() {
                   x 300 pixels (For optimal images use a minimum size of 700 x
                   700 pixels).
                 </div>
-                <div className="mt-2">
-                  Select product photos or drag and drop up to 5 photos at once
-                  here. Include min. 3 attractive photos to make the product
-                  more attractive to buyers.
-                </div>
               </div>
             </div>
           </div>
         </div>
+        {/* END: SIDEBAR */}
       </div>
     </>
   );

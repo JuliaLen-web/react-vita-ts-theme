@@ -80,3 +80,17 @@ export const editProduct = createAsyncThunk(
         });
     }
 )
+
+export const addProduct = createAsyncThunk(
+    'products/addProduct',
+    async (newProduct: Product): Promise<Products> => {
+        const newProductsArray: Products = []
+        newProductsArray.push(newProduct)
+
+        console.log(newProductsArray)
+        
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(newProductsArray), 1000);
+        });
+    }
+)

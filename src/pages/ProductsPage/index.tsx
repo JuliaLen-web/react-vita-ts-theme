@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Button from "../../base-components/Button";
 // import Pagination from "../../base-components/Pagination";
 import { FormCheck, FormInline, FormInput, FormLabel, FormSelect, FormSwitch, FormTextarea } from "../../base-components/Form";
@@ -15,6 +15,7 @@ import { selectUser } from "../../stores/userSlice";
 import { selectProducts, selectProductsLoading } from "../../stores/productSlice";
 import Tippy from "../../base-components/Tippy";
 import LoadingIcon from "../../base-components/LoadingIcon";
+import { Product } from "../../types/product";
 
 function Main() {
   const { role } = useAppSelector(selectUser)
@@ -55,9 +56,9 @@ function Main() {
 
   const productForModal = products.filter(el => el.id === selectProductId)[0]
 
-  const { register, handleSubmit, reset, setValue } = useForm()
+  const { register, handleSubmit, reset, setValue } = useForm<Product>()
 
-  const onSubmit = (data: any) => dispatch(editProduct(data))
+  const onSubmit: SubmitHandler<Product> = (data: any) => dispatch(editProduct(data))
 
   useEffect(() => {
     reset(productForModal)
