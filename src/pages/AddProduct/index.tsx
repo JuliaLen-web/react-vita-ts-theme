@@ -14,11 +14,20 @@ import Alert from "../../base-components/Alert";
 import Lucide from "../../base-components/Lucide";
 import Tippy from "../../base-components/Tippy";
 import { addProduct } from "../../stores/action-creators/product";
-import { useAppDispatch } from "../../stores/hooks";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { Product } from "../../types/product";
+import { selectCategories } from "../../stores/categoriesSlice";
+import { fetchCategories } from "../../stores/action-creators/categories";
+import { useEffect } from "react";
+import { Categories } from "../../types/category";
 
 function Main() {
+  const categories: Categories = useAppSelector(selectCategories)
   const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
   const { register, handleSubmit, reset, setValue } = useForm({
     defaultValues: {
       id: 999,
@@ -210,16 +219,16 @@ function Main() {
                     </div>
                   </FormLabel>
                   <div className="flex-1 w-full mt-3 xl:mt-0">
-                    {/* <FormSelect id="category" {...register("category")}>
+                    <FormSelect id="category" {...register("category")}>
                       {categories.map(category => (
                         <option
-                          key={category}
-                          value={category}
+                          key={category.id}
+                          value={category.name}
                         >
-                          {category}
+                          {category.name}
                         </option>
                       ))}
-                    </FormSelect> */}
+                    </FormSelect>
                   </div>
                 </FormInline>
               </div>

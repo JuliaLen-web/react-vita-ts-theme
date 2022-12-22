@@ -1,47 +1,67 @@
 import _ from "lodash";
-import clsx from "clsx";
-import { useState, useRef } from "react";
-import fakerData from "../../utils/faker";
+import { useState, useEffect } from "react";
 import Button from "../../base-components/Button";
 import Pagination from "../../base-components/Pagination";
 import { FormInput, FormSelect } from "../../base-components/Form";
 import Lucide from "../../base-components/Lucide";
-import Tippy from "../../base-components/Tippy";
-import { Dialog, Menu } from "../../base-components/Headless";
+import { Dialog } from "../../base-components/Headless";
 import Table from "../../base-components/Table";
+import CategoryItem from "../../components/CategoryItem";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import { selectCategories, selectCategoriesLoading } from "../../stores/categoriesSlice";
+import { fetchCategories } from "../../stores/action-creators/categories";
+import LoadingIcon from "../../base-components/LoadingIcon";
 
 function Main() {
-  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
-  const deleteButtonRef = useRef(null);
+  const categories = useAppSelector(selectCategories)
+  const loading = useAppSelector(selectCategoriesLoading)
+
+  const dispatch = useAppDispatch()
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, [dispatch]);
+
+  const [selectCategoryId, setSelectCategoryId] = useState(0)
+
+  const [deleteCategoryModal, setDeleteCategoryModal] = useState(false)
+  function handleDeleteCategoryModal(value: boolean, id: number) {
+    setDeleteCategoryModal(value)
+    setSelectCategoryId(id)
+  }
+
+  const [editCategoryModal, setEditCategoryModal] = useState(false)
+  function handleEditCategoryModal(value: boolean, id: number) {
+    setEditCategoryModal(value)
+    setSelectCategoryId(id)
+  }
+
+  const [addCategoryModal, setAddCategoryModal] = useState(false)
+  // function handleAddCategoryModal(value: boolean, id: number) {
+  //   setAddCategoryModal(value)  
+  // }
+
+  if (loading) {
+    return (
+      <h1 className="text-4xl flex items-center justify-center font-medium text-center intro-y">
+        <LoadingIcon icon="hearts" className="w-20 h-20 mr-3" />Loading...
+      </h1>
+    )
+  }
 
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Categories</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
-          <Button variant="primary" className="mr-2 shadow-md">
+          <Button
+            variant="primary"
+            className="mr-2 shadow-md"
+            onClick={() => {
+              setAddCategoryModal(true);
+            }}
+          >
             Add New Category
           </Button>
-          <Menu>
-            <Menu.Button as={Button} className="px-2 !box">
-              <span className="flex items-center justify-center w-5 h-5">
-                <Lucide icon="Plus" className="w-4 h-4" />
-              </span>
-            </Menu.Button>
-            <Menu.Items className="w-40">
-              <Menu.Item>
-                <Lucide icon="Printer" className="w-4 h-4 mr-2" /> Print
-              </Menu.Item>
-              <Menu.Item>
-                <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to
-                Excel
-              </Menu.Item>
-              <Menu.Item>
-                <Lucide icon="FileText" className="w-4 h-4 mr-2" /> Export to
-                PDF
-              </Menu.Item>
-            </Menu.Items>
-          </Menu>
           <div className="hidden mx-auto md:block text-slate-500">
             Showing 1 to 10 of 150 entries
           </div>
@@ -74,95 +94,19 @@ function Main() {
                   SLUG
                 </Table.Th>
                 <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                  STATUS
-                </Table.Th>
-                <Table.Th className="text-center border-b-0 whitespace-nowrap">
                   ACTIONS
                 </Table.Th>
               </Table.Tr>
             </Table.Thead>
+
             <Table.Tbody>
-              {_.take(fakerData, 9).map((faker, fakerKey) => (
-                <Table.Tr key={fakerKey} className="intro-x">
-                  <Table.Td className="first:rounded-l-md last:rounded-r-md w-40 bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b]">
-                    <div className="flex">
-                      <div className="w-10 h-10 image-fit zoom-in">
-                        <Tippy
-                          as="img"
-                          alt="Midone Tailwind HTML Admin Template"
-                          className="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]"
-                          src={faker.images[0]}
-                          content={`Uploaded at ${faker.dates[0]}`}
-                        />
-                      </div>
-                      <div className="w-10 h-10 -ml-5 image-fit zoom-in">
-                        <Tippy
-                          as="img"
-                          alt="Midone Tailwind HTML Admin Template"
-                          className="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]"
-                          src={faker.images[1]}
-                          content={`Uploaded at ${faker.dates[1]}`}
-                        />
-                      </div>
-                      <div className="w-10 h-10 -ml-5 image-fit zoom-in">
-                        <Tippy
-                          as="img"
-                          alt="Midone Tailwind HTML Admin Template"
-                          className="rounded-full shadow-[0px_0px_0px_2px_#fff,_1px_1px_5px_rgba(0,0,0,0.32)] dark:shadow-[0px_0px_0px_2px_#3f4865,_1px_1px_5px_rgba(0,0,0,0.32)]"
-                          src={faker.images[2]}
-                          content={`Uploaded at ${faker.dates[2]}`}
-                        />
-                      </div>
-                    </div>
-                  </Table.Td>
-                  <Table.Td className="first:rounded-l-md last:rounded-r-md bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b]">
-                    <a href="" className="font-medium whitespace-nowrap">
-                      {faker.categories[0].name}
-                    </a>
-                    <div className="text-slate-500 text-xs whitespace-nowrap mt-0.5">
-                      Tags: {faker.categories[0].tags}
-                    </div>
-                  </Table.Td>
-                  <Table.Td className="first:rounded-l-md last:rounded-r-md text-center bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b]">
-                    <a
-                      className="flex items-center mr-3 text-slate-500"
-                      href="#"
-                    >
-                      <Lucide icon="ExternalLink" className="w-4 h-4 mr-2" />
-                      /categories/{faker.categories[0].slug}
-                    </a>
-                  </Table.Td>
-                  <Table.Td className="first:rounded-l-md last:rounded-r-md w-40 bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b]">
-                    <div
-                      className={clsx({
-                        "flex items-center justify-center": true,
-                        "text-success": faker.trueFalse[0],
-                        "text-danger": !faker.trueFalse[0],
-                      })}
-                    >
-                      <Lucide icon="CheckSquare" className="w-4 h-4 mr-2" />
-                      {faker.trueFalse[0] ? "Active" : "Inactive"}
-                    </div>
-                  </Table.Td>
-                  <Table.Td className="first:rounded-l-md last:rounded-r-md w-56 bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b] py-0 relative before:block before:w-px before:h-8 before:bg-slate-200 before:absolute before:left-0 before:inset-y-0 before:my-auto before:dark:bg-darkmode-400">
-                    <div className="flex items-center justify-center">
-                      <a className="flex items-center mr-3" href="">
-                        <Lucide icon="CheckSquare" className="w-4 h-4 mr-1" />
-                        Edit
-                      </a>
-                      <a
-                        className="flex items-center text-danger"
-                        href="#"
-                        onClick={(event) => {
-                          event.preventDefault();
-                          setDeleteConfirmationModal(true);
-                        }}
-                      >
-                        <Lucide icon="Trash2" className="w-4 h-4 mr-1" /> Delete
-                      </a>
-                    </div>
-                  </Table.Td>
-                </Table.Tr>
+              {categories.map(category => (
+                <CategoryItem
+                  key={category.id}
+                  category={category}
+                  onEdit={handleEditCategoryModal}
+                  onDelete={handleDeleteCategoryModal}
+                />
               ))}
             </Table.Tbody>
           </Table>
@@ -198,13 +142,78 @@ function Main() {
         </div>
         {/* END: Pagination */}
       </div>
-      {/* BEGIN: Delete Confirmation Modal */}
+      {/* BEGIN: Add Category Modal */}
       <Dialog
-        open={deleteConfirmationModal}
+        open={addCategoryModal}
         onClose={() => {
-          setDeleteConfirmationModal(false);
+          setAddCategoryModal(false);
         }}
-        initialFocus={deleteButtonRef}
+      >
+        <Dialog.Panel>
+          <div className="p-5 text-center">
+
+
+          </div>
+          <div className="px-5 pb-8 text-center">
+            <Button
+              variant="outline-secondary"
+              type="button"
+              onClick={() => {
+                setAddCategoryModal(false);
+              }}
+              className="w-24 mr-1"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="success"
+              type="button"
+              className="w-24 text-white"
+            >
+              Create
+            </Button>
+          </div>
+        </Dialog.Panel>
+      </Dialog>
+      {/* END: Add Category Modal */}
+      {/* BEGIN: Edit Category Modal */}
+      <Dialog
+        open={editCategoryModal}
+        onClose={() => {
+          setEditCategoryModal(false);
+        }}
+      >
+        <Dialog.Panel>
+          <div className="p-5 text-center">
+          </div>
+          <div className="px-5 pb-8 text-center">
+            <Button
+              variant="outline-secondary"
+              type="button"
+              onClick={() => {
+                setEditCategoryModal(false);
+              }}
+              className="w-24 mr-1"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="success"
+              type="button"
+              className="w-24 text-white"
+            >
+              Edit
+            </Button>
+          </div>
+        </Dialog.Panel>
+      </Dialog>
+      {/* END: Edit Category Modal */}
+      {/* BEGIN: Delete Category Modal */}
+      <Dialog
+        open={deleteCategoryModal}
+        onClose={() => {
+          setDeleteCategoryModal(false);
+        }}
       >
         <Dialog.Panel>
           <div className="p-5 text-center">
@@ -223,7 +232,7 @@ function Main() {
               variant="outline-secondary"
               type="button"
               onClick={() => {
-                setDeleteConfirmationModal(false);
+                setDeleteCategoryModal(false);
               }}
               className="w-24 mr-1"
             >
@@ -233,14 +242,13 @@ function Main() {
               variant="danger"
               type="button"
               className="w-24"
-              ref={deleteButtonRef}
             >
               Delete
             </Button>
           </div>
         </Dialog.Panel>
       </Dialog>
-      {/* END: Delete Confirmation Modal */}
+      {/* END: Delete Category Modal */}
     </>
   );
 }

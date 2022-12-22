@@ -9,7 +9,6 @@ import TransactionList from "../pages/TransactionList";
 import TransactionDetail from "../pages/TransactionDetail";
 import SellerList from "../pages/SellerList";
 import SellerDetail from "../pages/SellerDetail";
-import PointOfSale from "../pages/PointOfSale";
 import CrudForm from "../pages/CrudForm";
 import UsersPage from "../pages/UsersPage";
 import ProfileUser from "../pages/ProfileUser";
@@ -62,10 +61,6 @@ function Router() {
         {
           path: "seller-detail",
           element: <SellerDetail />,
-        },
-        {
-          path: "point-of-sale",
-          element: <PointOfSale />,
         },
         {
           path: "crud-form",
