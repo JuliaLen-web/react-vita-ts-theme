@@ -13,7 +13,6 @@ import { selectCategories, selectCategoriesLoading } from "../../stores/categori
 import { addCategory, deleteCategory, editCategory, fetchCategories } from "../../stores/action-creators/categories";
 import LoadingIcon from "../../base-components/LoadingIcon";
 import { Category } from "../../types/category";
-import Tippy from "../../base-components/Tippy";
 
 function Main() {
   const categories = useAppSelector(selectCategories)
@@ -186,23 +185,6 @@ function Main() {
                   />
                 </div>
               </FormInline>
-
-              <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
-                <FormLabel className="xl:w-48 xl:!mr-10">
-                  <div className="text-left">
-                    <div>
-                      <div className="font-medium">Product Description</div>
-                    </div>
-                  </div>
-                </FormLabel>
-                <div className="flex-1 w-full mt-3 xl:mt-0">
-                  <FormTextarea
-                  // {...register("description")}
-                  // id="product-description"
-                  // placeholder="Product description"
-                  />
-                </div>
-              </FormInline>
             </div>
 
             <div className="px-5 pb-8 text-center">
@@ -257,22 +239,6 @@ function Main() {
                       type="text"
                       defaultValue={categoryForModal.name}
                       placeholder="Product name"
-                    />
-                  </div>
-                </FormInline>
-                <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
-                  <FormLabel className="xl:w-48 xl:!mr-10">
-                    <div className="text-left">
-                      <div>
-                        <div className="font-medium">Product Description</div>
-                      </div>
-                    </div>
-                  </FormLabel>
-                  <div className="flex-1 w-full mt-3 xl:mt-0">
-                    <FormTextarea
-                    // {...register("description")}
-                    // id="product-description"
-                    // placeholder="Product description"
                     />
                   </div>
                 </FormInline>
