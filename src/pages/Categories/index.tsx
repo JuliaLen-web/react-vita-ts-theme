@@ -1,16 +1,19 @@
 import _ from "lodash";
 import { useState, useEffect } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 import Button from "../../base-components/Button";
 import Pagination from "../../base-components/Pagination";
-import { FormInput, FormSelect } from "../../base-components/Form";
+import { FormInline, FormInput, FormLabel, FormSelect, FormTextarea } from "../../base-components/Form";
 import Lucide from "../../base-components/Lucide";
 import { Dialog } from "../../base-components/Headless";
 import Table from "../../base-components/Table";
 import CategoryItem from "../../components/CategoryItem";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { selectCategories, selectCategoriesLoading } from "../../stores/categoriesSlice";
-import { fetchCategories } from "../../stores/action-creators/categories";
+import { addCategory, deleteCategory, editCategory, fetchCategories } from "../../stores/action-creators/categories";
 import LoadingIcon from "../../base-components/LoadingIcon";
+import { Category } from "../../types/category";
+import Tippy from "../../base-components/Tippy";
 
 function Main() {
   const categories = useAppSelector(selectCategories)
@@ -36,9 +39,23 @@ function Main() {
   }
 
   const [addCategoryModal, setAddCategoryModal] = useState(false)
-  // function handleAddCategoryModal(value: boolean, id: number) {
-  //   setAddCategoryModal(value)  
-  // }
+
+  const categoryForModal = categories.filter(el => el.id === selectCategoryId)[0]
+
+  const { register: registerEdit, handleSubmit: handleSubmitEdit, reset } = useForm<Category>()
+  const { register: registerAdd, handleSubmit: handleSubmitAdd } = useForm<Category>({
+    defaultValues: {
+      name: ''
+    }
+  })
+
+  const onSubmitAdd: SubmitHandler<Category> = (data: any) => dispatch(addCategory(data))
+  const onSubmitEdit: SubmitHandler<Category> = (data: any) => dispatch(editCategory(data))
+
+  useEffect(() => {
+    reset(categoryForModal)
+  }, [categoryForModal])
+
 
   if (loading) {
     return (
@@ -150,29 +167,67 @@ function Main() {
         }}
       >
         <Dialog.Panel>
-          <div className="p-5 text-center">
+          <form onSubmit={handleSubmitAdd(onSubmitAdd)}>
+            <div className="p-5 text-center">
+              <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
+                <FormLabel className="xl:w-48 xl:!mr-10">
+                  <div className="text-left">
+                    <div className="flex items-center">
+                      <div className="font-medium">Product Name</div>
+                    </div>
+                  </div>
+                </FormLabel>
+                <div className="flex-1 w-full mt-3 xl:mt-0">
+                  <FormInput
+                    {...registerAdd("name")}
+                    id="product-name"
+                    type="text"
+                    placeholder="Product name"
+                  />
+                </div>
+              </FormInline>
 
+              <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
+                <FormLabel className="xl:w-48 xl:!mr-10">
+                  <div className="text-left">
+                    <div>
+                      <div className="font-medium">Product Description</div>
+                    </div>
+                  </div>
+                </FormLabel>
+                <div className="flex-1 w-full mt-3 xl:mt-0">
+                  <FormTextarea
+                  // {...register("description")}
+                  // id="product-description"
+                  // placeholder="Product description"
+                  />
+                </div>
+              </FormInline>
+            </div>
 
-          </div>
-          <div className="px-5 pb-8 text-center">
-            <Button
-              variant="outline-secondary"
-              type="button"
-              onClick={() => {
-                setAddCategoryModal(false);
-              }}
-              className="w-24 mr-1"
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="success"
-              type="button"
-              className="w-24 text-white"
-            >
-              Create
-            </Button>
-          </div>
+            <div className="px-5 pb-8 text-center">
+              <Button
+                variant="outline-secondary"
+                type="button"
+                onClick={() => {
+                  setAddCategoryModal(false);
+                }}
+                className="w-24 mr-1"
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="success"
+                type="submit"
+                className="w-24 text-white"
+                onClick={() => {
+                  setAddCategoryModal(false);
+                }}
+              >
+                Create
+              </Button>
+            </div>
+          </form>
         </Dialog.Panel>
       </Dialog>
       {/* END: Add Category Modal */}
@@ -184,27 +239,68 @@ function Main() {
         }}
       >
         <Dialog.Panel>
-          <div className="p-5 text-center">
-          </div>
-          <div className="px-5 pb-8 text-center">
-            <Button
-              variant="outline-secondary"
-              type="button"
-              onClick={() => {
-                setEditCategoryModal(false);
-              }}
-              className="w-24 mr-1"
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="success"
-              type="button"
-              className="w-24 text-white"
-            >
-              Edit
-            </Button>
-          </div>
+          <form onSubmit={handleSubmitEdit(onSubmitEdit)}>
+            {categoryForModal &&
+              <div className="p-5 text-center">
+                <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
+                  <FormLabel className="xl:w-48 xl:!mr-10">
+                    <div className="text-left">
+                      <div className="flex items-center">
+                        <div className="font-medium">Product Name</div>
+                      </div>
+                    </div>
+                  </FormLabel>
+                  <div className="flex-1 w-full mt-3 xl:mt-0">
+                    <FormInput
+                      {...registerEdit("name")}
+                      id="product-name"
+                      type="text"
+                      defaultValue={categoryForModal.name}
+                      placeholder="Product name"
+                    />
+                  </div>
+                </FormInline>
+                <FormInline className="flex-col items-start pt-5 sm:pt-2 xl:mt-4 xl:flex-row first:mt-0 first:pt-0">
+                  <FormLabel className="xl:w-48 xl:!mr-10">
+                    <div className="text-left">
+                      <div>
+                        <div className="font-medium">Product Description</div>
+                      </div>
+                    </div>
+                  </FormLabel>
+                  <div className="flex-1 w-full mt-3 xl:mt-0">
+                    <FormTextarea
+                    // {...register("description")}
+                    // id="product-description"
+                    // placeholder="Product description"
+                    />
+                  </div>
+                </FormInline>
+              </div>
+            }
+            <div className="px-5 pb-8 text-center">
+              <Button
+                variant="outline-secondary"
+                type="button"
+                onClick={() => {
+                  setEditCategoryModal(false);
+                }}
+                className="w-24 mr-1"
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="success"
+                type="submit"
+                className="w-24 text-white"
+                onClick={() => {
+                  setEditCategoryModal(false)
+                }}
+              >
+                Edit
+              </Button>
+            </div>
+          </form>
         </Dialog.Panel>
       </Dialog>
       {/* END: Edit Category Modal */}
@@ -242,6 +338,10 @@ function Main() {
               variant="danger"
               type="button"
               className="w-24"
+              onClick={() => {
+                setDeleteCategoryModal(false)
+                dispatch(deleteCategory(selectCategoryId))
+              }}
             >
               Delete
             </Button>

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { CategoriesState } from "../types/category";
-import { fetchCategories } from "./action-creators/categories";
+import { addCategory, deleteCategory, editCategory, fetchCategories } from "./action-creators/categories";
 import { RootState } from "./store";
 
 const initialState: CategoriesState = {
@@ -23,6 +23,39 @@ export const categoriesSlice = createSlice({
                 state.categories = action.payload;
             })
             .addCase(fetchCategories.rejected, (state, action) => {
+                state.loading = false;
+                state.error = 'Error, categories are not found';
+            })
+            .addCase(deleteCategory.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(deleteCategory.fulfilled, (state, action) => {
+                state.loading = false;
+                state.categories = action.payload;
+            })
+            .addCase(deleteCategory.rejected, (state, action) => {
+                state.loading = false;
+                state.error = 'Error, categories are not found';
+            })
+            .addCase(editCategory.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(editCategory.fulfilled, (state, action) => {
+                state.loading = false;
+                state.categories = action.payload;
+            })
+            .addCase(editCategory.rejected, (state, action) => {
+                state.loading = false;
+                state.error = 'Error, categories are not found';
+            })
+            .addCase(addCategory.pending, (state, action) => {
+                state.loading = true;
+            })
+            .addCase(addCategory.fulfilled, (state, action) => {
+                state.loading = false;
+                state.categories = action.payload;
+            })
+            .addCase(addCategory.rejected, (state, action) => {
                 state.loading = false;
                 state.error = 'Error, categories are not found';
             })

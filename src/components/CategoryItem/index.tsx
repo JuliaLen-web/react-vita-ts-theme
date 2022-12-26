@@ -6,7 +6,7 @@ function CategoryItem({ ...props }) {
         <Table.Tr className="intro-x">
             <Table.Td className="first:rounded-l-md last:rounded-r-md w-40 bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b]">
                 <div className="flex">
-                    {props.category.images.map((image: string) => (
+                    {props.category.images && props.category.images.map((image: string) => (
                         <div className="w-10 h-10 image-fit zoom-in" key={props.category.id + image}>
                             <img
                                 alt="Midone Tailwind HTML Admin Template"
