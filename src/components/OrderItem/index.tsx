@@ -38,7 +38,7 @@ function OrderItem({ ...props }) {
                 {props.order.stock === true ? 'In Stock' : 'Out of stock'}
             </Table.Td>
             <Table.Td className="first:rounded-l-md last:rounded-r-md text-center bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b]">
-                ${props.order.total}
+                ${props.order.price}
             </Table.Td>
             <Table.Td className="first:rounded-l-md last:rounded-r-md w-40 bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b]">
                 <div
@@ -53,7 +53,7 @@ function OrderItem({ ...props }) {
                 </div>
             </Table.Td>
             <Table.Td className="first:rounded-l-md last:rounded-r-md text-center bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b]">
-                {/* {props.faker.dates[0]} */}
+                {props.order.date}
             </Table.Td>
             {!props.seller &&
                 <Table.Td className="first:rounded-l-md last:rounded-r-md w-30 bg-white border-b-0 dark:bg-darkmode-600 shadow-[20px_3px_20px_#0000000b] py-0 relative before:block before:w-px before:h-8 before:bg-slate-200 before:absolute before:left-0 before:inset-y-0 before:my-auto before:dark:bg-darkmode-400">

@@ -51,7 +51,7 @@ function Main() {
                         disabled
                       />
                     </div>
-                    <div className="mt-3">
+                    <div className="mt-3 mb-3">
                       <FormLabel htmlFor="profile-settings-form-10">
                         Phone Number
                       </FormLabel>

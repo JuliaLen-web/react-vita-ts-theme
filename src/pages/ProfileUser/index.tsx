@@ -72,12 +72,11 @@ function Main() {
           </Tab.List>
         </div>
         {/* END: Profile Info */}
+
+        {/* BEGIN: Tabs */}
         <Tab.Panels className="mt-5 intro-y">
           <Tab.Panel>
             <div className="grid grid-cols-12 gap-6">
-
-              {/* BEGIN: Products */}
-
               <Tab.Group className="col-span-12 intro-y box">
                 <div>
                   <div className="flex items-center px-5 py-5 border-b sm:py-3 border-slate-200/60 dark:border-darkmode-400">
@@ -86,19 +85,15 @@ function Main() {
                     </h2>
                   </div>
                   <div className="grid grid-cols-12 gap-6 mt-5">
-                    
                     <ProductTable />
                   </div>
                 </div>
-
               </Tab.Group>
-              {/* END: Products */}
-
             </div>
           </Tab.Panel>
+
           <Tab.Panel>
             <div className="grid grid-cols-12 gap-6">
-              {/* BEGIN: Orders */}
               <div className="col-span-12 intro-y box">
                 <div className="flex items-center px-5 py-5 border-b sm:py-3 border-slate-200/60 dark:border-darkmode-400">
                   <h2 className="mr-auto text-base font-medium">
@@ -109,10 +104,10 @@ function Main() {
                   <OrderTable />
                 </div>
               </div>
-              {/* END: Orders */}
             </div>
           </Tab.Panel>
         </Tab.Panels>
+        {/* END: Tabs */}
       </Tab.Group>
     </>
   );

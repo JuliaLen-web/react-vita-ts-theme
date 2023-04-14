@@ -1,6 +1,5 @@
 import _ from "lodash";
 import dayjs from "dayjs";
-import { User } from "../types/user";
 
 interface Users {
   name: string;

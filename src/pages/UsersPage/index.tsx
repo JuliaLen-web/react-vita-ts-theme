@@ -2,12 +2,18 @@ import _ from "lodash";
 import fakerData from "../../utils/faker";
 import Button from "../../base-components/Button";
 import Pagination from "../../base-components/Pagination";
-import { FormInput, FormSelect } from "../../base-components/Form";
+import { FormInput, FormSelect, FormSwitch } from "../../base-components/Form";
 import Lucide from "../../base-components/Lucide";
-import { Menu } from "../../base-components/Headless";
+import { Menu, Popover } from "../../base-components/Headless";
 import { Link } from "react-router-dom";
+import { selectUser } from "../../stores/userSlice";
+import { useAppSelector } from "../../stores/hooks";
+import { userRoles } from "../../types/user";
 
 function Main() {
+  const { role } = useAppSelector(selectUser)
+  const accessAdmin = (role === userRoles.Admin)
+
   return (
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Users Layout</h2>
@@ -16,6 +22,45 @@ function Main() {
           <Button variant="primary" className="mr-2 shadow-md">
             Add New User
           </Button>
+          {accessAdmin &&
+            <div className="mr-2">
+              <Popover className="inline-block">
+                <Popover.Button as={Button} variant="primary">
+                  Role
+                  <Lucide
+                    icon="ChevronDown"
+                    className="w-4 h-4 ml-2"
+                  />
+                </Popover.Button>
+                <Popover.Panel placement="bottom-start">
+                  <div>
+                    {/* {sellers.map(seller =>
+                      <div key={seller} className="mb-2">
+                        <FormSwitch className="w-full mt-3 sm:w-auto sm:mt-0">
+                          <FormSwitch.Input
+                            id={seller}
+                            className="ml-1"
+                            type="checkbox"
+                          />
+                          <FormSwitch.Label htmlFor={seller}>
+                            {seller}
+                          </FormSwitch.Label>
+                        </FormSwitch>
+                      </div>
+                    )} */}
+                    <div className="flex items-center">
+                      <Button
+                        variant="primary"
+                        className="w-32 ml-2"
+                      >
+                        Filter
+                      </Button>
+                    </div>
+                  </div>
+                </Popover.Panel>
+              </Popover>
+            </div>
+          }
           <div className="hidden mx-auto md:block text-slate-500">
             Showing 1 to 10 of 150 entries
           </div>
@@ -33,6 +78,8 @@ function Main() {
             </div>
           </div>
         </div>
+
+        
         {/* BEGIN: Users Layout */}
         {_.take(fakerData, 10).map((faker, fakerKey) => (
           <div key={fakerKey} className="col-span-12 intro-y md:col-span-6">

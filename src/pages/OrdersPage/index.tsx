@@ -209,6 +209,7 @@ function Main() {
             </Popover>
           </div>
           {/* END: Filter Sum */}
+          
           {/* BEGIN: Filter Status */}
           <div className="mr-2">
             <Popover className="inline-block">
@@ -272,7 +273,7 @@ function Main() {
             </div>
           </div>
         </div>
-        
+
         {/* BEGIN: Data List -*/}
         <div className="col-span-12 overflow-auto intro-y lg:overflow-visible">
           <OrderTable />

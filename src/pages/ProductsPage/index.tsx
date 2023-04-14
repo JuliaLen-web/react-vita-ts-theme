@@ -1,8 +1,7 @@
 import _ from "lodash";
-import { useState, useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useEffect } from "react";
 import Button from "../../base-components/Button";
-import { FormCheck, FormInline, FormInput, FormLabel, FormSelect, FormSwitch, FormTextarea } from "../../base-components/Form";
+import { FormInput, FormSwitch } from "../../base-components/Form";
 import Lucide from "../../base-components/Lucide";
 import { Popover } from "../../base-components/Headless";
 import { Link } from "react-router-dom";
@@ -32,7 +31,7 @@ function Main() {
     <>
       <h2 className="mt-10 text-lg font-medium intro-y">Products</h2>
       <div className="grid grid-cols-12 gap-6 mt-5">
-        {/* filters block */}
+        {/* BEGIN: filters block */}
         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
           {(accessAdmin || accessSeller) &&
             <Link to="/add-product">
@@ -151,7 +150,7 @@ function Main() {
             </div>
           </div>
         </div>
-        {/* filters block */}
+        {/* END: filters block */}
 
         {/* BEGIN: Data List -*/}
         <ProductTable />

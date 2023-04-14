@@ -7,7 +7,7 @@ export interface Order {
     image?: string;
     status?: string;
     category?: string;
-    date?: Date;
+    date?: string;
     id?: number;
 }
 

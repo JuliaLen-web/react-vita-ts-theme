@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit"
 import _ from "lodash";
-import { Order, Orders } from "../../types/order";
+import { Orders } from "../../types/order";
 import { userRoles } from "../../types/user";
 import fakerData from "../../utils/faker"
 import { RootState } from "../store";
@@ -22,6 +22,7 @@ export const fetchOrders = createAsyncThunk(
                 stock: faker.trueFalse[0],
                 image: "/src/assets/images/fakers/preview-" + Math.ceil(Math.random() * 15) + ".jpg",
                 status: faker.statusOrder[0],
+                date: faker.dates[0],
                 category: faker.products[0].category,
             })
         })

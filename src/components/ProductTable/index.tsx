@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useForm, SubmitHandler } from "react-hook-form";
 import Button from '../../base-components/Button'
-import { FormCheck, FormInline, FormInput, FormLabel, FormSelect, FormSwitch, FormTextarea } from "../../base-components/Form";
+import { FormCheck, FormInline, FormInput, FormLabel, FormSelect, FormTextarea } from "../../base-components/Form";
 import { Dialog } from '../../base-components/Headless'
 import LoadingIcon from '../../base-components/LoadingIcon';
 import Lucide from '../../base-components/Lucide'
