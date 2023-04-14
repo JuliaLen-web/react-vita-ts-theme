@@ -2,12 +2,10 @@ import _ from "lodash";
 import fakerData from "../../utils/faker";
 import Lucide from "../../base-components/Lucide";
 import { Tab } from "../../base-components/Headless";
-import OrderItem from "../../components/OrderItem";
 import { useAppSelector } from "../../stores/hooks";
-import Table from "../../base-components/Table";
-import ProductItem from "../../components/ProductItem";
-import { userRoles } from "../../types/user";
 import { selectUser } from "../../stores/userSlice";
+import OrderTable from "../../components/OrderTable";
+import ProductTable from "../../components/ProductTable";
 
 function Main() {
   const user = useAppSelector(selectUser)
@@ -79,6 +77,7 @@ function Main() {
             <div className="grid grid-cols-12 gap-6">
 
               {/* BEGIN: Products */}
+
               <Tab.Group className="col-span-12 intro-y box">
                 <div>
                   <div className="flex items-center px-5 py-5 border-b sm:py-3 border-slate-200/60 dark:border-darkmode-400">
@@ -87,23 +86,14 @@ function Main() {
                     </h2>
                   </div>
                   <div className="grid grid-cols-12 gap-6 mt-5">
-                    {_.take(fakerData, 12).map((faker, fakerKey) => (
-                      <ProductItem
-                        faker={faker}
-                        key={fakerKey}
-                        user={user}
-                        userRoles={userRoles}
-                        // setPreviewInfoModal={setPreviewInfoModal}
-                        // setEditProductModal={setEditProductModal}
-                        // setDeleteConfirmationModal={setDeleteConfirmationModal}
-                      />
-                    ))}
+                    
+                    <ProductTable />
                   </div>
-                  </div>
-                
+                </div>
+
               </Tab.Group>
               {/* END: Products */}
-              
+
             </div>
           </Tab.Panel>
           <Tab.Panel>
@@ -116,59 +106,7 @@ function Main() {
                   </h2>
                 </div>
                 <div className="p-5">
-                  <Table className="border-spacing-y-[10px] border-separate -mt-2">
-                    <Table.Thead>
-                      <Table.Tr>
-                        <Table.Th className="border-b-0 whitespace-nowrap">
-                          IMAGE
-                        </Table.Th>
-                        <Table.Th className="border-b-0 whitespace-nowrap">
-                          PRODUCT NAME
-                        </Table.Th>
-                        {(user.role === userRoles.Admin || user.role === userRoles.Manager) &&
-                          <Table.Th className="border-b-0 whitespace-nowrap">
-                            BUYER
-                          </Table.Th>
-                        }
-                        {user.role === userRoles.Admin &&
-                          <Table.Th className="border-b-0 whitespace-nowrap">
-                            SELLER
-                          </Table.Th>
-                        }
-                        <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                          STOCK
-                        </Table.Th>
-                        <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                          PRICE
-                        </Table.Th>
-                        <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                          STATUS
-                        </Table.Th>
-                        <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                          DATE
-                        </Table.Th>
-                        {user.role !== userRoles.Seller &&
-                          <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                            ACTIONS
-                          </Table.Th>
-                        }
-
-                      </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>
-                      {_.take(fakerData, 30).map((faker, fakerKey) => (
-                        <OrderItem
-                          key={fakerKey}
-                          faker={faker}
-                          user={user}
-                          userRoles={userRoles}
-                        // setPreviewInfoModal={setPreviewInfoModal}
-                        // setEditOrderModal={setEditOrderModal}
-                        // setDeleteConfirmationModal={setDeleteConfirmationModal}
-                        />)
-                      )}
-                    </Table.Tbody>
-                  </Table>
+                  <OrderTable />
                 </div>
               </div>
               {/* END: Orders */}

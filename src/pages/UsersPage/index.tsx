@@ -16,22 +16,6 @@ function Main() {
           <Button variant="primary" className="mr-2 shadow-md">
             Add New User
           </Button>
-          <Menu>
-            <Menu.Button as={Button} className="px-2 !box">
-              <span className="flex items-center justify-center w-5 h-5">
-                <Lucide icon="Plus" className="w-4 h-4" />
-              </span>
-            </Menu.Button>
-            <Menu.Items className="w-40">
-              <Menu.Item>
-                <Lucide icon="Users" className="w-4 h-4 mr-2" /> Add Group
-              </Menu.Item>
-              <Menu.Item>
-                <Lucide icon="MessageCircle" className="w-4 h-4 mr-2" /> Send
-                Message
-              </Menu.Item>
-            </Menu.Items>
-          </Menu>
           <div className="hidden mx-auto md:block text-slate-500">
             Showing 1 to 10 of 150 entries
           </div>

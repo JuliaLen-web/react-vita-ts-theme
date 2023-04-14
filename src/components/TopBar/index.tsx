@@ -1,6 +1,5 @@
 import { useState, Fragment } from "react";
 import Lucide from "../../base-components/Lucide";
-import Breadcrumb from "../../base-components/Breadcrumb";
 import { FormInput } from "../../base-components/Form";
 import { Menu, Popover } from "../../base-components/Headless";
 import fakerData from "../../utils/faker";
@@ -9,6 +8,7 @@ import clsx from "clsx";
 import { Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../stores/hooks";
+import { selectUser } from "../../stores/userSlice";
 
 function Main() {
   const [searchDropdown, setSearchDropdown] = useState(false);
@@ -17,22 +17,13 @@ function Main() {
   };
   const hideSearchDropdown = () => {
     setSearchDropdown(false);
-  }; 
-  
-  const { user, error, loading } = useAppSelector(state => state.user)
+  };
+
+  const user = useAppSelector(selectUser)
 
   return (
     <>
-      {/* BEGIN: Top Bar */}
       <div className="h-[67px] z-[51] flex items-center relative border-b border-slate-200">
-        {/* BEGIN: Breadcrumb */}
-        <Breadcrumb className="hidden mr-auto -intro-x sm:flex">
-          <Breadcrumb.Link to="/">Application</Breadcrumb.Link>
-          <Breadcrumb.Link to="/" active={true}>
-            Dashboard
-          </Breadcrumb.Link>
-        </Breadcrumb>
-        {/* END: Breadcrumb */}
         {/* BEGIN: Search */}
         <div className="relative mr-3 intro-x sm:mr-6">
           <div className="relative hidden sm:block">
@@ -202,7 +193,6 @@ function Main() {
           </Menu.Items>
         </Menu>
       </div>
-      {/* END: Top Bar */}
     </>
   );
 }

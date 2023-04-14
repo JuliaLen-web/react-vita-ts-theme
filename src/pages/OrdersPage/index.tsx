@@ -1,27 +1,20 @@
 import _ from "lodash";
-import { useState, useRef } from "react";
 import fakerData from "../../utils/faker";
 import Button from "../../base-components/Button";
 import Pagination from "../../base-components/Pagination";
 import { FormInput, FormSelect, FormSwitch } from "../../base-components/Form";
 import Lucide from "../../base-components/Lucide";
-import { Dialog, Popover } from "../../base-components/Headless";
-import Table from "../../base-components/Table";
-import OrderItem from "../../components/OrderItem";
+import { Popover } from "../../base-components/Headless";
 import { useAppSelector } from "../../stores/hooks";
 import { userRoles } from "../../types/user";
 import { selectUser } from "../../stores/userSlice";
+import OrderTable from "../../components/OrderTable";
 
 function Main() {
-  const user = useAppSelector(selectUser)
+  const { role } = useAppSelector(selectUser)
 
-  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
-  const deleteButtonRef = useRef(null);
-
-  const [editOrderModal, setEditOrderModal] = useState(false);
-  const editButtonRef = useRef(null);
-
-  const [previewInfoModal, setPreviewInfoModal] = useState(false);
+  const accessAdmin = (role === userRoles.Admin)
+  const accessManager = (role === userRoles.Manager)
 
   return (
     <>
@@ -34,7 +27,7 @@ function Main() {
           />
 
           {/* BEGIN: Filter Customers */}
-          {(user.role === userRoles.Admin || user.role === userRoles.Manager) &&
+          {(accessAdmin || accessManager) &&
             <div className="mr-2">
               <Popover className="inline-block">
                 {(
@@ -78,10 +71,10 @@ function Main() {
               </Popover>
             </div>
           }
-
           {/* END: Filter Customers */}
+
           {/* BEGIN: Filter Sellers */}
-          {user.role === userRoles.Admin &&
+          {accessAdmin &&
             <div className="mr-2">
               <Popover className="inline-block">
                 {(
@@ -171,6 +164,7 @@ function Main() {
             </Popover>
           </div>
           {/* END: Filter Date */}
+
           {/* BEGIN: Filter Sum */}
           <div className="mr-2">
             <Popover className="inline-block">
@@ -278,90 +272,13 @@ function Main() {
             </div>
           </div>
         </div>
+        
         {/* BEGIN: Data List -*/}
         <div className="col-span-12 overflow-auto intro-y lg:overflow-visible">
-          <Table className="border-spacing-y-[10px] border-separate -mt-2">
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th className="border-b-0 whitespace-nowrap">
-                  IMAGE
-                </Table.Th>
-                <Table.Th className="border-b-0 whitespace-nowrap">
-                  PRODUCT NAME
-                </Table.Th>
-                {(user.role === userRoles.Admin || user.role === userRoles.Manager) &&
-                  <Table.Th className="border-b-0 whitespace-nowrap">
-                    BUYER
-                  </Table.Th>
-                }
-                {user.role === userRoles.Admin &&
-                  <Table.Th className="border-b-0 whitespace-nowrap">
-                    SELLER
-                  </Table.Th>
-                }
-                <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                  STOCK
-                </Table.Th>
-                <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                  PRICE
-                </Table.Th>
-                <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                  STATUS
-                </Table.Th>
-                <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                  DATE
-                </Table.Th>
-                {user.role !== userRoles.Seller &&
-                  <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                    ACTIONS
-                  </Table.Th>
-                }
-
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {_.take(fakerData, 30).map((faker, fakerKey) => {
-                if (user.role === userRoles.Admin || user.role === userRoles.Manager) {
-                  return (
-                    <OrderItem
-                      key={fakerKey}
-                      faker={faker}
-                      user={user}
-                      userRoles={userRoles}
-                      setPreviewInfoModal={setPreviewInfoModal}
-                      setEditOrderModal={setEditOrderModal}
-                      setDeleteConfirmationModal={setDeleteConfirmationModal}
-                    />)
-                } else if (user.name === faker.users[1].name && user.role === userRoles.Seller) {
-                  return (
-                    <OrderItem
-                      key={fakerKey}
-                      faker={faker}
-                      user={user}
-                      userRoles={userRoles}
-                      setPreviewInfoModal={setPreviewInfoModal}
-                      setEditOrderModal={setEditOrderModal}
-                      setDeleteConfirmationModal={setDeleteConfirmationModal}
-                    />)
-                } else if (user.name === faker.users[0].name && user.role === userRoles.Customer) {
-                  return (
-                    <OrderItem
-                      key={fakerKey}
-                      faker={faker}
-                      user={user}
-                      userRoles={userRoles}
-                      setPreviewInfoModal={setPreviewInfoModal}
-                      setEditOrderModal={setEditOrderModal}
-                      setDeleteConfirmationModal={setDeleteConfirmationModal}
-                    />)
-                } else {
-                  return null
-                }
-              })}
-            </Table.Tbody>
-          </Table>
+          <OrderTable />
         </div>
         {/* END: Data List -*/}
+
         {/* BEGIN: Pagination -*/}
         <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
           <Pagination className="w-full sm:w-auto sm:mr-auto">
@@ -392,138 +309,6 @@ function Main() {
         </div>
         {/* END: Pagination -*/}
       </div>
-
-      {/* BEGIN: View additional info Modal */}
-      <Dialog
-        open={previewInfoModal}
-        onClose={() => {
-          setPreviewInfoModal(false);
-        }}
-      >
-        <Dialog.Panel>
-          <div className="p-5 text-center">
-            <Lucide
-              icon="Maximize2"
-              className="w-16 h-16 mx-auto mt-3"
-            />
-            <div className="mt-5 text-3xl">Information about this product</div>
-            <div className="mt-2 text-slate-500">
-              Do you really want to know about these records? <br />
-              This process cannot be undone.
-            </div>
-          </div>
-          <div className="px-5 pb-8 text-center">
-            <Button
-              variant="outline-secondary"
-              type="button"
-              onClick={() => {
-                setPreviewInfoModal(false);
-              }}
-              className="w-24 mr-1"
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="danger"
-              type="button"
-              className="w-24"
-              onClick={() => {
-                setPreviewInfoModal(false);
-              }}
-            >
-              Close
-            </Button>
-          </div>
-        </Dialog.Panel>
-      </Dialog>
-      {/* END: View additional info Modal */}
-
-      {/* BEGIN: Edit Order Modal */}
-      <Dialog
-        open={editOrderModal}
-        onClose={() => {
-          setEditOrderModal(false);
-        }}
-        initialFocus={editButtonRef}
-      >
-        <Dialog.Panel>
-          <div className="p-5 text-center">
-            <Lucide
-              icon="Edit3"
-              className="w-16 h-16 mx-auto mt-3 text-danger"
-            />
-            <div className="mt-5 text-3xl">Are you sure?</div>
-            <div className="mt-2 text-slate-500">
-              Do you really want to edit these records? <br />
-              This process can be undone.
-            </div>
-          </div>
-          <div className="px-5 pb-8 text-center">
-            <Button
-              variant="outline-secondary"
-              type="button"
-              onClick={() => {
-                setEditOrderModal(false);
-              }}
-              className="w-24 mr-1"
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="danger"
-              type="button"
-              className="w-24"
-              ref={editButtonRef}
-            >
-              Edit
-            </Button>
-          </div>
-        </Dialog.Panel>
-      </Dialog>
-      {/* END: Edit Order Modal */}
-      {/* BEGIN: Delete Confirmation Modal -*/}
-      <Dialog
-        open={deleteConfirmationModal}
-        onClose={() => {
-          setDeleteConfirmationModal(false);
-        }}
-        initialFocus={deleteButtonRef}
-      >
-        <Dialog.Panel>
-          <div className="p-5 text-center">
-            <Lucide
-              icon="XCircle"
-              className="w-16 h-16 mx-auto mt-3 text-danger"
-            />
-            <div className="mt-5 text-3xl">Are you sure?</div>
-            <div className="mt-2 text-slate-500">
-              Do you really want to delete these records? <br />
-              This process cannot be undone.
-            </div>
-          </div>
-          <div className="px-5 pb-8 text-center">
-            <Button
-              variant="outline-secondary"
-              type="button"
-              onClick={() => {
-                setDeleteConfirmationModal(false);
-              }}
-              className="w-24 mr-1"
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="danger"
-              type="button"
-              className="w-24"
-              ref={deleteButtonRef}
-            >
-              Delete
-            </Button>
-          </div>
-        </Dialog.Panel>
-      </Dialog>
-      {/* END: Delete Confirmation Modal -*/}
     </>
   );
 }

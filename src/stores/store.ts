@@ -6,6 +6,7 @@ import userReducer from "./userSlice"
 import dashboardSlice from "./dashboardSlice";
 import productsSlice  from "./productSlice";
 import categoriesSlice from "./categoriesSlice";
+import ordersSlice from "./orderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     colorScheme: colorSchemeReducer,
     darkMode: darkModeReducer,
     dashboard: dashboardSlice,
+    orders: ordersSlice,
     products: productsSlice,
     sideMenu: sideMenuReducer,
     user: userReducer

@@ -105,41 +105,6 @@ function Main() {
                               ]}
                               level="second"
                             ></MenuElement>
-                            {/* BEGIN: Third Child */}
-                            {subMenu.subMenu && (
-                              <Transition
-                                in={subMenu.activeDropdown}
-                                onEnter={enter}
-                                onExit={leave}
-                                timeout={300}
-                              >
-                                <ul
-                                  className={clsx([
-                                    "bg-black/10 rounded-lg dark:bg-darkmode-900/30",
-                                    {
-                                      block: subMenu.activeDropdown,
-                                    },
-                                    { hidden: !subMenu.activeDropdown },
-                                  ])}
-                                >
-                                  {subMenu.subMenu.map(
-                                    (lastSubMenu, lastSubMenuKey) => (
-                                      <li key={lastSubMenuKey}>
-                                        <MenuElement
-                                          menu={lastSubMenu}
-                                          formattedMenuState={[
-                                            formattedMenu,
-                                            setFormattedMenu,
-                                          ]}
-                                          level="third"
-                                        ></MenuElement>
-                                      </li>
-                                    )
-                                  )}
-                                </ul>
-                              </Transition>
-                            )}
-                            {/* END: Third Child */}
                           </li>
                         ))}
                       </ul>
@@ -170,7 +135,7 @@ function MenuElement(props: {
     (FormattedMenu | "devider")[],
     Dispatch<SetStateAction<(FormattedMenu | "devider")[]>>
   ];
-  level: "first" | "second" | "third";
+  level: "first" | "second";
 }) {
   const navigate = useNavigate();
   const [formattedMenu, setFormattedMenu] = props.formattedMenuState;
