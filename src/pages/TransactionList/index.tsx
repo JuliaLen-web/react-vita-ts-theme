@@ -7,9 +7,13 @@ import Lucide from "../../base-components/Lucide";
 import { Popover } from "../../base-components/Headless";
 import Table from "../../base-components/Table";
 import TransactionItem from "../../components/TransactionItem";
-import { useAppSelector } from "../../stores/hooks";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { userRoles } from "../../types/user";
 import { selectUser } from "../../stores/userSlice";
+import { selectTransactions, selectTransactionsLoading } from "../../stores/transactionSlice";
+import { useEffect } from "react";
+import { fetchTransactions } from "../../stores/action-creators/transactions";
+import TransactionTable from "../../components/TransactionTable";
 
 function Main() {
   const user = useAppSelector(selectUser)
@@ -89,69 +93,7 @@ function Main() {
         </div>
         {/* BEGIN: Data List */}
         <div className="col-span-12 overflow-auto intro-y 2xl:overflow-visible">
-          <Table className="border-spacing-y-[10px] border-separate -mt-2">
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th className="border-b-0 whitespace-nowrap">
-                  INVOICE
-                </Table.Th>
-                {(user.role === userRoles.Admin || user.role === userRoles.Manager) &&
-
-                  <Table.Th className="border-b-0 whitespace-nowrap">
-                    BUYER NAME
-                  </Table.Th>
-                }
-                {user.role === userRoles.Admin &&
-                  <Table.Th className="border-b-0 whitespace-nowrap">
-                    SELLER NAME
-                  </Table.Th>
-                }
-                <Table.Th className="text-center border-b-0 whitespace-nowrap">
-                  STATUS
-                </Table.Th>
-                <Table.Th className="border-b-0 whitespace-nowrap">
-                  PAYMENT
-                </Table.Th>
-                <Table.Th className="text-right border-b-0 whitespace-nowrap">
-                  TOTAL TRANSACTION
-                </Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {_.take(fakerData, 20).map((faker, fakerKey) => {
-                if (user.role === userRoles.Admin || user.role === userRoles.Manager) {
-                  return (
-                    <TransactionItem
-                      key={fakerKey}
-                      faker={faker}
-                      user={user}
-                      userRoles={userRoles}
-                    />
-                  )
-                } else if (user.name === faker.users[1].name && user.role === userRoles.Seller) {
-                  return (
-                    <TransactionItem
-                      key={fakerKey}
-                      faker={faker}
-                      user={user}
-                      userRoles={userRoles}
-                    />
-                  )
-                } else if (user.name === faker.users[0].name && user.role === userRoles.Customer) {
-                  return (
-                    <TransactionItem
-                      key={fakerKey}
-                      faker={faker}
-                      user={user}
-                      userRoles={userRoles}
-                    />
-                  )
-                } else {
-                  return null
-                }
-              })}
-            </Table.Tbody>
-          </Table>
+          <TransactionTable/>
         </div>
         {/* END: Data List */}
         {/* BEGIN: Pagination */}

@@ -25,7 +25,7 @@ function Main() {
     <>
       <div className="h-[67px] z-[51] flex items-center relative border-b border-slate-200">
         {/* BEGIN: Search */}
-        <div className="relative mr-3 intro-x sm:mr-6">
+        <div className="relative mr-3 intro-x sm:mr-6 ml-auto">
           <div className="relative hidden sm:block">
             <FormInput
               type="text"
@@ -54,27 +54,6 @@ function Main() {
           >
             <div className="absolute right-0 z-10 mt-[3px]">
               <div className="w-[450px] p-5 box">
-                <div className="mb-2 font-medium">Pages</div>
-                <div className="mb-5">
-                  <a href="" className="flex items-center">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-success/20 dark:bg-success/10 text-success">
-                      <Lucide icon="Inbox" className="w-4 h-4" />
-                    </div>
-                    <div className="ml-3">Mail Settings</div>
-                  </a>
-                  <a href="" className="flex items-center mt-2">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-pending/10 text-pending">
-                      <Lucide icon="Users" className="w-4 h-4" />
-                    </div>
-                    <div className="ml-3">Users & Permissions</div>
-                  </a>
-                  <a href="" className="flex items-center mt-2">
-                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 dark:bg-primary/20 text-primary/80">
-                      <Lucide icon="CreditCard" className="w-4 h-4" />
-                    </div>
-                    <div className="ml-3">Transactions Report</div>
-                  </a>
-                </div>
                 <div className="mb-2 font-medium">Users</div>
                 <div className="mb-5">
                   {_.take(fakerData, 4).map((faker, fakerKey) => (

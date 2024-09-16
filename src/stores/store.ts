@@ -7,6 +7,7 @@ import dashboardSlice from "./dashboardSlice";
 import productsSlice  from "./productSlice";
 import categoriesSlice from "./categoriesSlice";
 import ordersSlice from "./orderSlice";
+import transactionSlice from "./transactionSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     orders: ordersSlice,
     products: productsSlice,
     sideMenu: sideMenuReducer,
+    transactions: transactionSlice,
     user: userReducer
   },
 });

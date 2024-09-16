@@ -6,6 +6,7 @@ import { useAppSelector } from "../../stores/hooks";
 import { selectUser } from "../../stores/userSlice";
 import OrderTable from "../../components/OrderTable";
 import ProductTable from "../../components/ProductTable";
+import TransactionTable from "../../components/TransactionTable";
 
 function Main() {
   const user = useAppSelector(selectUser)
@@ -102,6 +103,21 @@ function Main() {
                 </div>
                 <div className="p-5">
                   <OrderTable />
+                </div>
+              </div>
+            </div>
+          </Tab.Panel>
+
+          <Tab.Panel>
+            <div className="grid grid-cols-12 gap-6">
+              <div className="col-span-12 intro-y box">
+                <div className="flex items-center px-5 py-5 border-b sm:py-3 border-slate-200/60 dark:border-darkmode-400">
+                  <h2 className="mr-auto text-base font-medium">
+                    Transactions
+                  </h2>
+                </div>
+                <div className="p-5">
+                  <TransactionTable />
                 </div>
               </div>
             </div>
